@@ -30,9 +30,9 @@ RSpec.describe ShinyJsonLogic do
 
     describe "lolo" do
       it "works" do
-        rule = {"var"=>["a", 1]}
-        data = nil
-        expect(described_class.apply(rule, data)).to eq(1)
+        rule = {"var"=>"1"},
+        data = ["apple", "banana"]
+        expect(described_class.apply(rule, data)).to eq("banana")
       end
     end
   end

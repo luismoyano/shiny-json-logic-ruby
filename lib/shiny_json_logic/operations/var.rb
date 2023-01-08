@@ -1,15 +1,9 @@
 require "shiny_json_logic/truthy"
+require "shiny_json_logic/operations/base"
 
 module ShinyJsonLogic
   module Operations
-    class Var
-      attr_reader :rules, :data
-
-      def initialize(rules, data)
-        @rules = rules
-        @data = data
-      end
-
+    class Var < Base
       def call
         rls = search_route(rules)
         return data unless ShinyJsonLogic::Truthy.call(rls)
