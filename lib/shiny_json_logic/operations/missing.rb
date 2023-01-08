@@ -10,7 +10,7 @@ module ShinyJsonLogic
         rules - deep_keys(data)
       end
 
-      private
+      protected
 
       def deep_keys(hash)
         return unless hash.is_a?(Hash)

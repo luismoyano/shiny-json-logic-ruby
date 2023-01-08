@@ -2,6 +2,7 @@ require "shiny_json_logic/version"
 require "core_ext/array"
 require "shiny_json_logic/operations/var"
 require "shiny_json_logic/operations/missing"
+require "shiny_json_logic/operations/missing_some"
 
 module ShinyJsonLogic
   class Error < StandardError; end
@@ -17,7 +18,8 @@ module ShinyJsonLogic
   def self.solvers
     {
       "var" => Operations::Var,
-      "missing" => Operations::Missing
+      "missing" => Operations::Missing,
+      "missing_some" => Operations::MissingSome
     }
   end
 end
