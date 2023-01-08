@@ -21,7 +21,7 @@ RSpec.describe ShinyJsonLogic do
     cases.each_with_index do |testcase, index|
       next unless testcase.is_a?(Array)
 
-      describe "example ##{index + 1}: #{testcase}" do
+      describe "example ##{index}: #{testcase}" do
         it "works" do
           expect(described_class.apply(*testcase[0..1])).to eq(testcase.last)
         end
@@ -30,9 +30,9 @@ RSpec.describe ShinyJsonLogic do
 
     describe "lolo" do
       it "works" do
-        rule = {"var"=>"1"},
-        data = ["apple", "banana"]
-        expect(described_class.apply(rule, data)).to eq("banana")
+        rule = {"var"=>["a", 1]}
+        data = nil
+        expect(described_class.apply(rule, data)).to eq(1)
       end
     end
   end
