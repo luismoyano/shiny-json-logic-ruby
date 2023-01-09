@@ -3,6 +3,7 @@ require "core_ext/array"
 require "shiny_json_logic/operations/var"
 require "shiny_json_logic/operations/missing"
 require "shiny_json_logic/operations/missing_some"
+require "shiny_json_logic/operations/if"
 
 module ShinyJsonLogic
   class Error < StandardError; end
@@ -19,7 +20,8 @@ module ShinyJsonLogic
     {
       "var" => Operations::Var,
       "missing" => Operations::Missing,
-      "missing_some" => Operations::MissingSome
+      "missing_some" => Operations::MissingSome,
+      "if" => Operations::If
     }
   end
 end

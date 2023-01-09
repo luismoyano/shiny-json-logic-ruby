@@ -30,9 +30,9 @@ RSpec.describe ShinyJsonLogic do
 
     describe "lolo", skip: false do
       it "works" do
-        rule = {"missing_some"=>[2, ["a", "b", "c"]]}
-        data = {"a"=>"apple", "d"=>"durian"}
-        expect(described_class.apply(rule, data)).to eq(["b", "c"])
+        rule = {"if"=>[{"var"=>"x"}, [{"var"=>"y"}], 99]}
+        data = {"x"=>true, "y"=>42}
+        expect(described_class.apply(rule, data)).to eq(42)
       end
     end
   end
