@@ -1,11 +1,10 @@
 require "shiny_json_logic/operations/base"
-require "shiny_json_logic/operations/equal"
 
 module ShinyJsonLogic
   module Operations
-    class Different < Base
+    class SmallerEqual < Base
       def call
-        !Operations::Equal.new(rules, data).call
+        rules.map(&:to_f).each_cons(2).all? { |a, b| a.to_f <= b.to_f }
       end
     end
   end

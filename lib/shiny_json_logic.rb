@@ -10,6 +10,8 @@ require "shiny_json_logic/operations/different"
 require "shiny_json_logic/operations/strict_different"
 require "shiny_json_logic/operations/greater"
 require "shiny_json_logic/operations/greater_equal"
+require "shiny_json_logic/operations/smaller"
+require "shiny_json_logic/operations/smaller_equal"
 
 module ShinyJsonLogic
   class Error < StandardError; end
@@ -33,6 +35,8 @@ module ShinyJsonLogic
       "!==" => Operations::StrictDifferent,
       ">" => Operations::Greater,
       ">=" => Operations::GreaterEqual,
+      "<" => Operations::Smaller,
+      "<=" => Operations::SmallerEqual,
     }
   end
 end

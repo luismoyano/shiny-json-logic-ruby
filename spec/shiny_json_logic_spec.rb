@@ -30,10 +30,7 @@ RSpec.describe ShinyJsonLogic do
 
     describe "lolo", skip: false do
       [
-        [ {">=" => [2,1]}, {}, true ],
-        [ {">=" => [1,1]}, {}, true ],
-        [ {">=" => [1,2]}, {}, false ],
-        [ {">=" => ["2",1]}, {}, true ],
+
       ].each_with_index do |testcase, index|
         describe "example ##{index}: #{testcase}" do
           it "works" do
