@@ -2,9 +2,9 @@ require "shiny_json_logic/operations/base"
 
 module ShinyJsonLogic
   module Operations
-    class StrictEqual < Base
+    class Greater < Base
       def call
-        rules.map(&:to_s).all? { |v| v == rules[0] }
+        rules.map(&:to_f).each_cons(2).all? { |a, b| a > b }
       end
     end
   end
