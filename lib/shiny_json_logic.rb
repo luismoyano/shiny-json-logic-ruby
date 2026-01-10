@@ -4,10 +4,11 @@ require "shiny_json_logic/operations/var"
 require "shiny_json_logic/operations/missing"
 require "shiny_json_logic/operations/missing_some"
 require "shiny_json_logic/operations/if"
+require "shiny_json_logic/operations/equal"
+require "shiny_json_logic/operations/strict_equal"
 
 module ShinyJsonLogic
   class Error < StandardError; end
-
 
   def self.apply(rule, data = {})
     return rule unless rule.is_a?(Hash)
@@ -21,7 +22,9 @@ module ShinyJsonLogic
       "var" => Operations::Var,
       "missing" => Operations::Missing,
       "missing_some" => Operations::MissingSome,
-      "if" => Operations::If
+      "if" => Operations::If,
+      "==" => Operations::Equal,
+      "===" => Operations::StrictEqual,
     }
   end
 end

@@ -29,10 +29,17 @@ RSpec.describe ShinyJsonLogic do
     end
 
     describe "lolo", skip: false do
-      it "works" do
-        rule = {"if"=>[{"var"=>"x"}, [{"var"=>"y"}], 99]}
-        data = {"x"=>true, "y"=>42}
-        expect(described_class.apply(rule, data)).to eq(42)
+      [
+        [ {"===" => [1, "1"]}, {}, false ],
+        [ {"===" => [1,1]}, {}, true ],
+        [ {"===" => [1,"1"]}, {}, false ],
+        [ {"===" => [1,2]}, {}, false ],
+      ].each_with_index do |testcase, index|
+        describe "example ##{index}: #{testcase}" do
+          it "works" do
+            expect(described_class.apply(*testcase[0..1])).to eq(testcase.last)
+          end
+        end
       end
     end
   end
