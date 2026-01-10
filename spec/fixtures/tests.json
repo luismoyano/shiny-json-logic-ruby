@@ -357,6 +357,15 @@
     {"reduce":[
       {"var":"integers"},
       {"+":[{"var":"current"}, {"var":"accumulator"}]},
+      {"var": "start_with"}
+    ]},
+    {"integers":[1,2,3,4], "start_with": 59},
+    69
+  ],
+  [
+    {"reduce":[
+      {"var":"integers"},
+      {"+":[{"var":"current"}, {"var":"accumulator"}]},
       0
     ]},
     null,
@@ -517,7 +526,5 @@
     {"some":[ {"var":"items"}, {">=":[{"var":"qty"}, 1]}]},
     {"items":[]},
     false
-  ],
-
-  "EOF"
+  ]
 ]
