@@ -4,7 +4,7 @@ module ShinyJsonLogic
   module Operations
     class Equal < Base
       def call
-        rules[0].to_s == rules[1].to_s
+        rules.map(&:to_s).all? { |v| v == rules[0].to_s }
       end
     end
   end
