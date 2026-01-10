@@ -7,11 +7,12 @@ module ShinyJsonLogic
   module Operations
     class If < Base
       def call
-        p rules
         rules.each_slice(2) do |condition, value|
           return condition if value.nil?
           return value if condition
         end
+
+        nil
       end
     end
   end
