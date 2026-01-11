@@ -33,10 +33,14 @@ module ShinyJsonLogic
   class Error < StandardError; end
 
   def self.apply(rule, data = {})
-    return rule unless rule.is_a?(Hash)
-
+    if rule.is_a?(Hash)
     transformed_rule = rule.to_a.first
     solvers[transformed_rule.first].new(Array.wrap(transformed_rule.last).map{|val| apply(val, data)}, data).call
+    elsif rule.is_a? Array
+      rule.map { |item| apply(item, data) }
+    else
+      rule
+    end
   end
 
   def self.solvers
