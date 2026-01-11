@@ -9,7 +9,7 @@ module ShinyJsonLogic
       def call
         rules.each_slice(2) do |condition, value|
           return condition if value.nil?
-          return value if condition
+          return value if Truthy.call(condition)
         end
 
         nil

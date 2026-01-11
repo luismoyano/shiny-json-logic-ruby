@@ -133,7 +133,6 @@
   [{"merge":1}, null, [1]],
   [{"merge":[1,2]}, null, [1,2]],
   [{"merge":[1,[2]]}, null, [1,2]],
-  " ----- DONE UNTIL HERE ----- ",
 
   "Too few args",
   [{"if":[]}, null, null],
@@ -160,6 +159,7 @@
   "You can cast a string to numeric with a unary + ",
   [{"===":[0,"0"]}, null, false],
   [{"===":[0,{"+":"0"}]}, null, true],
+  " ----- DONE UNTIL HERE ----- ",
   [{"if":[ {"+":"0"}, "apple", "banana"]}, null, "banana"],
   [{"if":[ {"+":"1"}, "apple", "banana"]}, null, "apple"],
 
