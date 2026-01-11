@@ -188,7 +188,6 @@
   [{"!!" : [ "0" ]}, {}, true],
   [{"and" : [ "0", true ]}, {}, true ],
   [{"or" : [ "0", true ]}, {}, "0" ],
-  " ----- DONE UNTIL HERE ----- ",
 
   "If the conditional is logic, it gets evaluated",
   [{"if":[ {">":[2,1]}, "apple", "banana"]}, null, "apple"],
@@ -222,6 +221,7 @@
   "Arrays with logic",
   [[1, {"var": "x"}, 3], {"x": 2}, [1, 2, 3]],
   [{"if": [{"var": "x"}, [{"var": "y"}], 99]}, {"x": true, "y": 42}, [42]],
+  " ----- DONE UNTIL HERE ----- ",
 
   "# Compound Tests",
   [ {"and":[{">":[3,1]},true]}, {}, true ],
