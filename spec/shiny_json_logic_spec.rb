@@ -30,10 +30,16 @@ RSpec.describe ShinyJsonLogic do
 
     describe "lolo", skip: false do
       [
-        [ {"-"=>[2,3]}, {}, -1 ],
-        [ {"-"=>[3,2]}, {}, 1 ],
-        [ {"-"=>[3]}, {}, -3 ],
-        [ {"-"=>["1",1]}, {}, 0 ],
+        [{"merge"=>[]}, nil, []],
+        [{"merge"=>[[1]]}, nil, [1]],
+        [{"merge"=>[[1],[]]}, nil, [1]],
+        [{"merge"=>[[1], [2]]}, nil, [1,2]],
+        [{"merge"=>[[1], [2], [3]]}, nil, [1,2,3]],
+        [{"merge"=>[[1, 2], [3]]}, nil, [1,2,3]],
+        [{"merge"=>[[1], [2, 3]]}, nil, [1,2,3]],
+        [{"merge"=>1}, nil, [1]],
+        [{"merge"=>[1,2]}, nil, [1,2]],
+        [{"merge"=>[1,[2]]}, nil, [1,2]],
       ].each_with_index do |testcase, index|
         describe "example ##{index}: #{testcase}" do
           it "works" do
