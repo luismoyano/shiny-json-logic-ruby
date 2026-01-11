@@ -1,5 +1,6 @@
 require "shiny_json_logic/version"
 require "core_ext/array"
+require "core_ext/hash"
 require "shiny_json_logic/operations/var"
 require "shiny_json_logic/operations/missing"
 require "shiny_json_logic/operations/missing_some"
@@ -26,6 +27,7 @@ require "shiny_json_logic/operations/subtraction"
 require "shiny_json_logic/operations/division"
 require "shiny_json_logic/operations/substring"
 require "shiny_json_logic/operations/merge"
+require "shiny_json_logic/operations/double_not"
 
 module ShinyJsonLogic
   class Error < StandardError; end
@@ -66,6 +68,7 @@ module ShinyJsonLogic
       "/" => Operations::Division,
       "substr" => Operations::Substring,
       "merge" => Operations::Merge,
+      "!!" => Operations::DoubleNot
     }
   end
 end

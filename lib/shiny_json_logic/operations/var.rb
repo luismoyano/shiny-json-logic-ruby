@@ -1,5 +1,3 @@
-require "core_ext/array"
-require "core_ext/hash"
 require "shiny_json_logic/truthy"
 require "shiny_json_logic/operations/base"
 

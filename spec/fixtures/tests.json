@@ -167,7 +167,6 @@
   [{"if":[ 1, "apple", "banana"]}, null, "apple"],
   [{"if":[ 3.1416, "apple", "banana"]}, null, "apple"],
   [{"if":[ -1, "apple", "banana"]}, null, "apple"],
-  " ----- DONE UNTIL HERE ----- ",
 
   "Truthy and falsy definitions matter in Boolean operations",
   [{"!" : [ [] ]}, {}, true],
@@ -189,6 +188,7 @@
   [{"!!" : [ "0" ]}, {}, true],
   [{"and" : [ "0", true ]}, {}, true ],
   [{"or" : [ "0", true ]}, {}, "0" ],
+  " ----- DONE UNTIL HERE ----- ",
 
   "If the conditional is logic, it gets evaluated",
   [{"if":[ {">":[2,1]}, "apple", "banana"]}, null, "apple"],
