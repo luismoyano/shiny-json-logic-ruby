@@ -23,6 +23,9 @@ require "shiny_json_logic/operations/min"
 require "shiny_json_logic/operations/addition"
 require "shiny_json_logic/operations/product"
 require "shiny_json_logic/operations/subtraction"
+require "shiny_json_logic/operations/division"
+require "shiny_json_logic/operations/substring"
+require "shiny_json_logic/operations/merge"
 
 module ShinyJsonLogic
   class Error < StandardError; end
@@ -59,7 +62,10 @@ module ShinyJsonLogic
       "min" => Operations::Min,
       "+" => Operations::Addition,
       "*" => Operations::Product,
-      "-" => Operations::Subtraction
+      "-" => Operations::Subtraction,
+      "/" => Operations::Division,
+      "substr" => Operations::Substring,
+      "merge" => Operations::Merge,
     }
   end
 end

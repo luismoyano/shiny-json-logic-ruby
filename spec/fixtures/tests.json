@@ -110,7 +110,6 @@
   [ {"/":[4,2]}, {}, 2 ],
   [ {"/":[2,4]}, {}, 0.5 ],
   [ {"/":["1",1]}, {}, 1 ],
-  " ----- DONE UNTIL HERE ----- ",
 
   "Substring",
   [{"substr":["jsonlogic", 4]}, null, "logic"],
@@ -134,6 +133,7 @@
   [{"merge":1}, null, [1]],
   [{"merge":[1,2]}, null, [1,2]],
   [{"merge":[1,[2]]}, null, [1,2]],
+  " ----- DONE UNTIL HERE ----- ",
 
   "Too few args",
   [{"if":[]}, null, null],
