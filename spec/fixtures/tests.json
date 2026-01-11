@@ -159,7 +159,6 @@
   "You can cast a string to numeric with a unary + ",
   [{"===":[0,"0"]}, null, false],
   [{"===":[0,{"+":"0"}]}, null, true],
-  " ----- DONE UNTIL HERE ----- ",
   [{"if":[ {"+":"0"}, "apple", "banana"]}, null, "banana"],
   [{"if":[ {"+":"1"}, "apple", "banana"]}, null, "apple"],
 
@@ -168,6 +167,7 @@
   [{"if":[ 1, "apple", "banana"]}, null, "apple"],
   [{"if":[ 3.1416, "apple", "banana"]}, null, "apple"],
   [{"if":[ -1, "apple", "banana"]}, null, "apple"],
+  " ----- DONE UNTIL HERE ----- ",
 
   "Truthy and falsy definitions matter in Boolean operations",
   [{"!" : [ [] ]}, {}, true],

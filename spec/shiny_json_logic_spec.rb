@@ -30,22 +30,14 @@ RSpec.describe ShinyJsonLogic do
 
     describe "lolo", skip: false do
       [
-        # [{"if"=>[]}, nil, nil],
-        # [{"if"=>[true]}, nil, true],
-        # [{"if"=>[false]}, nil, false],
-        # [{"if"=>["apple"]}, nil, "apple"],
-        # [{"if"=>[true, "apple"]}, nil, "apple"],
-        # [{"if"=>[false, "apple"]}, nil, nil],
-        # [{"if"=>[true, "apple", "banana"]}, nil, "apple"],
-        # [{"if"=>[false, "apple", "banana"]}, nil, "banana"],
-        # [{"if"=>[ [], "apple", "banana"]}, nil, "banana"],
-        # [{"if"=>[ [1], "apple", "banana"]}, nil, "apple"],
-        # [{"if"=>[ [1,2,3,4], "apple", "banana"]}, nil, "apple"],
-        # [{"if"=>[ "", "apple", "banana"]}, nil, "banana"],
-        # [{"if"=>[ "zucchini", "apple", "banana"]}, nil, "apple"],
-        # [{"if"=>[ "0", "apple", "banana"]}, nil, "apple"],
-        # [{"==="=>[0,"0"]}, nil, false],
-        [{"==="=>[0,{"+"=>"0"}]}, nil, true],
+        # [{"!!" => [ [] ]}, {}, false],
+        [{"and" => [ [], true ]}, {}, [] ],
+        # [{"!!" => [ 0 ]}, {}, false],
+        [{"and" => [ 0, true ]}, {}, 0 ],
+        # [{"!!" => [ "" ]}, {}, false],
+        [{"and" => [ "", true ]}, {}, "" ],
+        # [{"!!" => [ "0" ]}, {}, true],
+        [{"and" => [ "0", true ]}, {}, true ],
       ].each_with_index do |testcase, index|
         describe "example ##{index}: #{testcase}" do
           it "works" do
@@ -55,4 +47,27 @@ RSpec.describe ShinyJsonLogic do
       end
     end
   end
+
+  ifs = [
+    [{"if"=>[]}, nil, nil],
+    [{"if"=>[true]}, nil, true],
+    [{"if"=>[false]}, nil, false],
+    [{"if"=>["apple"]}, nil, "apple"],
+    [{"if"=>[true, "apple"]}, nil, "apple"],
+    [{"if"=>[false, "apple"]}, nil, nil],
+    [{"if"=>[true, "apple", "banana"]}, nil, "apple"],
+    [{"if"=>[false, "apple", "banana"]}, nil, "banana"],
+    [{"if"=>[ [], "apple", "banana"]}, nil, "banana"],
+    [{"if"=>[ [1], "apple", "banana"]}, nil, "apple"],
+    [{"if"=>[ [1,2,3,4], "apple", "banana"]}, nil, "apple"],
+    [{"if"=>[ "", "apple", "banana"]}, nil, "banana"],
+    [{"if"=>[ "zucchini", "apple", "banana"]}, nil, "apple"],
+    [{"if"=>[ "0", "apple", "banana"]}, nil, "apple"],
+    [{"if"=>[ {"+"=>"0"}, "apple", "banana"]}, nil, "banana"],
+    [{"if"=>[ {"+"=>"1"}, "apple", "banana"]}, nil, "apple"],
+    [{"if"=>[ 0, "apple", "banana"]}, nil, "banana"],
+    [{"if"=>[ 1, "apple", "banana"]}, nil, "apple"],
+    [{"if"=>[ 3.1416, "apple", "banana"]}, nil, "apple"],
+    [{"if"=>[ -1, "apple", "banana"]}, nil, "apple"],
+  ]
 end

@@ -5,7 +5,7 @@ module ShinyJsonLogic
   module Operations
     class And < Base
       def call
-        rules.reduce { |a, b| a && b }
+        rules.reduce { |a, b| Truthy.call(a) ? b : a }
       end
     end
   end
