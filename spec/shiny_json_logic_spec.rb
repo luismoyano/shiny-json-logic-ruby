@@ -31,13 +31,17 @@ RSpec.describe ShinyJsonLogic do
     describe "lolo", skip: false do
       [
         # [{"!!" => [ [] ]}, {}, false],
-        [{"and" => [ [], true ]}, {}, [] ],
         # [{"!!" => [ 0 ]}, {}, false],
-        [{"and" => [ 0, true ]}, {}, 0 ],
         # [{"!!" => [ "" ]}, {}, false],
-        [{"and" => [ "", true ]}, {}, "" ],
         # [{"!!" => [ "0" ]}, {}, true],
-        [{"and" => [ "0", true ]}, {}, true ],
+        [{"substr"=>["jsonlogic", 4]}, nil, "logic"],
+        [{"substr"=>["jsonlogic", -5]}, nil, "logic"],
+        [{"substr"=>["jsonlogic", 0, 1]}, nil, "j"],
+        [{"substr"=>["jsonlogic", -1, 1]}, nil, "c"],
+        [{"substr"=>["jsonlogic", 4, 5]}, nil, "logic"],
+        [{"substr"=>["jsonlogic", -5, 5]}, nil, "logic"],
+        [{"substr"=>["jsonlogic", -5, -2]}, nil, "log"],
+        [{"substr"=>["jsonlogic", 1, -5]}, nil, "son"],
       ].each_with_index do |testcase, index|
         describe "example ##{index}: #{testcase}" do
           it "works" do

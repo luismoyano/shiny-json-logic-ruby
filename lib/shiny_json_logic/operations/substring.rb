@@ -4,7 +4,8 @@ module ShinyJsonLogic
   module Operations
     class Substring < Base
       def call
-        str, start, length = rules[0].to_s, rules[1].to_i, rules[2].to_i
+        str, start = rules[0].to_s, rules[1].to_i
+        length = rules.fetch(2, str.length).to_i
         start += str.length if start < 0
         finish = length < 0 ? str.length + length : start + length
 
