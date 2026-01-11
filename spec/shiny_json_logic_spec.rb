@@ -30,17 +30,10 @@ RSpec.describe ShinyJsonLogic do
 
     describe "lolo", skip: false do
       [
-        [ {"or" => [true,true]}, {}, true ],
-        [ {"or" => [false,true]}, {}, true ],
-        [ {"or" => [true,false]}, {}, true ],
-        [ {"or" => [false,false]}, {}, false ],
-        [ {"or" => [false,false,true]}, {}, true ],
-        [ {"or" => [false,false,false]}, {}, false ],
-        [ {"or" => [false]}, {}, false ],
-        [ {"or" => [true]}, {}, true ],
-        [ {"or" => [1,3]}, {}, 1 ],
-        [ {"or" => [3,false]}, {}, 3 ],
-        [ {"or" => [false,3]}, {}, 3 ],
+        [ {"-"=>[2,3]}, {}, -1 ],
+        [ {"-"=>[3,2]}, {}, 1 ],
+        [ {"-"=>[3]}, {}, -3 ],
+        [ {"-"=>["1",1]}, {}, 0 ],
       ].each_with_index do |testcase, index|
         describe "example ##{index}: #{testcase}" do
           it "works" do

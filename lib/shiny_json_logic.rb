@@ -14,6 +14,15 @@ require "shiny_json_logic/operations/smaller"
 require "shiny_json_logic/operations/smaller_equal"
 require "shiny_json_logic/operations/not"
 require "shiny_json_logic/operations/or"
+require "shiny_json_logic/operations/and"
+require "shiny_json_logic/operations/inclusion"
+require "shiny_json_logic/operations/concatenation"
+require "shiny_json_logic/operations/modulo"
+require "shiny_json_logic/operations/max"
+require "shiny_json_logic/operations/min"
+require "shiny_json_logic/operations/addition"
+require "shiny_json_logic/operations/product"
+require "shiny_json_logic/operations/subtraction"
 
 module ShinyJsonLogic
   class Error < StandardError; end
@@ -41,6 +50,16 @@ module ShinyJsonLogic
       "<=" => Operations::SmallerEqual,
       "!" => Operations::Not,
       "or" => Operations::Or,
+      "and" => Operations::And,
+      "?:" => Operations::If,
+      "in" => Operations::Inclusion,
+      "cat" => Operations::Concatenation,
+      "%" => Operations::Modulo,
+      "max" => Operations::Max,
+      "min" => Operations::Min,
+      "+" => Operations::Addition,
+      "*" => Operations::Product,
+      "-" => Operations::Subtraction
     }
   end
 end
