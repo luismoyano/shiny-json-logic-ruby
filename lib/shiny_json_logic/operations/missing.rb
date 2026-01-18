@@ -5,6 +5,7 @@ module ShinyJsonLogic
   module Operations
     class Missing < Base
       def call
+        p rules
         return rules unless data.is_a?(Hash) && rules.is_a?(Array)
 
         rules - deep_keys(data)

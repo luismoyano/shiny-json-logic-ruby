@@ -34,9 +34,17 @@ module ShinyJsonLogic
 
   def self.apply(rule, data = {})
     if rule.is_a?(Hash)
-    transformed_rule = rule.to_a.first
-    solvers[transformed_rule.first].new(Array.wrap(transformed_rule.last).map{|val| apply(val, data)}, data).call
-    elsif rule.is_a? Array
+      operation, raw_args = rule.to_a.first
+
+      evaluated_args =
+        if raw_args.is_a?(Array)
+          raw_args.map { |val| apply(val, data) }
+        else
+          Array.wrap(apply(raw_args, data))
+        end
+
+      solvers.fetch(operation).new(evaluated_args, data).call
+    elsif rule.is_a?(Array)
       rule.map { |item| apply(item, data) }
     else
       rule
