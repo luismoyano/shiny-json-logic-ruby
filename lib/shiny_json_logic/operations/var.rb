@@ -8,7 +8,7 @@ module ShinyJsonLogic
         key = rules.is_a?(Array) ? rules[0] : rules
         default = rules.is_a?(Array) ? rules[1] : nil
 
-        return data if key.nil? || key == ""
+        return data if key.nil?
 
         data&.deep_fetch(*Array.wrap(key)) || default
       rescue
