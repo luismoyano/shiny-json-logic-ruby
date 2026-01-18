@@ -30,16 +30,15 @@ require "shiny_json_logic/operations/merge"
 require "shiny_json_logic/operations/double_not"
 require "shiny_json_logic/operations/filter"
 require "shiny_json_logic/operations/map"
+require "shiny_json_logic/operations/reduce"
 
 module ShinyJsonLogic
   class Error < StandardError; end
 
   def self.apply(rule, data = {})
-    # p rule, data
     if rule.is_a?(Hash)
       operation, raw_args = rule.to_a.first
       if collection_solvers.key?(operation)
-        # p operation, raw_args
         collection_solvers.fetch(operation).new(raw_args, data).call
       else
         evaluated_args =
@@ -95,6 +94,7 @@ module ShinyJsonLogic
     {
       "filter" => Operations::Filter,
       "map" => Operations::Map,
+      "reduce" => Operations::Reduce,
     }
   end
 end
