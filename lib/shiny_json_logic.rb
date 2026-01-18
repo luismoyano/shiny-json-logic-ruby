@@ -28,22 +28,28 @@ require "shiny_json_logic/operations/division"
 require "shiny_json_logic/operations/substring"
 require "shiny_json_logic/operations/merge"
 require "shiny_json_logic/operations/double_not"
+require "shiny_json_logic/operations/filter"
 
 module ShinyJsonLogic
   class Error < StandardError; end
 
   def self.apply(rule, data = {})
+    # p rule, data
     if rule.is_a?(Hash)
       operation, raw_args = rule.to_a.first
+      if collection_solvers.key?(operation)
+        # p operation, raw_args
+        collection_solvers.fetch(operation).new(raw_args, data).call
+      else
+        evaluated_args =
+          if raw_args.is_a?(Array)
+            raw_args.map { |val| apply(val, data) }
+          else
+            Array.wrap(apply(raw_args, data))
+          end
 
-      evaluated_args =
-        if raw_args.is_a?(Array)
-          raw_args.map { |val| apply(val, data) }
-        else
-          Array.wrap(apply(raw_args, data))
-        end
-
-      solvers.fetch(operation).new(evaluated_args, data).call
+        solvers.fetch(operation).new(evaluated_args, data).call
+      end
     elsif rule.is_a?(Array)
       rule.map { |item| apply(item, data) }
     else
@@ -80,7 +86,13 @@ module ShinyJsonLogic
       "/" => Operations::Division,
       "substr" => Operations::Substring,
       "merge" => Operations::Merge,
-      "!!" => Operations::DoubleNot
+      "!!" => Operations::DoubleNot,
+    }
+  end
+
+  def self.collection_solvers
+    {
+      "filter" => Operations::Filter,
     }
   end
 end
