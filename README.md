@@ -1,33 +1,140 @@
-# ShinyJsonLogic
+# ShinyJsonLogic ✨
 
-A JSON logic implementation in Ruby that works.
+> Shine bright like a Ruby 💎
+
+A **working** JSON Logic implementation in Ruby.
+
+This gem exists because the official JSONLogic Ruby implementation has been incomplete and unmaintained for quite a while.
+
+`ShinyJsonLogic` aims to be predictable, aligned with specs, test-driven and ready to use in Ruby's production code.
+
+---
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add it to your Gemfile:
 
 ```ruby
-gem 'shiny_json_logic'
+gem "shiny_json_logic"
 ```
 
-Or install it yourself as:
+Then run:
 
-    $ gem install shiny_json_logic
+```bash
+bundle install
+```
+Or install it yourself:
+
+```bash
+gem install shiny_json_logic
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Basic usage is intentionally simple:
+
+``` ruby
+require "shiny_json_logic"
+
+rule = {
+  "==" => [
+    { "var" => "status" },
+    "active"
+  ]
+}
+
+data = { "status" => "active" }
+
+ShinyJsonLogic.apply(rule, data)
+# => true
+```
+
+### Nested Logic
+You can nest rules as deeply as needed:
+
+``` ruby
+rule = {
+  "if" => [
+    { "var" => "financing" },
+    { "missing" => ["apr"] },
+    []
+  ]
+}
+
+data = { "financing" => true }
+
+ShinyJsonLogic.apply(rule, data)
+# => ["apr"]
+
+```
+
+### Supported operators
+
+The goal is full JSON Logic coverage. Currently supported:
+
+#### Logic
+
+`if, and, or, !, !!`
+
+#### Comparison
+
+`==, ===, !=, !==, >, >=, <, <=`
+
+#### Data access
+
+`var, missing, missing_some`
+
+#### Math
+
+`+, -, *, /, %`
+`min, max`
+
+#### Strings
+
+`cat, substr`
+
+#### Arrays
+
+`merge, in`
+
+#### Iterable operations
+`map, reduce, filter, some, all, none`
+
+(See lib/shiny_json_logic/operations for the authoritative list.)
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+``` bash
+bin/setup
+bundle exec rspec
+```
+
+You can also open a console with:
+
+``` bash
+bin/console
+```
+
+To install the gem locally:
+
+``` bash
+bundle exec rake install
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/shiny_json_logic.
+Contributions are welcome — especially:
+
+spec alignment improvements, missing operators, edge-case tests or performance improvements
+
+Please include tests with any change.
+
+Repository: https://github.com/luismoyano/shiny_json_logic
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+MIT License.
+
+Use it, fork it, ship it (:
