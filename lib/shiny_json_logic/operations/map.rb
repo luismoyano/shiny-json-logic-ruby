@@ -4,8 +4,8 @@ require "shiny_json_logic/operations/iterable/base"
 module ShinyJsonLogic
   module Operations
     class Filter < Iterable::Base
-      def on_each(item)
-        item if Truthy.call(ShinyJsonLogic.apply(filter, data))
+      def on_each(_item)
+        ShinyJsonLogic.apply(filter, data)
       end
     end
   end

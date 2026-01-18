@@ -14,6 +14,7 @@ module ShinyJsonLogic
 
         def call
           collection.map do |item|
+            data[""] = item
             on_each(item)
           end.compact
         end
