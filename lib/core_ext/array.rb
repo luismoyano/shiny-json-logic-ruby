@@ -2,13 +2,10 @@ require 'backport_dig' if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3
 
 class Array
   def self.wrap(object)
-    if object.nil?
-      []
-    elsif object.respond_to?(:to_ary)
-      object.to_ary || [object]
-    else
-      [object]
-    end
+    return [] if object.nil?
+    return object.to_ary || [object] if object.respond_to?(:to_ary)
+
+    [object]
   end
 
   def deep_fetch(index, default = nil)

@@ -24,11 +24,26 @@ RSpec.describe ShinyJsonLogic do
 
     describe "lolo", skip: false do
       [
-        [ {"and" =>[{">" =>[3,1]},true]}, {}, true ],
-        [ {"and" =>[{">" =>[3,1]},false]}, {}, false ],
-        [ {"and" =>[{">" =>[3,1]},{"!" =>true}]}, {}, false ],
-        [ {"and" =>[{">" =>[3,1]},{"<" =>[1,3]}]}, {}, true ],
-        [ {"?:" =>[{">" =>[3,1]},"visible","hidden"]}, {}, "visible" ],
+        [
+          {"filter" =>[{"var" =>"integers"}, true]},
+          {"integers" =>[1,2,3]},
+          [1,2,3]
+        ],
+        [
+          {"filter" =>[{"var" =>"integers"}, false]},
+          {"integers" =>[1,2,3]},
+          []
+        ],
+        [
+          {"filter" =>[{"var" =>"integers"}, {">=" =>[{"var" =>""},2]}]},
+          {"integers" =>[1,2,3]},
+          [2,3]
+        ],
+        [
+          {"filter" =>[{"var" =>"integers"}, {"%" =>[{"var" =>""},2]}]},
+          {"integers" =>[1,2,3]},
+          [1,3]
+        ],
       ].each_with_index do |testcase, index|
         describe "example ##{index}: #{testcase}" do
           it "works" do

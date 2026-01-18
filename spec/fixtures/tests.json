@@ -221,7 +221,6 @@
   "Arrays with logic",
   [[1, {"var": "x"}, 3], {"x": 2}, [1, 2, 3]],
   [{"if": [{"var": "x"}, [{"var": "y"}], 99]}, {"x": true, "y": 42}, [42]],
-  " ----- DONE UNTIL HERE ----- ",
 
   "# Compound Tests",
   [ {"and":[{">":[3,1]},true]}, {}, true ],
@@ -273,7 +272,6 @@
   [{"missing":["a.b"]}, {"a":{"b":"apple brownie"}}, []],
   [{"missing":["a.b", "a.c"]}, {"a":{"b":"apple brownie"}}, ["a.c"]],
 
-
   "Missing some",
   [{"missing_some":[1, ["a", "b"]]}, {"a":"apple"}, [] ],
   [{"missing_some":[1, ["a", "b"]]}, {"b":"banana"}, [] ],
@@ -285,7 +283,6 @@
   [{"missing_some":[2, ["a", "b", "c"]]}, {"a":"apple", "b":"banana", "c":"carrot"}, [] ],
   [{"missing_some":[2, ["a", "b", "c"]]}, {"a":"apple", "d":"durian"}, ["b", "c"] ],
   [{"missing_some":[2, ["a", "b", "c"]]}, {"d":"durian", "e":"eggplant"}, ["a", "b", "c"] ],
-
 
   "Missing and If are friends, because empty arrays are falsey in JsonLogic",
   [{"if":[ {"missing":"a"}, "missed it", "found it" ]}, {"a":"apple"}, "found it"],
@@ -303,6 +300,7 @@
     {"financing":false},
     ["vin"]
   ],
+  " ----- DONE UNTIL HERE ----- ",
 
   "Filter, map, all, none, and some",
   [
