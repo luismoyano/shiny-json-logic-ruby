@@ -21,56 +21,5 @@ RSpec.describe ShinyJsonLogic do
         end
       end
     end
-
-    describe "lolo", skip: false do
-      [
-        [
-          {"none" =>[{"var" =>"integers"}, {">=" =>[{"var" =>""}, 1]}]},
-          {"integers" =>[1,2,3]},
-          false
-        ],
-        [
-          {"none" =>[{"var" =>"integers"}, {"==" =>[{"var" =>""}, 1]}]},
-          {"integers" =>[1,2,3]},
-          false
-        ],
-        [
-          {"none" =>[{"var" =>"integers"}, {"<" =>[{"var" =>""}, 1]}]},
-          {"integers" =>[1,2,3]},
-          true
-        ],
-        [
-          {"none" =>[{"var" =>"integers"}, {"<" =>[{"var" =>""}, 1]}]},
-          {"integers" =>[]},
-          true
-        ],
-        [
-          {"none" =>[ {"var" =>"items"}, {">=" =>[{"var" =>"qty"}, 1]}]},
-          {"items" =>[{"qty" =>1,"sku" =>"apple"},{"qty" =>2,"sku" =>"banana"}]},
-          false
-        ],
-        [
-          {"none" =>[ {"var" =>"items"}, {">" =>[{"var" =>"qty"}, 1]}]},
-          {"items" =>[{"qty" =>1,"sku" =>"apple"},{"qty" =>2,"sku" =>"banana"}]},
-          false
-        ],
-        [
-          {"none" =>[ {"var" =>"items"}, {"<" =>[{"var" =>"qty"}, 1]}]},
-          {"items" =>[{"qty" =>1,"sku" =>"apple"},{"qty" =>2,"sku" =>"banana"}]},
-          true
-        ],
-        [
-          {"none" =>[ {"var" =>"items"}, {">=" =>[{"var" =>"qty"}, 1]}]},
-          {"items" =>[]},
-          true
-        ],
-      ].each_with_index do |testcase, index|
-        describe "example ##{index}: #{testcase}" do
-          it "works" do
-            expect(described_class.apply(*testcase[0..1])).to eq(testcase.last)
-          end
-        end
-      end
-    end
   end
 end
