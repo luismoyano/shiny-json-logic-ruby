@@ -5,9 +5,9 @@ module ShinyJsonLogic
     module Iterable
       class Base < ShinyJsonLogic::Operations::Base
         def initialize(rules, data)
+          super
           @collection = ShinyJsonLogic.apply(rules.fetch(0), data) || []
           @filter = rules.fetch(1)
-          @data = data
         end
 
         def call

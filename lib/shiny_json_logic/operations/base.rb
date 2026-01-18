@@ -12,7 +12,7 @@ module ShinyJsonLogic
         raise "Not implemented"
       end
 
-      private
+      protected
 
       attr_reader :rules
       attr_accessor :data
