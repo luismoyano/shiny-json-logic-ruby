@@ -31,6 +31,7 @@ require "shiny_json_logic/operations/double_not"
 require "shiny_json_logic/operations/filter"
 require "shiny_json_logic/operations/map"
 require "shiny_json_logic/operations/reduce"
+require "shiny_json_logic/operations/all"
 
 module ShinyJsonLogic
   class Error < StandardError; end
@@ -95,6 +96,7 @@ module ShinyJsonLogic
       "filter" => Operations::Filter,
       "map" => Operations::Map,
       "reduce" => Operations::Reduce,
+      "all" => Operations::All,
     }
   end
 end

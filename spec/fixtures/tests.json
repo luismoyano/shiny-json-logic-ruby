@@ -341,7 +341,6 @@
     ]},
     [1,2,3]
   ],
-  " ----- DONE UNTIL HERE ----- ",
   [
     {"reduce":[
       {"var":"integers"},
@@ -400,8 +399,6 @@
     ]},
     6
   ],
-
-
   [
     {"all":[{"var":"integers"}, {">=":[{"var":""}, 1]}]},
     {"integers":[1,2,3]},
@@ -442,8 +439,7 @@
     {"items":[]},
     false
   ],
-
-
+  " ----- DONE UNTIL HERE ----- ",
   [
     {"none":[{"var":"integers"}, {">=":[{"var":""}, 1]}]},
     {"integers":[1,2,3]},
