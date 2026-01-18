@@ -322,8 +322,6 @@
     {"integers":[1,2,3]},
     [1,3]
   ],
-  " ----- DONE UNTIL HERE ----- ",
-
   [
     {"map":[{"var":"integers"}, {"*":[{"var":""},2]}]},
     {"integers":[1,2,3]},
@@ -343,7 +341,7 @@
     ]},
     [1,2,3]
   ],
-
+  " ----- DONE UNTIL HERE ----- ",
   [
     {"reduce":[
       {"var":"integers"},

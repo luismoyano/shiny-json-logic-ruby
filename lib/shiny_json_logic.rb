@@ -29,6 +29,7 @@ require "shiny_json_logic/operations/substring"
 require "shiny_json_logic/operations/merge"
 require "shiny_json_logic/operations/double_not"
 require "shiny_json_logic/operations/filter"
+require "shiny_json_logic/operations/map"
 
 module ShinyJsonLogic
   class Error < StandardError; end
@@ -93,6 +94,7 @@ module ShinyJsonLogic
   def self.collection_solvers
     {
       "filter" => Operations::Filter,
+      "map" => Operations::Map,
     }
   end
 end

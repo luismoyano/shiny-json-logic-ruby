@@ -25,24 +25,23 @@ RSpec.describe ShinyJsonLogic do
     describe "lolo", skip: false do
       [
         [
-          {"filter" =>[{"var" =>"integers"}, true]},
-          {"integers" =>[1,2,3]},
-          [1,2,3]
+          {"map" => [{"var" => "integers"}, {"*" => [{"var" => ""},2]}]},
+          {"integers" => [1,2,3]},
+          [2,4,6]
         ],
         [
-          {"filter" =>[{"var" =>"integers"}, false]},
-          {"integers" =>[1,2,3]},
+          {"map" => [{"var" => "integers"}, {"*" => [{"var" => ""},2]}]},
+          nil,
           []
         ],
         [
-          {"filter" =>[{"var" =>"integers"}, {">=" =>[{"var" =>""},2]}]},
-          {"integers" =>[1,2,3]},
-          [2,3]
-        ],
-        [
-          {"filter" =>[{"var" =>"integers"}, {"%" =>[{"var" =>""},2]}]},
-          {"integers" =>[1,2,3]},
-          [1,3]
+          {"map" => [{"var" => "desserts"}, {"var" => "qty"}]},
+          {"desserts" => [
+            {"name" => "apple","qty" => 1},
+            {"name" => "brownie","qty" => 2},
+            {"name" => "cupcake","qty" => 3}
+          ]},
+          [1,2,3]
         ],
       ].each_with_index do |testcase, index|
         describe "example ##{index}: #{testcase}" do
