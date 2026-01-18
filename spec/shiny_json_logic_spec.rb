@@ -25,62 +25,44 @@ RSpec.describe ShinyJsonLogic do
     describe "lolo", skip: false do
       [
         [
-          {"reduce" => [
-            {"var" => "integers"},
-            {"+" => [{"var" => "current"}, {"var" => "accumulator"}]},
-            0
-          ]},
-          {"integers" => [1,2,3,4]},
-          10
+          {"none" =>[{"var" =>"integers"}, {">=" =>[{"var" =>""}, 1]}]},
+          {"integers" =>[1,2,3]},
+          false
         ],
         [
-          {"reduce" => [
-            {"var" => "integers"},
-            {"+" => [{"var" => "current"}, {"var" => "accumulator"}]},
-            {"var" =>  "start_with"}
-          ]},
-          {"integers" => [1,2,3,4], "start_with" =>  59},
-          69
+          {"none" =>[{"var" =>"integers"}, {"==" =>[{"var" =>""}, 1]}]},
+          {"integers" =>[1,2,3]},
+          false
         ],
         [
-          {"reduce" => [
-            {"var" => "integers"},
-            {"+" => [{"var" => "current"}, {"var" => "accumulator"}]},
-            0
-          ]},
-          nil,
-          0
+          {"none" =>[{"var" =>"integers"}, {"<" =>[{"var" =>""}, 1]}]},
+          {"integers" =>[1,2,3]},
+          true
         ],
         [
-          {"reduce" => [
-            {"var" => "integers"},
-            {"*" => [{"var" => "current"}, {"var" => "accumulator"}]},
-            1
-          ]},
-          {"integers" => [1,2,3,4]},
-          24
+          {"none" =>[{"var" =>"integers"}, {"<" =>[{"var" =>""}, 1]}]},
+          {"integers" =>[]},
+          true
         ],
         [
-          {"reduce" => [
-            {"var" => "integers"},
-            {"*" => [{"var" => "current"}, {"var" => "accumulator"}]},
-            0
-          ]},
-          {"integers" => [1,2,3,4]},
-          0
+          {"none" =>[ {"var" =>"items"}, {">=" =>[{"var" =>"qty"}, 1]}]},
+          {"items" =>[{"qty" =>1,"sku" =>"apple"},{"qty" =>2,"sku" =>"banana"}]},
+          false
         ],
         [
-          {"reduce" =>  [
-            {"var" => "desserts"},
-            {"+" => [ {"var" => "accumulator"}, {"var" => "current.qty"}]},
-            0
-          ]},
-          {"desserts" => [
-            {"name" => "apple","qty" => 1},
-            {"name" => "brownie","qty" => 2},
-            {"name" => "cupcake","qty" => 3}
-          ]},
-          6
+          {"none" =>[ {"var" =>"items"}, {">" =>[{"var" =>"qty"}, 1]}]},
+          {"items" =>[{"qty" =>1,"sku" =>"apple"},{"qty" =>2,"sku" =>"banana"}]},
+          false
+        ],
+        [
+          {"none" =>[ {"var" =>"items"}, {"<" =>[{"var" =>"qty"}, 1]}]},
+          {"items" =>[{"qty" =>1,"sku" =>"apple"},{"qty" =>2,"sku" =>"banana"}]},
+          true
+        ],
+        [
+          {"none" =>[ {"var" =>"items"}, {">=" =>[{"var" =>"qty"}, 1]}]},
+          {"items" =>[]},
+          true
         ],
       ].each_with_index do |testcase, index|
         describe "example ##{index}: #{testcase}" do
@@ -91,49 +73,4 @@ RSpec.describe ShinyJsonLogic do
       end
     end
   end
-
-  ifs = [
-    [{"if"=>[]}, nil, nil],
-    [{"if"=>[true]}, nil, true],
-    [{"if"=>[false]}, nil, false],
-    [{"if"=>["apple"]}, nil, "apple"],
-    [{"if"=>[true, "apple"]}, nil, "apple"],
-    [{"if"=>[false, "apple"]}, nil, nil],
-    [{"if"=>[true, "apple", "banana"]}, nil, "apple"],
-    [{"if"=>[false, "apple", "banana"]}, nil, "banana"],
-    [{"if"=>[ [], "apple", "banana"]}, nil, "banana"],
-    [{"if"=>[ [1], "apple", "banana"]}, nil, "apple"],
-    [{"if"=>[ [1,2,3,4], "apple", "banana"]}, nil, "apple"],
-    [{"if"=>[ "", "apple", "banana"]}, nil, "banana"],
-    [{"if"=>[ "zucchini", "apple", "banana"]}, nil, "apple"],
-    [{"if"=>[ "0", "apple", "banana"]}, nil, "apple"],
-    [{"if"=>[ {"+"=>"0"}, "apple", "banana"]}, nil, "banana"],
-    [{"if"=>[ {"+"=>"1"}, "apple", "banana"]}, nil, "apple"],
-    [{"if"=>[ 0, "apple", "banana"]}, nil, "banana"],
-    [{"if"=>[ 1, "apple", "banana"]}, nil, "apple"],
-    [{"if"=>[ 3.1416, "apple", "banana"]}, nil, "apple"],
-    [{"if"=>[ -1, "apple", "banana"]}, nil, "apple"],
-    [{"if" => [ {">" => [2,1]}, "apple", "banana"]}, nil, "apple"],
-    [{"if" => [ {">" => [1,2]}, "apple", "banana"]}, nil, "banana"],
-    [{"if" => [ true, {"cat" => ["ap","ple"]}, {"cat" => ["ba","na","na"]} ]}, nil, "apple"],
-    [{"if" => [ false, {"cat" => ["ap","ple"]}, {"cat" => ["ba","na","na"]} ]}, nil, "banana"],
-    [{"if" => [true, "apple", true, "banana"]}, nil, "apple"],
-    [{"if" => [true, "apple", false, "banana"]}, nil, "apple"],
-    [{"if" => [false, "apple", true, "banana"]}, nil, "banana"],
-    [{"if" => [false, "apple", false, "banana"]}, nil, nil],
-    [{"if" => [true, "apple", true, "banana", "carrot"]}, nil, "apple"],
-    [{"if" => [true, "apple", false, "banana", "carrot"]}, nil, "apple"],
-    [{"if" => [false, "apple", true, "banana", "carrot"]}, nil, "banana"],
-    [{"if" => [false, "apple", false, "banana", "carrot"]}, nil, "carrot"],
-    [{"if" => [false, "apple", false, "banana", false, "carrot"]}, nil, nil],
-    [{"if" => [false, "apple", false, "banana", false, "carrot", "date"]}, nil, "date"],
-    [{"if" => [false, "apple", false, "banana", true, "carrot", "date"]}, nil, "carrot"],
-    [{"if" => [false, "apple", true, "banana", false, "carrot", "date"]}, nil, "banana"],
-    [{"if" => [false, "apple", true, "banana", true, "carrot", "date"]}, nil, "banana"],
-    [{"if" => [true, "apple", false, "banana", false, "carrot", "date"]}, nil, "apple"],
-    [{"if" => [true, "apple", false, "banana", true, "carrot", "date"]}, nil, "apple"],
-    [{"if" => [true, "apple", true, "banana", false, "carrot", "date"]}, nil, "apple"],
-    [{"if" => [true, "apple", true, "banana", true, "carrot", "date"]}, nil, "apple"],
-    [{"if" => [{"var" => "x"}, [{"var" => "y"}], 99]}, {"x" => true, "y" => 42}, [42]],
-  ]
 end
