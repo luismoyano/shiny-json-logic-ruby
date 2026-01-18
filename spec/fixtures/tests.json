@@ -439,7 +439,6 @@
     {"items":[]},
     false
   ],
-  " ----- DONE UNTIL HERE ----- ",
   [
     {"none":[{"var":"integers"}, {">=":[{"var":""}, 1]}]},
     {"integers":[1,2,3]},
@@ -480,7 +479,6 @@
     {"items":[]},
     true
   ],
-
   [
     {"some":[{"var":"integers"}, {">=":[{"var":""}, 1]}]},
     {"integers":[1,2,3]},

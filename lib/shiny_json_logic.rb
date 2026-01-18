@@ -33,6 +33,7 @@ require "shiny_json_logic/operations/map"
 require "shiny_json_logic/operations/reduce"
 require "shiny_json_logic/operations/all"
 require "shiny_json_logic/operations/none"
+require "shiny_json_logic/operations/some"
 
 module ShinyJsonLogic
   class Error < StandardError; end
@@ -99,6 +100,7 @@ module ShinyJsonLogic
       "reduce" => Operations::Reduce,
       "all" => Operations::All,
       "none" => Operations::None,
+      "some" => Operations::Some,
     }
   end
 end
