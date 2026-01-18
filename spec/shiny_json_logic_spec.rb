@@ -25,23 +25,62 @@ RSpec.describe ShinyJsonLogic do
     describe "lolo", skip: false do
       [
         [
-          {"map" => [{"var" => "integers"}, {"*" => [{"var" => ""},2]}]},
-          {"integers" => [1,2,3]},
-          [2,4,6]
+          {"reduce" => [
+            {"var" => "integers"},
+            {"+" => [{"var" => "current"}, {"var" => "accumulator"}]},
+            0
+          ]},
+          {"integers" => [1,2,3,4]},
+          10
         ],
         [
-          {"map" => [{"var" => "integers"}, {"*" => [{"var" => ""},2]}]},
+          {"reduce" => [
+            {"var" => "integers"},
+            {"+" => [{"var" => "current"}, {"var" => "accumulator"}]},
+            {"var" =>  "start_with"}
+          ]},
+          {"integers" => [1,2,3,4], "start_with" =>  59},
+          69
+        ],
+        [
+          {"reduce" => [
+            {"var" => "integers"},
+            {"+" => [{"var" => "current"}, {"var" => "accumulator"}]},
+            0
+          ]},
           nil,
-          []
+          0
         ],
         [
-          {"map" => [{"var" => "desserts"}, {"var" => "qty"}]},
+          {"reduce" => [
+            {"var" => "integers"},
+            {"*" => [{"var" => "current"}, {"var" => "accumulator"}]},
+            1
+          ]},
+          {"integers" => [1,2,3,4]},
+          24
+        ],
+        [
+          {"reduce" => [
+            {"var" => "integers"},
+            {"*" => [{"var" => "current"}, {"var" => "accumulator"}]},
+            0
+          ]},
+          {"integers" => [1,2,3,4]},
+          0
+        ],
+        [
+          {"reduce" =>  [
+            {"var" => "desserts"},
+            {"+" => [ {"var" => "accumulator"}, {"var" => "current.qty"}]},
+            0
+          ]},
           {"desserts" => [
             {"name" => "apple","qty" => 1},
             {"name" => "brownie","qty" => 2},
             {"name" => "cupcake","qty" => 3}
           ]},
-          [1,2,3]
+          6
         ],
       ].each_with_index do |testcase, index|
         describe "example ##{index}: #{testcase}" do
