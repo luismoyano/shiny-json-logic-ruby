@@ -38,7 +38,7 @@ module ShinyJsonLogic
     attr_reader :rule, :data
 
     def solvers
-      @solvers ||= {
+      @@solvers ||= {
         "var" => ::ShinyJsonLogic::Operations::Var,
         "missing" => ::ShinyJsonLogic::Operations::Missing,
         "missing_some" => ::ShinyJsonLogic::Operations::MissingSome,
@@ -74,7 +74,7 @@ module ShinyJsonLogic
     end
 
     def collection_solvers
-      @collection_solvers ||= {
+      @@collection_solvers ||= {
         "filter" => ::ShinyJsonLogic::Operations::Filter,
         "map" => ::ShinyJsonLogic::Operations::Map,
         "reduce" => ::ShinyJsonLogic::Operations::Reduce,
