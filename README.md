@@ -82,7 +82,7 @@ The goal is full JSON Logic coverage. Currently supported:
 
 #### Data access
 
-`var, missing, missing_some`
+`var, missing, missing_some, val, exists`
 
 #### Math
 
@@ -95,7 +95,7 @@ The goal is full JSON Logic coverage. Currently supported:
 
 #### Arrays
 
-`merge, in`
+`merge, in, ?? (Coalesce operator)`
 
 #### Iterable operations
 `map, reduce, filter, some, all, none`
