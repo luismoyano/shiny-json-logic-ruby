@@ -11,7 +11,7 @@ module ShinyJsonLogic
       @data = data
     end
 
-    def call(rule = self.rule, data = self.data)
+    def call
       stack   = [[rule, data, :enter]]
       results = []
 
