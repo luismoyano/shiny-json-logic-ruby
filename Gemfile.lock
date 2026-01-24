@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    shiny_json_logic (0.1.0)
+    shiny_json_logic (0.1.2)
 
 GEM
   remote: https://rubygems.org/
@@ -32,7 +32,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.17)
+  bundler
   byebug
   pry
   rake (~> 10.0)
