@@ -31,21 +31,10 @@ module ShinyJsonLogic
                 args = results.pop(argc)
                 results << solvers.fetch(op).new(args, ctx).call
               else
-                child = results.pop
-
-                args =
-                  if child.nil?
-                    []
-                  elsif child.is_a?(Array)
-                    child
-                  else
-                    [child]
-                  end
-
+                args = Array.wrap(results.pop)
                 results << solvers.fetch(op).new(args, ctx).call
               end
             end
-
           elsif node.is_a?(Array)
             results << results.pop(node.size)
           end
@@ -86,48 +75,48 @@ module ShinyJsonLogic
 
     def solvers
       @@solvers ||= {
-        "var" => ::ShinyJsonLogic::Operations::Var,
-        "missing" => ::ShinyJsonLogic::Operations::Missing,
-        "missing_some" => ::ShinyJsonLogic::Operations::MissingSome,
-        "if" => ::ShinyJsonLogic::Operations::If,
-        "==" => ::ShinyJsonLogic::Operations::Equal,
-        "===" => ::ShinyJsonLogic::Operations::StrictEqual,
-        "!=" => ::ShinyJsonLogic::Operations::Different,
-        "!==" => ::ShinyJsonLogic::Operations::StrictDifferent,
-        ">" => ::ShinyJsonLogic::Operations::Greater,
-        ">=" => ::ShinyJsonLogic::Operations::GreaterEqual,
-        "<" => ::ShinyJsonLogic::Operations::Smaller,
-        "<=" => ::ShinyJsonLogic::Operations::SmallerEqual,
-        "!" => ::ShinyJsonLogic::Operations::Not,
-        "or" => ::ShinyJsonLogic::Operations::Or,
-        "and" => ::ShinyJsonLogic::Operations::And,
-        "?:" => ::ShinyJsonLogic::Operations::If,
-        "in" => ::ShinyJsonLogic::Operations::Inclusion,
-        "cat" => ::ShinyJsonLogic::Operations::Concatenation,
-        "%" => ::ShinyJsonLogic::Operations::Modulo,
-        "max" => ::ShinyJsonLogic::Operations::Max,
-        "min" => ::ShinyJsonLogic::Operations::Min,
-        "+" => ::ShinyJsonLogic::Operations::Addition,
-        "*" => ::ShinyJsonLogic::Operations::Product,
-        "-" => ::ShinyJsonLogic::Operations::Subtraction,
-        "/" => ::ShinyJsonLogic::Operations::Division,
-        "substr" => ::ShinyJsonLogic::Operations::Substring,
-        "merge" => ::ShinyJsonLogic::Operations::Merge,
-        "!!" => ::ShinyJsonLogic::Operations::DoubleNot,
-        "val" => ::ShinyJsonLogic::Operations::Val,
-        "??" => ::ShinyJsonLogic::Operations::Coalesce,
-        "exists" => ::ShinyJsonLogic::Operations::Exists,
+        "var" => Operations::Var,
+        "missing" => Operations::Missing,
+        "missing_some" => Operations::MissingSome,
+        "if" => Operations::If,
+        "==" => Operations::Equal,
+        "===" => Operations::StrictEqual,
+        "!=" => Operations::Different,
+        "!==" => Operations::StrictDifferent,
+        ">" => Operations::Greater,
+        ">=" => Operations::GreaterEqual,
+        "<" => Operations::Smaller,
+        "<=" => Operations::SmallerEqual,
+        "!" => Operations::Not,
+        "or" => Operations::Or,
+        "and" => Operations::And,
+        "?:" => Operations::If,
+        "in" => Operations::Inclusion,
+        "cat" => Operations::Concatenation,
+        "%" => Operations::Modulo,
+        "max" => Operations::Max,
+        "min" => Operations::Min,
+        "+" => Operations::Addition,
+        "*" => Operations::Product,
+        "-" => Operations::Subtraction,
+        "/" => Operations::Division,
+        "substr" => Operations::Substring,
+        "merge" => Operations::Merge,
+        "!!" => Operations::DoubleNot,
+        "val" => Operations::Val,
+        "??" => Operations::Coalesce,
+        "exists" => Operations::Exists,
       }
     end
 
     def collection_solvers
       @@collection_solvers ||= {
-        "filter" => ::ShinyJsonLogic::Operations::Filter,
-        "map" => ::ShinyJsonLogic::Operations::Map,
-        "reduce" => ::ShinyJsonLogic::Operations::Reduce,
-        "all" => ::ShinyJsonLogic::Operations::All,
-        "none" => ::ShinyJsonLogic::Operations::None,
-        "some" => ::ShinyJsonLogic::Operations::Some,
+        "filter" => Operations::Filter,
+        "map" => Operations::Map,
+        "reduce" => Operations::Reduce,
+        "all" => Operations::All,
+        "none" => Operations::None,
+        "some" => Operations::Some,
       }
     end
   end
