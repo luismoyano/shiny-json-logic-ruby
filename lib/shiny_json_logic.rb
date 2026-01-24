@@ -1,43 +1,11 @@
 require "shiny_json_logic/version"
 require "core_ext/array"
 require "core_ext/hash"
-require "shiny_json_logic/operations/var"
-require "shiny_json_logic/operations/missing"
-require "shiny_json_logic/operations/missing_some"
-require "shiny_json_logic/operations/if"
-require "shiny_json_logic/operations/equal"
-require "shiny_json_logic/operations/strict_equal"
-require "shiny_json_logic/operations/different"
-require "shiny_json_logic/operations/strict_different"
-require "shiny_json_logic/operations/greater"
-require "shiny_json_logic/operations/greater_equal"
-require "shiny_json_logic/operations/smaller"
-require "shiny_json_logic/operations/smaller_equal"
-require "shiny_json_logic/operations/not"
-require "shiny_json_logic/operations/or"
-require "shiny_json_logic/operations/and"
-require "shiny_json_logic/operations/inclusion"
-require "shiny_json_logic/operations/concatenation"
-require "shiny_json_logic/operations/modulo"
-require "shiny_json_logic/operations/max"
-require "shiny_json_logic/operations/min"
-require "shiny_json_logic/operations/addition"
-require "shiny_json_logic/operations/product"
-require "shiny_json_logic/operations/subtraction"
-require "shiny_json_logic/operations/division"
-require "shiny_json_logic/operations/substring"
-require "shiny_json_logic/operations/merge"
-require "shiny_json_logic/operations/double_not"
-require "shiny_json_logic/operations/filter"
-require "shiny_json_logic/operations/map"
-require "shiny_json_logic/operations/reduce"
-require "shiny_json_logic/operations/all"
-require "shiny_json_logic/operations/none"
-require "shiny_json_logic/operations/some"
+Dir[File.join(__dir__, "shiny_json_logic/operations/**/*.rb")].sort.each do |file|
+  require file
+end
 
 module ShinyJsonLogic
-  class Error < StandardError; end
-
   def self.apply(rule, data = {})
     if rule.is_a?(Hash)
       operation, raw_args = rule.to_a.first
@@ -90,6 +58,8 @@ module ShinyJsonLogic
       "substr" => Operations::Substring,
       "merge" => Operations::Merge,
       "!!" => Operations::DoubleNot,
+      "val" => Operations::Val,
+      "??" => Operations::Coalesce
     }
   end
 

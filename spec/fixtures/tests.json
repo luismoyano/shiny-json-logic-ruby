@@ -518,5 +518,53 @@
     {"some":[ {"var":"items"}, {">=":[{"var":"qty"}, 1]}]},
     {"items":[]},
     false
-  ]
+  ],
+
+  "additional.json",
+  [
+    [1,{"val":"x"},3],
+    {"x":2},
+    [1,2,3]
+  ],
+  [
+    {"if":[{"val":"x"},[{"val":"y"}],99]},
+    {"x":true,"y":42},
+    [42]
+  ],
+  [
+    {"reduce":[{"val":"integers"},{"+":[{"val":"current"},{"val":"accumulator"}]},{"val":"start_with"}]},
+    {"integers":[1,2,3,4],"start_with":59},
+    69
+  ],
+  [
+    {"val":{"cat":["te","st"]}},
+    {"test":1},
+    1
+  ],
+
+  "chained.json",
+  [{"max":[1,2,3]},{},3],
+  [{"max":1},{},1],
+  [{"max":{"val":"data"}},{"data":[1,2,3]},3],
+  [{"cat":{"merge":[["Hello "],["World","!"]]}},{}, "Hello World!"],
+  [{"cat":{"val":"text"}},{"text":["Hello ","World","!"]},"Hello World!"],
+  [{"max":{"map":[{"filter":[{"val":"people"},{"===":[{"val":"department"},"Engineering"]}]},{"val":"salary"}]}},{"people":[{"name":"Jay Ortiz","salary":100414,"department":"Engineering"},{"name":"Louisa Hall","salary":133601,"department":"Sales"},{"name":"Kyle Carlson","salary":139803,"department":"Sales"},{"name":"Grace Ortiz","salary":147068,"department":"Engineering"},{"name":"Isabelle Harrington","salary":112704,"department":"Marketing"},{"name":"Harold Moore","salary":125221,"department":"Sales"},{"name":"Clarence Schultz","salary":127985,"department":"Sales"},{"name":"Jesse Keller","salary":149212,"department":"Engineering"},{"name":"Phillip Holland","salary":105888,"department":"Marketing"},{"name":"Mason Sullivan","salary":147161,"department":"Engineering"}]},149212],
+  [{"+":{"merge":[{"val":"x"},{"val":"y"}]}},{"x":[1,2],"y":3},6],
+
+  "coalesce.json",
+  [{"??":["hello"]},null,"hello"],
+  [{"??":[1]},null,1],
+  [{"??":[true]},null,true],
+  [{"??":[{"val":"person"}]},{"person":{"name":"John"}},{"name":"John"}],
+  [{"??":[]},null,null],
+  [{"??":[null,"hello"]},null,"hello"],
+  [{"??":[null,null,null,"hello"]},null,"hello"],
+  [{"??":["hello",null]},null,"hello"],
+  [{"??":[null,"hello",null]},null,"hello"],
+  [{"??":[null,1,null]},null,1],
+  [{"??":[null,1,"hello"]},null,1],
+  [{"??":[null,false,"hello"]},null,false],
+  [{"??":[{"val":["person","name"]},{"val":"name"},"Unknown Name"]},{"person":{"name":"John"},"name":"Jane"},"John"],
+  [{"??":[{"val":["person","name"]},{"val":"name"},"Unknown Name"]},{"name":"Jane"},"Jane"],
+  [{"??":[{"val":["person","name"]},{"val":"name"},"Unknown Name"]},{}, "Unknown Name"]
 ]
