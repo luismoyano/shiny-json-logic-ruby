@@ -1,7 +1,7 @@
 require "shiny_json_logic/version"
 require "core_ext/array"
 require "core_ext/hash"
-Dir[File.join(__dir__, "shiny_json_logic/operations/**/*.rb")].sort.each do |file|
+Dir[File.join(__dir__, "shiny_json_logic/operations/**/*.rb")].each do |file|
   require file
 end
 
@@ -59,7 +59,8 @@ module ShinyJsonLogic
       "merge" => Operations::Merge,
       "!!" => Operations::DoubleNot,
       "val" => Operations::Val,
-      "??" => Operations::Coalesce
+      "??" => Operations::Coalesce,
+      "exists" => Operations::Exists,
     }
   end
 

@@ -566,5 +566,15 @@
   [{"??":[null,false,"hello"]},null,false],
   [{"??":[{"val":["person","name"]},{"val":"name"},"Unknown Name"]},{"person":{"name":"John"},"name":"Jane"},"John"],
   [{"??":[{"val":["person","name"]},{"val":"name"},"Unknown Name"]},{"name":"Jane"},"Jane"],
-  [{"??":[{"val":["person","name"]},{"val":"name"},"Unknown Name"]},{}, "Unknown Name"]
+  [{"??":[{"val":["person","name"]},{"val":"name"},"Unknown Name"]},{}, "Unknown Name"],
+
+  "exists.json",
+  [{"exists":"hello"},{"hello":1},true],
+  [{"exists":["hello"]},{"hello":1},true],
+  [{"exists":"hello"},{"world":1},false],
+  [{"exists":[""]},{"":1},true],
+  [{"exists":[""]},{"hello":1},false],
+  [{"exists":["hello","world"]},{"hello":{"world":false}},true],
+  [{"exists":["hello","world"]},{"hello":{"x":false}},false],
+  [{"exists":"hello"},{"hello":null},true]
 ]
