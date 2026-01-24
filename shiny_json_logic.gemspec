@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{An implementation of JSON Logic in Ruby that works.}
   spec.description   = %q{JsonLogic isn’t a full programming language. It’s a small, safe way to delegate one decision. You could store a rule in a database to decide later. You could send that rule from back-end to front-end so the decision is made immediately from user input. Because the rule is data, you can even build it dynamically from user actions or GUI input. See http://jsonlogic.com}
-  spec.homepage      = "https://github.com/luismoyano/shiny_json_logic_ruby"
+  spec.homepage      = "https://github.com/luismoyano/shiny-json-logic-ruby"
   spec.license       = "MIT"
 
   # Specify which files should be added to the gem when it is released.
