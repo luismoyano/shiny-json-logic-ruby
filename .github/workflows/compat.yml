@@ -1,0 +1,74 @@
+name: Compatibility
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compat:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby (latest)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler-cache: true
+      - name: Run test suite (non-blocking)
+        continue-on-error: true
+        run: |
+          set +e
+          bin/test.sh
+          echo "exit_code=$?" >> $GITHUB_ENV
+          set -e
+
+      - name: Generate compatibility badge
+        if: always()
+        run: |
+          PASSED=$(jq -r '.totals.shiny_json_logic.passed' results/ruby.json)
+          TOTAL=$(jq -r '.totals.shiny_json_logic.total' results/ruby.json)
+
+          PCT=$(awk "BEGIN { printf \"%.1f\", ($PASSED/$TOTAL)*100 }")
+
+          COLOR="red"
+          awk "BEGIN { exit !($PCT >= 90) }" && COLOR="yellow"
+          awk "BEGIN { exit !($PCT >= 97) }" && COLOR="green"
+
+          mkdir -p badges
+          cat > badges/compat.json <<EOF
+          {
+            "schemaVersion": 1,
+            "label": "compat",
+            "message": "${PCT}% (${PASSED}/${TOTAL})",
+            "color": "${COLOR}"
+          }
+          EOF
+
+          {
+            echo "## JSONLogic compatibility"
+            echo ""
+            echo "- **${PCT}%** (${PASSED}/${TOTAL})"
+            echo "- exit code (ignored): ${exit_code:-0}"
+          } >> $GITHUB_STEP_SUMMARY
+
+      # Commit automático del badge (solo master)
+      - name: Commit badge
+        if: github.ref == 'refs/heads/master'
+        run: |
+          if git diff --quiet -- badges/compat.json; then
+            echo "No badge change"
+            exit 0
+          fi
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add badges/compat.json
+          git commit -m "chore: update compat badge"
+          git push
