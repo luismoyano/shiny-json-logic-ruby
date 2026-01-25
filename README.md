@@ -152,7 +152,12 @@ bin/console
 Install locally:
 
 ```bash
-bundle exec rake install
+bundle install
+```
+How to run the compatibility tests:
+
+```bash
+bin/test.sh
 ```
 
 ---
