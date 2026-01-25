@@ -106,6 +106,7 @@ module ShinyJsonLogic
         "val" => Operations::Val,
         "??" => Operations::Coalesce,
         "exists" => Operations::Exists,
+        "throw" => Operations::Throw,
       }
     end
 
