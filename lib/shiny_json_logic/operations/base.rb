@@ -11,7 +11,8 @@ module ShinyJsonLogic
       def call
         run
       rescue StandardError => e # TODO: refine error handling
-        raise Errors::Base.new(type: e.class.to_s)
+        error_type = e.is_a?(Errors::Base) ? e.type : e.class.to_s
+        raise Errors::Base.new(type: error_type)
       end
 
       protected
