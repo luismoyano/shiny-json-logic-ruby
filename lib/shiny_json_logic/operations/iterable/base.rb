@@ -10,7 +10,9 @@ module ShinyJsonLogic
           @filter = rules.fetch(1)
         end
 
-        def call
+        protected
+
+        def run
           on_before
 
           collection.map do |item|

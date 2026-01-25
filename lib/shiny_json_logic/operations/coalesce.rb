@@ -3,7 +3,9 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Coalesce < Base
-      def call
+      protected
+
+      def run
         rules.compact.first
       end
     end

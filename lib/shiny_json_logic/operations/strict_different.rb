@@ -4,7 +4,9 @@ require "shiny_json_logic/operations/strict_equal"
 module ShinyJsonLogic
   module Operations
     class StrictDifferent < Base
-      def call
+      protected
+
+      def run
         !Operations::StrictEqual.new(rules, data).call
       end
     end

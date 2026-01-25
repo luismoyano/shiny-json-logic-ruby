@@ -3,7 +3,9 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Max < Base
-      def call
+      protected
+
+      def run
         rules.max
       end
     end

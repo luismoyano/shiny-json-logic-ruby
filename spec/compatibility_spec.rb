@@ -1,4 +1,5 @@
 require 'json'
+require "shiny_json_logic/errors/base"
 
 RSpec.describe ShinyJsonLogic do
   root = ENV.fetch("COMPAT_SUITES_DIR", File.expand_path("./fixtures/", __dir__))
@@ -12,8 +13,9 @@ RSpec.describe ShinyJsonLogic do
 
         describe "example ##{index}: #{testcase["description"]}" do
           it "works" do
-
             expect(described_class.apply(testcase["rule"], testcase["data"])).to eq(testcase["result"])
+          rescue ShinyJsonLogic::Errors::Base => e
+            expect(testcase["error"]).to eq(e.payload)
           end
         end
       end

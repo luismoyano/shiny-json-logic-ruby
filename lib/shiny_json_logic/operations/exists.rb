@@ -3,7 +3,9 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Exists < Base
-      def call
+      protected
+
+      def run
         current = data
 
         Array.wrap(rules).each do |segment|
@@ -13,7 +15,7 @@ module ShinyJsonLogic
         end
 
         true
-      rescue
+      rescue StandardError
         false
       end
     end
