@@ -35,7 +35,7 @@ DEPENDENCIES
   bundler
   byebug
   pry
-  rake (~> 10.0)
+  rake
   rspec (~> 3.0)
   shiny_json_logic!
 
