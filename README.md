@@ -1,12 +1,26 @@
 # ShinyJsonLogic ✨
 
-> Shine bright like a Ruby 💎
+> Shine bright like a Ruby 💎  
+> **A boring, correct, and production-ready JSON Logic implementation for Ruby.**
 
-A **working** JSON Logic implementation in Ruby.
+**ShinyJsonLogic** is a **pure Ruby**, **zero-dependency** implementation of the JSON Logic specification.
 
-This gem exists because the official JSONLogic Ruby implementation has been incomplete and unmaintained for quite a while.
+We exist because the original Ruby implementation has been neglected for years.
 
-`ShinyJsonLogic` aims to be predictable, aligned with specs, test-driven and ready to use in Ruby's production code.
+This gem focuses on predictable behavior, strict spec alignment, high compatibility and long-term maintainability.
+
+---
+
+## Why ShinyJsonLogic?
+
+- ✅ **Zero runtime dependencies** (stdlib-only). Just plug & play!
+- ✅ **Ruby 2.7+ compatible, one of the lowest among other Ruby implementations**
+- ✅ **Actively maintained**
+- ✅ **High JSON Logic spec coverage**
+- ✅ **Iterative approach:** Stop worrying about long statements breaking your app.
+- ⭐ **Only Ruby implementation supporting the new standard operations up to date.**
+
+If you want JSON Logic to *just work* in Ruby, this is the safe default.
 
 ---
 
@@ -23,17 +37,26 @@ Then run:
 ```bash
 bundle install
 ```
-Or install it yourself:
+
+Or install it directly:
 
 ```bash
 gem install shiny_json_logic
 ```
 
+and require it in your project:
+
+```rubyruby
+require "shiny_json_logic"
+```
+
+---
+
 ## Usage
 
 Basic usage is intentionally simple:
 
-``` ruby
+```ruby
 require "shiny_json_logic"
 
 rule = {
@@ -49,10 +72,11 @@ ShinyJsonLogic.apply(rule, data)
 # => true
 ```
 
-### Nested Logic
-You can nest rules as deeply as needed:
+### Nested logic
 
-``` ruby
+Rules can be nested arbitrarily:
+
+```ruby
 rule = {
   "if" => [
     { "var" => "financing" },
@@ -65,76 +89,92 @@ data = { "financing" => true }
 
 ShinyJsonLogic.apply(rule, data)
 # => ["apr"]
-
 ```
 
-### Supported operators
+---
 
-The goal is full JSON Logic coverage. Currently supported:
+## Supported operators
 
-#### Logic
+Our goal is **full JSON Logic coverage**.  
+Currently implemented operators include:
 
-`if, and, or, !, !!`
+### Logic
+`if`, `and`, `or`, `!`, `!!`
 
-#### Comparison
+### Comparison
+`==`, `===`, `!=`, `!==`, `>`, `>=`, `<`, `<=`
 
-`==, ===, !=, !==, >, >=, <, <=`
+### Data access
+`var`, `missing`, `missing_some`, `val`✨, `exists`✨
 
-#### Data access
+### Math
+`+`, `-`, `*`, `/`, `%`, `min`, `max`
 
-`var, missing, missing_some, val, exists`
+### Strings
+`cat`, `substr`
 
-#### Math
+### Arrays
+`merge`, `in`, `??`✨ *(coalesce operator)*
 
-`+, -, *, /, %`
-`min, max`
-
-#### Strings
-
-`cat, substr`
-
-#### Arrays
-
-`merge, in, ?? (Coalesce operator)`
-
-#### Iterable operations
+### Iterable operations
 `map, reduce, filter, some, all, none`
 
-(See lib/shiny_json_logic/operations for the authoritative list.)
+📌 **Note:**  
+`val`, `exists` and `??` are **only supported by ShinyJsonLogic** at the moment.
+
+(See `lib/shiny_json_logic/operations` for the authoritative list.)
+
+---
+
+## Compatibility
+
+ShinyJsonLogic is designed to track the official JSON Logic specification as closely as possible.
+
+A compatibility PR against the JSON Logic test tables is currently in progress and will be linked here once merged.
+
+---
 
 ## Development
 
 After checking out the repo:
 
-``` bash
+```bash
 bin/setup
 bundle exec rspec
 ```
 
-You can also open a console with:
+Open a console:
 
-``` bash
+```bash
 bin/console
 ```
 
-To install the gem locally:
+Install locally:
 
-``` bash
+```bash
 bundle exec rake install
 ```
+
+---
 
 ## Contributing
 
 Contributions are welcome — especially:
 
-spec alignment improvements, missing operators, edge-case tests or performance improvements
+- spec alignment improvements
+- missing operators
+- edge-case tests
+- performance improvements
 
 Please include tests with any change.
 
-Repository: https://github.com/luismoyano/shiny_json_logic
+Repository:  
+https://github.com/luismoyano/shiny_json_logic
+
+---
 
 ## License
 
 MIT License.
 
-Use it, fork it, ship it (:
+Use it. Fork it. Ship it. (:
