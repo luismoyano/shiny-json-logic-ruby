@@ -9,12 +9,28 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Luis Moyano"]
   spec.email         = [""]
 
-  spec.summary       = %q{An implementation of JSON Logic in Ruby that works.}
-  spec.description   = %q{JsonLogic isn’t a full programming language. It’s a small, safe way to delegate one decision. You could store a rule in a database to decide later. You could send that rule from back-end to front-end so the decision is made immediately from user input. Because the rule is data, you can even build it dynamically from user actions or GUI input. See http://jsonlogic.com}
+  spec.summary = "Production-ready JSON Logic for Ruby that just works: zero deps, Ruby 2.7+, high spec alignment."
+  spec.description = <<~DESC
+    ShinyJsonLogic is a pure-Ruby, zero-runtime-dependency implementation of the JSON Logic specification.
+  
+    - Ruby 2.7+ compatible
+    - Actively maintained and test-driven
+    - Designed for spec alignment and predictable behavior
+    - Highest support for JSON Logic operations within the Ruby ecosystem
+  
+    JSON Logic lets you represent decisions as data, so rules can be stored, transmitted, and evaluated safely.
+  DESC
   spec.homepage      = "https://github.com/luismoyano/shiny-json-logic-ruby"
   spec.license       = "MIT"
 
-  spec.required_ruby_version = ">= 2.7"
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
+
+  spec.metadata = {
+    "homepage_uri" => spec.homepage,
+    "source_code_uri" => spec.homepage,
+    "documentation_uri" => "#{spec.homepage}#readme",
+    "rubygems_mfa_required" => "true"
+  }
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
