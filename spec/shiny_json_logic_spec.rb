@@ -1,11 +1,7 @@
 require 'json'
 
 RSpec.describe ShinyJsonLogic do
-  cases =  begin
-             JSON.parse(open('https://jsonlogic.com/tests.json').read)
-           rescue Errno::ENOENT
-             JSON.parse(File.read(File.join(File.dirname(__FILE__), 'fixtures/tests.json')))
-           end
+  cases = JSON.parse(File.read(File.join(File.dirname(__FILE__), 'fixtures/tests.json')))
 
   it "has a version number" do
     expect(ShinyJsonLogic::VERSION).not_to be nil

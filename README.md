@@ -1,7 +1,10 @@
 # ShinyJsonLogic ✨
 
-> Shine bright like a Ruby 💎  
-> **A boring, correct, and production-ready JSON Logic implementation for Ruby.**
+[![CI](https://github.com/luismoyano/shiny-json-logic-ruby/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/luismoyano/shiny-json-logic-ruby/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/shiny_json_logic.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/shiny_json_logic)
+![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.7-brightgreen)
+
+> **A boring, correct, and production-ready JSON Logic implementation for Ruby. ✨** 
 
 **ShinyJsonLogic** is a **pure Ruby**, **zero-dependency** implementation of the JSON Logic specification.
 
@@ -178,3 +181,8 @@ https://github.com/luismoyano/shiny_json_logic
 MIT License.
 
 Use it. Fork it. Ship it. (:
+
+---
+
+> Shine bright like a Ruby 💎  
+
