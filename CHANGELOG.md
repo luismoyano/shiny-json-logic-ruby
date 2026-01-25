@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.5] - 2026-01-25
+### Changed
+- Improve RubyGems gem description (no runtime changes).
+
 ## [0.1.4] - 2026-01-25
 ### Changed
 - Improve RubyGems metadata and gem description (no runtime changes).

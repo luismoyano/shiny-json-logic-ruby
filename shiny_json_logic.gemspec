@@ -10,16 +10,10 @@ Gem::Specification.new do |spec|
   spec.email         = ["moyano@hey.com"]
 
   spec.summary = "Production-ready JSON Logic for Ruby that just works: zero deps, Ruby 2.7+, high spec alignment."
-  spec.description = <<~DESC
-    ShinyJsonLogic is a pure-Ruby, zero-runtime-dependency implementation of the JSON Logic specification.
-  
-    - Ruby 2.7+ compatible
-    - Actively maintained and test-driven
-    - Designed for spec alignment and predictable behavior
-    - Highest support for JSON Logic operations within the Ruby ecosystem
-  
-    JSON Logic lets you represent decisions as data, so rules can be stored, transmitted, and evaluated safely.
-  DESC
+  spec.description = %q{
+    ShinyJsonLogic is a pure-Ruby, zero-runtime-dependency implementation of the JSON Logic specification. Ruby 2.7+ compatible, actively maintained, test-driven, and designed for strict spec alignment and predictable behavior. It currently offers the highest support for JSON Logic operations in the Ruby ecosystem.
+  }
+
   spec.homepage      = "https://github.com/luismoyano/shiny-json-logic-ruby"
   spec.license       = "MIT"
 
@@ -29,7 +23,7 @@ Gem::Specification.new do |spec|
     "homepage_uri" => spec.homepage,
     "source_code_uri" => spec.homepage,
     "documentation_uri" => "#{spec.homepage}#readme",
-    "changelog_uri" => "#{spec.homepage}/blob/main/CHANGELOG.md",
+    "changelog_uri" => "#{spec.homepage}/blob/master/CHANGELOG.md",
     "rubygems_mfa_required" => "true"
   }
 
