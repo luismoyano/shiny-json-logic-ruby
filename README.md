@@ -1,6 +1,6 @@
 # ShinyJsonLogic ✨
 
-[![Compatibility](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/luismoyano/shiny-json-logic-ruby/master/badges/compat.json)](https://github.com/luismoyano/shiny-json-logic-ruby/actions/workflows/compat.yml)
+![Compatibility](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/luismoyano/shiny-json-logic-ruby/master/badges/compat.json)
 [![Gem Version](https://badge.fury.io/rb/shiny_json_logic.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/shiny_json_logic)
 ![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.7-brightgreen)
 
