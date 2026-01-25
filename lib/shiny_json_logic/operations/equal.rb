@@ -3,7 +3,9 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Equal < Base
-      def call
+      protected
+
+      def run
         rules.map(&:to_s).all? { |v| v == rules[0].to_s }
       end
     end

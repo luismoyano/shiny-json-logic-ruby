@@ -4,7 +4,9 @@ require "shiny_json_logic/truthy"
 module ShinyJsonLogic
   module Operations
     class Or < Base
-      def call
+      protected
+
+      def run
         rules.find { |v| Truthy.call(v) } || rules.last
       end
     end

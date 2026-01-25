@@ -4,7 +4,9 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Var < Base
-      def call
+      protected
+
+      def run
         key = rules.is_a?(Array) ? rules[0] : rules
         default = rules.is_a?(Array) ? rules[1] : nil
 

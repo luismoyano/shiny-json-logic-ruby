@@ -4,7 +4,9 @@ require "shiny_json_logic/truthy"
 module ShinyJsonLogic
   module Operations
     class Not < Base
-      def call
+      protected
+
+      def run
         !Truthy.call(rules.first)
       end
     end

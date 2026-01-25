@@ -4,7 +4,9 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Missing < Base
-      def call
+      protected
+
+      def run
         return rules unless data.is_a?(Hash) && rules.is_a?(Array)
 
         rules - deep_keys(data)

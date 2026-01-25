@@ -9,13 +9,19 @@ module ShinyJsonLogic
       end
 
       def call
-        raise "Not implemented"
+        run
+      rescue StandardError => e # TODO: refine error handling
+        raise Errors::Base.new(type: e.class.to_s)
       end
 
       protected
 
       attr_reader :rules
       attr_accessor :data
+
+      def run
+        raise NotImplementedError, "Subclasses must implement the run method"
+      end
     end
   end
 end

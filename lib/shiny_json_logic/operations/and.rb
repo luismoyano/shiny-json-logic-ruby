@@ -4,7 +4,9 @@ require "shiny_json_logic/truthy"
 module ShinyJsonLogic
   module Operations
     class And < Base
-      def call
+      protected
+
+      def run
         rules.reduce { |a, b| Truthy.call(a) ? b : a }
       end
     end

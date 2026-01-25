@@ -4,7 +4,9 @@ require "shiny_json_logic/operations/equal"
 module ShinyJsonLogic
   module Operations
     class Different < Base
-      def call
+      protected
+
+      def run
         !Operations::Equal.new(rules, data).call
       end
     end

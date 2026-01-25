@@ -3,7 +3,9 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class StrictEqual < Base
-      def call
+      protected
+
+      def run
         casted = rules.map do |value|
           (value.is_a?(Numeric) ? value.to_f : value).to_s
         end

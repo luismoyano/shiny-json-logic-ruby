@@ -3,7 +3,9 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Inclusion < Base
-      def call
+      protected
+
+      def run
         rules.last.include? rules.first
       end
     end
