@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    shiny_json_logic (0.1.4)
+    shiny_json_logic (0.1.5)
 
 GEM
   remote: https://rubygems.org/
