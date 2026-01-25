@@ -6,9 +6,7 @@
 
 > **A boring, correct and production-ready JSON Logic implementation for Ruby. ✨** 
 
-**ShinyJsonLogic** is a **pure Ruby**, **zero-dependency** implementation of the JSON Logic specification.
-
-We exist to offer a reliable, well-tested JSON Logic engine for Ruby applications.
+**ShinyJsonLogic** is a **pure Ruby**, **zero-dependency** JSON Logic implementation, designed to offer a reliable and well-tested engine for Ruby applications.
 
 This gem focuses on predictable behavior, strict spec alignment, high compatibility and long-term maintainability.
 
@@ -19,7 +17,7 @@ This gem focuses on predictable behavior, strict spec alignment, high compatibil
 - 🧩 **Zero runtime dependencies** (stdlib-only). Just plug & play!
 - 🕰️ **Ruby 2.7+ compatible**, one of the lowest minimum versions supported in the Ruby ecosystem.
 - 🔧 **Actively maintained** and continuously improved.
-- 📊 **Highest JSON Logic compatibility in the Ruby ecosystem** (<65% in alternatives).
+- 📊 **Highest JSON Logic compatibility in the Ruby ecosystem**, as measured against the official test suites.
 - 🔁 **Iterative (non-recursive) evaluation:** handles deeply nested or very large rules without stack overflows.
 - ⭐ **Only Ruby implementation supporting the latest standard operators** (`val`, `exists`, `??`)
 
@@ -49,7 +47,7 @@ gem install shiny_json_logic
 
 and require it in your project:
 
-```rubyruby
+```ruby
 require "shiny_json_logic"
 ```
 
@@ -123,7 +121,7 @@ Currently implemented operators include:
 `map, reduce, filter, some, all, none`
 
 📌 **Note:**  
-`val`, `exists` and `??` are **only supported by ShinyJsonLogic** at the moment.
+`val`, `exists` and `??` are **only supported by ShinyJsonLogic** among Ruby implementations.
 
 (See `lib/shiny_json_logic/operations` for the authoritative list.)
 
