@@ -36,10 +36,7 @@ curl -fsSL "$ARCHIVE_URL" \
       "compat-tables-${COMPAT_REF}/suites" 2>/dev/null \
 
 log "Compat suites ready at: $SUITES_DIR"
-log "Running compatibility suite"
 
-# Option A: run a dedicated RSpec file that reads COMPAT_SUITES_DIR
-# (recommended if you already have spec/compat_spec.rb or similar)
 log "Running compatibility suite"
 COMPAT_OUT="$TMP_DIR/compat-rspec.out"
 

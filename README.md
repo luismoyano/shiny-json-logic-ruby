@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/shiny_json_logic.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/shiny_json_logic)
 ![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.7-brightgreen)
 
-> **A boring, correct, and production-ready JSON Logic implementation for Ruby. ✨** 
+> **A boring, correct and production-ready JSON Logic implementation for Ruby. ✨** 
 
 **ShinyJsonLogic** is a **pure Ruby**, **zero-dependency** implementation of the JSON Logic specification.
 
@@ -16,12 +16,12 @@ This gem focuses on predictable behavior, strict spec alignment, high compatibil
 
 ## Why ShinyJsonLogic?
 
-- ✅ **Zero runtime dependencies** (stdlib-only). Just plug & play!
-- ✅ **Ruby 2.7+ compatible, one of the lowest among other Ruby implementations**
-- ✅ **Actively maintained**
-- ✅ **High JSON Logic spec coverage**
-- ✅ **Iterative approach:** Stop worrying about long statements breaking your app.
-- ⭐ **Only Ruby implementation supporting the new standard operations up to date.**
+- 🧩 **Zero runtime dependencies** (stdlib-only). Just plug & play!
+- 🕰️ **Ruby 2.7+ compatible**, one of the lowest minimum versions supported in the Ruby ecosystem.
+- 🔧 **Actively maintained** and continuously improved.
+- 📊 **Highest JSON Logic compatibility in the Ruby ecosystem** (<65% in alternatives).
+- 🔁 **Iterative (non-recursive) evaluation:** handles deeply nested or very large rules without stack overflows.
+- ⭐ **Only Ruby implementation supporting the latest standard operators** (`val`, `exists`, `??`)
 
 If you want JSON Logic to *just work* in Ruby, this is the safe default.
 
@@ -131,9 +131,8 @@ Currently implemented operators include:
 
 ## Compatibility
 
-ShinyJsonLogic is designed to track the official JSON Logic specification as closely as possible.
-
-A compatibility PR against the JSON Logic test tables is currently in progress and will be linked here once merged.
+Compatibility is measured automatically against the official JSONLogic test suites from `json-logic/compat-tables`.
+See `badges/compat.json` for the exact numbers behind the badge.
 
 ---
 
