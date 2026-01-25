@@ -8,7 +8,7 @@
 
 **ShinyJsonLogic** is a **pure Ruby**, **zero-dependency** implementation of the JSON Logic specification.
 
-We exist because the original Ruby implementation has been neglected for years.
+We exist to offer a reliable, well-tested JSON Logic engine for Ruby applications.
 
 This gem focuses on predictable behavior, strict spec alignment, high compatibility and long-term maintainability.
 
