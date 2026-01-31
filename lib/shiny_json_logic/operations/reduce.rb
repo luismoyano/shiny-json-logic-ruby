@@ -1,12 +1,15 @@
 require "shiny_json_logic/truthy"
 require "shiny_json_logic/operations/iterable/base"
+require "shiny_json_logic/numeric/with_error_handling"
 
 module ShinyJsonLogic
   module Operations
     class Reduce < Iterable::Base
+      include Numeric::WithErrorHandling
+
       def initialize(rules, data)
         super
-        @accumulator = ShinyJsonLogic.apply(rules[2], data) # third argument
+        @accumulator = Engine.new(rules[2], data).call # third argument
       end
 
       private
@@ -19,11 +22,13 @@ module ShinyJsonLogic
       end
 
       def on_each(_item)
-        self.accumulator = ShinyJsonLogic.apply(filter, data)
+        self.accumulator = Engine.new(filter, data).call
       end
 
       def on_after(_results)
-        self.accumulator
+        safe_arithmetic do
+          self.accumulator
+        end
       end
 
       def current_key

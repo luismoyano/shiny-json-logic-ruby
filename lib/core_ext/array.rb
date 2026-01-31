@@ -1,5 +1,3 @@
-require 'backport_dig' if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3')
-
 class Array
   def self.wrap(object)
     return [] if object.nil?
