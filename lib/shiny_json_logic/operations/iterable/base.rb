@@ -3,11 +3,14 @@ require "shiny_json_logic/truthy"
 module ShinyJsonLogic
   module Operations
     module Iterable
-      class Base < ShinyJsonLogic::Operations::Base
-        def initialize(rules, data)
+      class Base < Operations::Base
+        def initialize(context)
           super
-          @collection = ShinyJsonLogic.apply(rules.fetch(0), data) || []
-          @filter = rules.fetch(1)
+          Engine.new(context.dig("rules", 0), data).tap do |engine|
+            @collection = engine.call || []
+            self.errors = [*self.errors, *engine.errors]
+          end
+          @filter = rules[1]
         end
 
         protected
@@ -15,9 +18,12 @@ module ShinyJsonLogic
         def run
           on_before
 
-          collection.map do |item|
+          collection.each_with_object([]) do |item, results|
             on_before_each(item)
-            on_each(item)
+            solved, solver = on_each(item)
+            results << solved
+            break if solved.is_a?(String) && solved.match?(Try::SHINY_ERROR_PATTERN)
+            on_after_each(solved, solver)
           end.then do |results|
             on_after(results)
           end
@@ -25,13 +31,19 @@ module ShinyJsonLogic
 
         private
 
-        def on_each(item)
-          raise NotImplementedError
+        def on_each(_item)
+          Engine.new(filter, data).then do |engine|
+            [engine.call, engine]
+          end
         end
 
         def on_before_each(item)
           data[current_key] = item
           data.merge!(item) if item.is_a?(Hash)
+        end
+
+        def on_after_each(_solved, solver)
+          self.errors = [*self.errors, *solver.errors]
         end
 
         def on_before

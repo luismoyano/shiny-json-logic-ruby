@@ -6,10 +6,6 @@ module ShinyJsonLogic
     class Some < Iterable::Base
       private
 
-      def on_each(_item)
-        ShinyJsonLogic.apply(filter, data)
-      end
-
       def on_after(results)
         results.any? { |res| res == true }
       end
