@@ -16,6 +16,13 @@ module ShinyJsonLogic
         errors.push error
         return error.id
       end
+
+      def handle_no_operators
+        error = Errors::Base.new(type: "Invalid Arguments")
+        self.errors << error
+
+        error.id
+      end
     end
   end
 end
