@@ -6,6 +6,8 @@ module ShinyJsonLogic
       protected
 
       def run
+        return nil if rules.empty?
+
         data.dig(*rules)
       end
     end

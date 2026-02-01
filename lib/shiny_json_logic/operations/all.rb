@@ -6,10 +6,6 @@ module ShinyJsonLogic
     class All < Iterable::Base
       private
 
-      def on_each(_item)
-        ShinyJsonLogic.apply(filter, data)
-      end
-
       def on_after(results)
         return false if results.empty?
 

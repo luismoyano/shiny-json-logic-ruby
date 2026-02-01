@@ -18,8 +18,7 @@ This gem focuses on predictable behavior, strict spec alignment, high compatibil
 - 🕰️ **Ruby 2.7+ compatible**, one of the lowest minimum versions supported in the Ruby ecosystem.
 - 🔧 **Actively maintained** and continuously improved.
 - 📊 **Highest JSON Logic compatibility in the Ruby ecosystem**, as measured against the official test suites.
-- 🔁 **Iterative (non-recursive) evaluation:** handles deeply nested or very large rules without stack overflows.
-- ⭐ **Only Ruby implementation supporting the latest standard operators** (`val`, `exists`, `??`)
+- ⭐ **Only Ruby implementation supporting the latest standard operators** (`val`, `exists`, `??`, `try`, `throw`)
 
 If you want JSON Logic to *just work* in Ruby, this is the safe default.
 
@@ -100,7 +99,7 @@ Our goal is **full JSON Logic coverage**.
 Currently implemented operators include:
 
 ### Logic
-`if`, `and`, `or`, `!`, `!!`
+`if`, `and`, `or`, `!`, `!!`, `?:`, `try`✨, `throw`✨
 
 ### Comparison
 `==`, `===`, `!=`, `!==`, `>`, `>=`, `<`, `<=`
@@ -121,7 +120,7 @@ Currently implemented operators include:
 `map, reduce, filter, some, all, none`
 
 📌 **Note:**  
-`val`, `exists` and `??` are **only supported by ShinyJsonLogic** among Ruby implementations.
+`val`, `exists`, `??`, `try` and `throw` are **only supported by ShinyJsonLogic** among Ruby implementations.
 
 (See `lib/shiny_json_logic/operations` for the authoritative list.)
 
