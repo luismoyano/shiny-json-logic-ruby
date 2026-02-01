@@ -14,7 +14,7 @@ module ShinyJsonLogic
         rules.each_slice(2) do |condition_rule, value_rule|
           condition_result = evaluate(condition_rule)
           return condition_result if error?(condition_result)
-          return condition_result if condition_rule.nil?
+          return condition_result if value_rule.nil?
 
           next unless Truthy.call(condition_result)
 

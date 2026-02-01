@@ -30,7 +30,6 @@ module ShinyJsonLogic
         "!" => Operations::Not,
         "or" => Operations::Or,
         "and" => Operations::And,
-        "?:" => Operations::If,
         "in" => Operations::Inclusion,
         "cat" => Operations::Concatenation,
         "%" => Operations::Modulo,
@@ -54,6 +53,7 @@ module ShinyJsonLogic
     def collection_solvers
       @@collection_solvers ||= {
         "if" => Operations::If,
+        "?:" => Operations::If,
         "filter" => Operations::Filter,
         "map" => Operations::Iterable::Base,
         "reduce" => Operations::Reduce,

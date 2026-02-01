@@ -7,7 +7,9 @@ module ShinyJsonLogic
       private
 
       def on_each(item)
-        item if Truthy.call(Engine.new(filter, data).call)
+        Engine.new(filter, data).then do |engine|
+          [Truthy.call(engine.call) ? item : nil, engine]
+        end
       end
 
       def on_after(results)
