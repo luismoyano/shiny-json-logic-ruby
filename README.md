@@ -119,8 +119,11 @@ Currently implemented operators include:
 ### Iterable operations
 `map, reduce, filter, some, all, none`
 
+### Evaluation
+`preserve`✨
+
 📌 **Note:**  
-`val`, `exists`, `??`, `try` and `throw` are **only supported by ShinyJsonLogic** among Ruby implementations.
+`val`, `exists`, `??`, `try`, `throw` and `preserve` are **only supported by ShinyJsonLogic** among Ruby implementations.
 
 (See `lib/shiny_json_logic/operations` for the authoritative list.)
 
