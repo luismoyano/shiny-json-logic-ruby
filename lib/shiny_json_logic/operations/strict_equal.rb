@@ -7,7 +7,7 @@ module ShinyJsonLogic
 
       def run
         casted = rules.map do |value|
-          (value.is_a?(Numeric) ? value.to_f : value).to_s
+          value.is_a?(Numeric) ? value.to_f : value
         end
 
         casted.all? { |v| v == casted[0] }

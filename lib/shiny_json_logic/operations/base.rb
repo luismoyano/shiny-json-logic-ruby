@@ -4,7 +4,8 @@ module ShinyJsonLogic
   module Operations
     class Base
       def initialize(context)
-        @rules, @data, @errors = context.values_at("rules", "data", "errors")
+        @context = context
+        @rules, @data, @errors = @context.values_at("rules", "data", "errors")
       end
 
       def call
@@ -17,7 +18,7 @@ module ShinyJsonLogic
 
       protected
 
-      attr_reader :rules
+      attr_reader :rules, :context
       attr_accessor :data, :errors
 
       def run

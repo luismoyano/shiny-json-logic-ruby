@@ -1,10 +1,10 @@
 module ShinyJsonLogic
-  module Numeric
+  module Numericals
     module WithErrorHandling
       def safe_arithmetic(&block)
         result = yield
         result.tap do |res|
-          if res.nan? || res.infinite?
+          if res.to_f.nan? || res == Float::INFINITY || res == -Float::INFINITY
             self.data["type"] = "NaN"
             error = ShinyJsonLogic::Errors::Base.new(type: "NaN")
             errors.push error

@@ -11,7 +11,6 @@ module ShinyJsonLogic
         rules.map do |item|
           Engine.new(item, data).call
         end.then do |results|
-          # binding.pry
           return results.first unless results.count > 1
 
           results[0..-2].each do|res|
