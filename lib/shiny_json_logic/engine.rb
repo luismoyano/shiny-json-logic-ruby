@@ -14,6 +14,8 @@ module ShinyJsonLogic
 
     def call(rule = self.rule, data = self.data)
       if rule.is_a?(Hash)
+        return rule if rule.empty?
+
         operation, raw_args = rule.to_a.first
         if operations.collection_solvers.key?(operation)
           solve(operation, raw_args, data)
