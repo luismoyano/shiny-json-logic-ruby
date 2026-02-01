@@ -1,6 +1,12 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [0.2.4] - 2026-02-02
+### Changed
+- Improves compatibility of addition operator
+- Fixed bug when attempting to evaluate empty rules.
+
 ## [0.2.3] - 2026-02-02
 ### Changed
 - Improves compatibility of multiplication operator
