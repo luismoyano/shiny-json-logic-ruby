@@ -10,16 +10,12 @@ module ShinyJsonLogic
 
       def call
         deliver run
-      rescue StandardError => e # TODO: refine error handling
-        error_type = e.is_a?(Errors::Base) ? e.type : e.class.to_s
-
-        Errors::Base.new(type: error_type)
       end
 
       protected
 
-      attr_reader :rules, :context
-      attr_accessor :data, :errors
+      attr_reader :context
+      attr_accessor :rules, :data, :errors
 
       def run
         raise NotImplementedError

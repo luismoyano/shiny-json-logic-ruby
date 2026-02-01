@@ -60,6 +60,7 @@ module ShinyJsonLogic
         "all" => Operations::All,
         "none" => Operations::None,
         "some" => Operations::Some,
+        "preserve" => Operations::Preserve,
       }
     end
   end

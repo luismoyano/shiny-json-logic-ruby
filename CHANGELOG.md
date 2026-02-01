@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Removes debug prints.
 
+## [0.1.8] - 2026-02-02
+### Added
+- Adds support for `preserve` operator.
+- Adds support for division with only one argument.
+### Changed
+- Throws error when division receives no arguments
+
 ## [0.1.7] - 2026-02-01
 ### Added
 - Adds support for `try` and `throw` operators.

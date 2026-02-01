@@ -8,9 +8,21 @@ module ShinyJsonLogic
       protected
 
       def run
+        return handle_no_operators if rules.empty?
         safe_arithmetic do
+          self.rules = [1, *rules] if rules.size < 2
+
           rules.map(&:to_f).reduce(:/)
         end
+      end
+
+      private
+
+      def handle_no_operators
+        error = Errors::Base.new(type: "Invalid Arguments")
+        self.errors << error
+
+        error.id
       end
     end
   end

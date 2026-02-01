@@ -7,7 +7,7 @@ module ShinyJsonLogic
         def initialize(context)
           super
           Engine.new(context.dig("rules", 0), data).tap do |engine|
-            @collection = engine.call || []
+            @collection = Array.wrap(engine.call) || []
             self.errors = [*self.errors, *engine.errors]
           end
           @filter = rules[1]

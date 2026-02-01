@@ -42,7 +42,6 @@ module ShinyJsonLogic
 
     def solve(operation, args, initial_data)
       context = {"rules" => args, "data" => initial_data, "errors" => errors}
-      p operation, context
       result, data, errors = operations.solvers.fetch(operation).new(context).call.values_at("result", "data", "errors")
       self.errors = [*self.errors, *errors].uniq
       self.data.merge data if self.data.is_a?(Hash) && data.is_a?(Hash)
