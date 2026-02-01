@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.2.0] - 2026-02-02
+### Changed
+- Improves compatibility of division operator
 
 ## [0.1.9] - 2026-02-02
 ### Added
