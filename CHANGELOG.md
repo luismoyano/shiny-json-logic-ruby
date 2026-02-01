@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.8] - 2026-02-01
+### Changed
+- Removes debug prints.
+
 ## [0.1.7] - 2026-02-01
 ### Added
 - Adds support for `try` and `throw` operators.
