@@ -17,7 +17,6 @@ module ShinyJsonLogic
             if res.is_a?(String) && res.match?(SHINY_ERROR_PATTERN) && errors.first.id == res
               errors.shift
               data.delete("type")
-              p "TRY OPERATION CAUGHT AN ERROR: #{res}"
             end
           end
 
