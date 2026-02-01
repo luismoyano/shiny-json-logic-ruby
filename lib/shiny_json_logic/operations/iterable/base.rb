@@ -6,7 +6,7 @@ module ShinyJsonLogic
       class Base < Operations::Base
         def initialize(context)
           super
-          collection = context.dig("rules", 0)
+          collection = rules.any? ? rules[0] : rules
           return handle_nil_collection if collection.nil?
 
           if collection.nil?
@@ -23,7 +23,7 @@ module ShinyJsonLogic
         end
 
         def call
-          return deliver(errors) if errors.any?
+          return deliver if errors.any?
 
           deliver run
         end
