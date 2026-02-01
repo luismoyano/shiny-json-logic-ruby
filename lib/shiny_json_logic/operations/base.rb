@@ -3,25 +3,30 @@ require "shiny_json_logic/truthy"
 module ShinyJsonLogic
   module Operations
     class Base
-      def initialize(rules, data)
-        @rules = rules
-        @data = data
+      def initialize(context)
+        @context = context
+        @rules, @data, @errors = @context.values_at("rules", "data", "errors")
       end
 
       def call
-        run
+        deliver run
       rescue StandardError => e # TODO: refine error handling
         error_type = e.is_a?(Errors::Base) ? e.type : e.class.to_s
-        raise Errors::Base.new(type: error_type)
+
+        Errors::Base.new(type: error_type)
       end
 
       protected
 
-      attr_reader :rules
-      attr_accessor :data
+      attr_reader :rules, :context
+      attr_accessor :data, :errors
 
       def run
-        raise NotImplementedError, "Subclasses must implement the run method"
+        raise NotImplementedError
+      end
+
+      def deliver(result = nil)
+        {"result" => result, "data" => self.data, "errors" => self.errors}
       end
     end
   end

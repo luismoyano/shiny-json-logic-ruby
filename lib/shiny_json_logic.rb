@@ -3,6 +3,11 @@ require "shiny_json_logic/engine"
 
 module ShinyJsonLogic
   def self.apply(rule, data = {})
-    Engine.new(rule, data).call
+    engine = Engine.new(rule, data)
+    engine.call.tap do |result|
+      raise engine.errors.shift if engine.errors.any?
+
+      result
+    end
   end
 end
