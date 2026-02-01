@@ -6,11 +6,26 @@ module ShinyJsonLogic
       class Base < Operations::Base
         def initialize(context)
           super
-          Engine.new(context.dig("rules", 0), data).tap do |engine|
-            @collection = Array.wrap(engine.call) || []
-            self.errors = [*self.errors, *engine.errors]
+          collection = context.dig("rules", 0)
+          return handle_nil_collection if collection.nil?
+
+          if collection.nil?
+            @collection = []
+          else
+            Engine.new(collection, data).tap do |engine|
+              call = engine.call
+              @collection = Array.wrap(call)
+              self.errors = [*self.errors, *engine.errors]
+            end
           end
+
           @filter = rules[1]
+        end
+
+        def call
+          return deliver(errors) if errors.any?
+
+          deliver run
         end
 
         protected
@@ -55,6 +70,13 @@ module ShinyJsonLogic
 
         def current_key
           ""
+        end
+
+        def handle_nil_collection
+          error = Errors::Base.new(type: "Invalid Arguments")
+          self.errors = [error]
+
+          error.id
         end
 
         attr_reader :collection, :filter
