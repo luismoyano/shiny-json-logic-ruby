@@ -1,10 +1,13 @@
 require "shiny_json_logic/operations/base"
 require "shiny_json_logic/numericals/with_error_handling"
+require "shiny_json_logic/numericals/numerify"
 
 module ShinyJsonLogic
   module Operations
     class Division < Base
       include Numericals::WithErrorHandling
+      include Numericals::Numerify
+
       protected
 
       def run
@@ -14,7 +17,7 @@ module ShinyJsonLogic
         safe_arithmetic do
           self.rules = [1, *rules] if rules.size < 2
 
-          numberified.reduce(:/)
+          numerified.reduce(:/)
         end
       end
 
@@ -32,14 +35,6 @@ module ShinyJsonLogic
         self.errors << error
 
         error.id
-      end
-
-      def numberified
-        rules.map do |rule|
-          next rule.to_f if rule.is_a?(Numeric) || rule.is_a?(String)
-          next 0 if rule == false
-          next 1 if rule == true
-        end
       end
     end
   end
