@@ -4,13 +4,17 @@ module ShinyJsonLogic
       def safe_arithmetic(&block)
         result = yield
         result.tap do |res|
-          if res.to_f.nan? || res == Float::INFINITY || res == -Float::INFINITY
-            self.data["type"] = "NaN"
-            error = ShinyJsonLogic::Errors::Base.new(type: "NaN")
-            errors.push error
-            return error.id
-          end
+          handle_invalid_operand if res.to_f.nan? || res == Float::INFINITY || res == -Float::INFINITY
         end
+      rescue TypeError
+        handle_invalid_operand
+      end
+
+      def handle_invalid_operand
+        self.data["type"] = "NaN"
+        error = ShinyJsonLogic::Errors::Base.new(type: "NaN")
+        errors.push error
+        return error.id
       end
     end
   end

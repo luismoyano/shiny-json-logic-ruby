@@ -22,7 +22,8 @@ module ShinyJsonLogic
             if raw_args.is_a?(Array)
               raw_args.map { |val| call(val, data) }
             else
-              Array.wrap(call(raw_args, data))
+              call = call(raw_args, data)
+              call.is_a?(Array) ? call : [call(raw_args, data)]
             end
 
           solve(operation, evaluated_args, data)
