@@ -46,7 +46,6 @@ module ShinyJsonLogic
       result, data, errors = operations.solvers.fetch(operation).new(context).call.values_at("result", "data", "errors")
       self.errors = [*self.errors, *errors].uniq
       self.data.merge data if self.data.is_a?(Hash) && data.is_a?(Hash)
-      p "RESULT AFTER #{operation.upcase}: #{result.inspect}"
 
       result
     end
