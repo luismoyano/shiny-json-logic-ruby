@@ -7,7 +7,10 @@ module ShinyJsonLogic
         def initialize(context)
           super
           collection = rules.any? ? rules[0] : rules
-          return handle_nil_collection if collection.nil?
+          return handle_nil if collection.nil?
+
+          @filter = rules[1]
+          return handle_nil if @filter.nil?
 
           if collection.nil?
             @collection = []
@@ -18,8 +21,6 @@ module ShinyJsonLogic
               self.errors = [*self.errors, *engine.errors]
             end
           end
-
-          @filter = rules[1]
         end
 
         def call
@@ -72,7 +73,7 @@ module ShinyJsonLogic
           ""
         end
 
-        def handle_nil_collection
+        def handle_nil
           error = Errors::Base.new(type: "Invalid Arguments")
           self.errors = [error]
 

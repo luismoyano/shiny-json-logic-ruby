@@ -6,7 +6,24 @@ module ShinyJsonLogic
       protected
 
       def run
-        rules.map(&:to_s).all? { |v| v == rules[0].to_s }
+        first = normalize(rules[0])
+        rules.all? { |r| normalize(r) == first }
+      end
+
+      private
+
+      def normalize(value)
+        return value.to_f if value.is_a?(Numeric)
+        return value.to_f if value.is_a?(String) && numeric?(value)
+
+        value.to_s
+      end
+
+      def numeric?(str)
+        Float(str)
+        true
+      rescue ArgumentError, TypeError
+        false
       end
     end
   end

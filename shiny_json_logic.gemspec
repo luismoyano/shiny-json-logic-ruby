@@ -14,16 +14,16 @@ Gem::Specification.new do |spec|
     ShinyJsonLogic is a pure-Ruby, zero-runtime-dependency implementation of the JSON Logic (JSONLogic) specification. Ruby 2.7+ compatible, actively maintained, test-driven, and designed for strict spec alignment and predictable behavior. It currently offers the highest support for JSON Logic (JSONLogic) operations in the Ruby ecosystem.
   }
 
-  spec.homepage      = "https://github.com/luismoyano/shiny-json-logic-ruby"
-  spec.license       = "MIT"
+  spec.homepage = "https://jsonlogicruby.com"
+  spec.license  = "MIT"
 
   spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
 
   spec.metadata = {
     "homepage_uri" => spec.homepage,
-    "source_code_uri" => spec.homepage,
-    "documentation_uri" => "#{spec.homepage}#readme",
-    "changelog_uri" => "#{spec.homepage}/blob/master/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/luismoyano/shiny-json-logic-ruby",
+    "documentation_uri" => "https://github.com/luismoyano/shiny-json-logic-ruby#readme#readme",
+    "changelog_uri" => "https://github.com/luismoyano/shiny-json-logic-ruby/blob/master/CHANGELOG.md",
     "rubygems_mfa_required" => "true"
   }
 
