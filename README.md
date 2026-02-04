@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/shiny_json_logic.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/shiny_json_logic)
 ![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.7-brightgreen)
 
-> **A boring, correct and production-ready JSON Logic implementation for Ruby. ✨** 
+> **A boring, correct and production-ready JSONLogic implementation for Ruby. ✨** 
 
 **ShinyJsonLogic** is a **pure Ruby**, **zero-dependency** JSON Logic implementation, designed to offer a reliable and well-tested engine for Ruby applications.
 
@@ -17,10 +17,14 @@ This gem focuses on predictable behavior, strict spec alignment, high compatibil
 - 🧩 **Zero runtime dependencies** (stdlib-only). Just plug & play!
 - 🕰️ **Ruby 2.7+ compatible**, one of the lowest minimum versions supported in the Ruby ecosystem.
 - 🔧 **Actively maintained** and continuously improved.
-- 📊 **Highest JSON Logic compatibility in the Ruby ecosystem**, as measured against the official test suites.
+- 📊 **Highest JSONLogic compatibility in the Ruby ecosystem**, as measured against the official test suites.
 - ⭐ **Only Ruby implementation supporting the latest standard operators** (`val`, `exists`, `??`, `try`, `throw`)
 
 If you want JSON Logic to *just work* in Ruby, this is the safe default.
+
+---
+# Test it for yourself!
+Try it out in the sandbox at [jsonlogicruby.com](https://jsonlogicruby.com)
 
 ---
 
@@ -156,7 +160,7 @@ Install locally:
 ```bash
 bundle install
 ```
-How to run the compatibility tests:
+How to run the compatibility test suite:
 
 ```bash
 bin/test.sh
