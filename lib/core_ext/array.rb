@@ -6,6 +6,11 @@ class Array
     [object]
   end
 
+  def self.wrap_nil(object)
+    return [nil] if object.nil?
+    wrap(object)
+  end
+
   def deep_fetch(index, default = nil)
     indexes = index.to_s.split('.').map(&:to_i)
     value = dig(*indexes) rescue default

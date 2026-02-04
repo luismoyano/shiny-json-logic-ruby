@@ -24,6 +24,14 @@ module ShinyJsonLogic
       def deliver(result = nil)
         {"result" => result, "data" => self.data, "errors" => self.errors}
       end
+
+      # Evalúa un argumento raw usando el Engine
+      def evaluate(rule)
+        engine = Engine.new(rule, data)
+        result = engine.call
+        self.errors = [*errors, *engine.errors].uniq
+        result
+      end
     end
   end
 end

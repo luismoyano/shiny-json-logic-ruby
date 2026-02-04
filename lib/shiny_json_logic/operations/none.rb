@@ -9,7 +9,7 @@ module ShinyJsonLogic
       def on_after(results)
         return true if results.empty?
 
-        results.all? { |res| res == false }
+        results.none? { |res| Truthy.call(res) }
       end
     end
   end

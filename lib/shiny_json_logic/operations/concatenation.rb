@@ -6,9 +6,12 @@ module ShinyJsonLogic
       protected
 
       def run
-        return rules.map(&:to_s).join if rules.is_a?(Array)
-
-        rules
+        result = []
+        rules.each do |rule|
+          evaluated = evaluate(rule)
+          Array.wrap(evaluated).flatten.each { |v| result << v.to_s }
+        end
+        result.join
       end
     end
   end

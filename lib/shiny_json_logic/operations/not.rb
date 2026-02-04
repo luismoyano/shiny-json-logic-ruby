@@ -7,7 +7,7 @@ module ShinyJsonLogic
       protected
 
       def run
-        !Truthy.call(rules.first)
+        !Truthy.call(evaluate(rules.first))
       end
     end
   end

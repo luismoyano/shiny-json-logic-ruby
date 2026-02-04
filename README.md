@@ -56,6 +56,38 @@ require "shiny_json_logic"
 
 ---
 
+## Migrating from json-logic-ruby
+
+If you're currently using [json-logic-ruby](https://github.com/bhgames/json-logic-ruby), migration is seamless.
+
+ShinyJsonLogic provides `JsonLogic` and `JSONLogic` as aliases, so you only need to swap the gem in your Gemfile:
+
+```diff
+- gem "json-logic-ruby"
++ gem "shiny_json_logic"
+```
+
+Your existing code will work without changes:
+
+```ruby
+require "shiny_json_logic"
+
+# Both of these work exactly as before:
+JsonLogic.apply(rule, data)
+JSONLogic.apply(rule, data)
+
+# Or use the new module name:
+ShinyJsonLogic.apply(rule, data)
+```
+
+**Why should you give us a chance?**
+- 🐛 Better spec compliance and fewer edge-case bugs
+- ✨ Support for new operators (`val`, `exists`, `??`, `try`, `throw`, `preserve`)
+- 🔧 Actively maintained
+- 🧪 Higher test coverage against official JSONLogic test suites
+
+---
+
 ## Usage
 
 Basic usage is intentionally simple:

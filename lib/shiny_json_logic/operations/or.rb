@@ -7,7 +7,12 @@ module ShinyJsonLogic
       protected
 
       def run
-        rules.find { |v| Truthy.call(v) } || rules.last
+        result = nil
+        rules.each do |rule|
+          result = evaluate(rule)
+          return result if Truthy.call(result)
+        end
+        result
       end
     end
   end

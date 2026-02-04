@@ -6,21 +6,14 @@ module ShinyJsonLogic
       class Base < Operations::Base
         def initialize(context)
           super
+
+          @filter = rules[1]
+          return handle_nil if @filter.nil? && self.class.raise_on_nil_filter?
+
           collection = rules.any? ? rules[0] : rules
           return handle_nil if collection.nil?
 
-          @filter = rules[1]
-          return handle_nil if @filter.nil?
-
-          if collection.nil?
-            @collection = []
-          else
-            Engine.new(collection, data).tap do |engine|
-              call = engine.call
-              @collection = Array.wrap(call)
-              self.errors = [*self.errors, *engine.errors]
-            end
-          end
+          setup_collection(collection)
         end
 
         def call
@@ -48,9 +41,8 @@ module ShinyJsonLogic
         private
 
         def on_each(_item)
-          Engine.new(filter, data).then do |engine|
-            [engine.call, engine]
-          end
+          engine = Engine.new(filter, data)
+          [engine.call, engine]
         end
 
         def on_before_each(item)
@@ -78,6 +70,22 @@ module ShinyJsonLogic
           self.errors = [error]
 
           error.id
+        end
+
+        def setup_collection(collection)
+          if collection.nil?
+            @collection = []
+          else
+            @collection = Array.wrap(evaluate(collection))
+          end
+        end
+
+        def self.raise_on_nil_filter!
+          @raise_on_nil_filter = true
+        end
+
+        def self.raise_on_nil_filter?
+          @raise_on_nil_filter
         end
 
         attr_reader :collection, :filter

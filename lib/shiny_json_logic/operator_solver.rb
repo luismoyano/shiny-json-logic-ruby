@@ -55,7 +55,7 @@ module ShinyJsonLogic
         "if" => Operations::If,
         "?:" => Operations::If,
         "filter" => Operations::Filter,
-        "map" => Operations::Iterable::Base,
+        "map" => Operations::Map,
         "reduce" => Operations::Reduce,
         "all" => Operations::All,
         "none" => Operations::None,

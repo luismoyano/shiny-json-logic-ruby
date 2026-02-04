@@ -5,28 +5,11 @@ RSpec.describe ShinyJsonLogic do
   describe "standard behavior" do
     [
       {
-        "description" => "Merge with nil should be ignored",
-        "rule" => {
-          "merge" => [
-            [1, 2],
-            nil,
-            [3, 4]
-          ]
-        },
-        "data" => nil,
-        "result" => [1, 2, nil, 3, 4]
-      },
-      # {
-      #   "description" => "nil predicate returns true",
-      #   "rule" => {
-      #     "none" => [
-      #       {"var" => "numbers"},
-      #       nil
-      #     ]
-      #   },
-      #   "data" => {"numbers" => [1, 2, 3]},
-      #   "result" => true
-      # },
+        "description" => "> is lazily evaluated",
+        "rule" => { ">" => [2, 3, { "throw" => "Not Lazy" }] },
+        "data" => {},
+        "result" => false
+      }
     ].each_with_index do |testcase, index|
       next unless testcase.is_a?(Hash)
 

@@ -2,10 +2,14 @@ module ShinyJsonLogic
   module Numericals
     module Numerify
       def numerified
-        @numerified ||=
-          rules.map do |rule|
-            numerify(rule)
+        @numerified ||= [].tap do |result|
+          rules.each do |rule|
+            evaluated = evaluate(rule)
+            Array.wrap(evaluated).flatten.each do |val|
+              result << numerify(val)
+            end
           end
+        end
       end
 
       private

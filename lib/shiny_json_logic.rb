@@ -11,3 +11,6 @@ module ShinyJsonLogic
     end
   end
 end
+
+JsonLogic = ShinyJsonLogic
+JSONLogic = ShinyJsonLogic

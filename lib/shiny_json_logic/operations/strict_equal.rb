@@ -6,11 +6,17 @@ module ShinyJsonLogic
       protected
 
       def run
-        casted = rules.map do |value|
-          value.is_a?(Numeric) ? value.to_f : value
+        first = cast(evaluate(rules[0]))
+        rules[1..].each do |rule|
+          return false unless cast(evaluate(rule)) == first
         end
+        true
+      end
 
-        casted.all? { |v| v == casted[0] }
+      private
+
+      def cast(value)
+        value.is_a?(Numeric) ? value.to_f : value
       end
     end
   end
