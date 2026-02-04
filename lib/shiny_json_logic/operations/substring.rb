@@ -6,8 +6,9 @@ module ShinyJsonLogic
       protected
 
       def run
-        str, start = rules[0].to_s, rules[1].to_i
-        length = rules.fetch(2, str.length).to_i
+        str = evaluate(rules[0]).to_s
+        start = evaluate(rules[1]).to_i
+        length = rules[2] ? evaluate(rules[2]).to_i : str.length
         start += str.length if start < 0
         finish = length < 0 ? str.length + length : start + length
 

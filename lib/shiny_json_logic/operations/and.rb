@@ -7,7 +7,12 @@ module ShinyJsonLogic
       protected
 
       def run
-        rules.reduce { |a, b| Truthy.call(a) ? b : a }
+        result = nil
+        rules.each do |rule|
+          result = evaluate(rule)
+          return result unless Truthy.call(result)
+        end
+        result
       end
     end
   end

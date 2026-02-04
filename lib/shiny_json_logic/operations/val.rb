@@ -8,7 +8,8 @@ module ShinyJsonLogic
       def run
         return nil if rules.empty?
 
-        data.dig(*rules)
+        keys = rules.map { |rule| evaluate(rule) }
+        data.dig(*keys)
       end
     end
   end

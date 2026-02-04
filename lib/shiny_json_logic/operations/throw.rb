@@ -8,7 +8,7 @@ module ShinyJsonLogic
 
         error_type =
           if operation?(raw_value)
-            Engine.new(raw_value, data).call
+            evaluate(raw_value)
           else
             raw_value
           end

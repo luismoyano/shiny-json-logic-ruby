@@ -12,12 +12,13 @@ module ShinyJsonLogic
 
       def run
         return handle_no_operators if rules.empty?
-        return handle_nil_operands if rules.any?(&:nil?)
 
         safe_arithmetic do
-          self.rules = [1, *rules] if rules.size < 2
+          nums = numerified
+          return handle_nil_operands if nums.any?(&:nil?)
 
-          numerified.reduce(:/)
+          nums = [1, *nums] if nums.size < 2
+          nums.reduce(:/)
         end
       end
 

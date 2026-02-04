@@ -6,7 +6,12 @@ module ShinyJsonLogic
       protected
 
       def run
-        rules.map{ |rule| Array.wrap(rule)}.reduce(:+) || []
+        result = []
+        rules.each do |rule|
+          evaluated = evaluate(rule)
+          result.concat(Array.wrap(evaluated).flatten)
+        end
+        result
       end
     end
   end

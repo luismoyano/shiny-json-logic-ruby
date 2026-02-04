@@ -7,9 +7,14 @@ module ShinyJsonLogic
       protected
 
       def run
-        return rules unless data.is_a?(Hash) && rules.is_a?(Array)
+        keys = []
+        rules.each do |rule|
+          evaluated = evaluate(rule)
+          keys.concat(Array.wrap(evaluated).flatten)
+        end
+        return keys unless data.is_a?(Hash) && rules.is_a?(Array)
 
-        rules - deep_keys(data)
+        keys - deep_keys(data)
       end
 
       private

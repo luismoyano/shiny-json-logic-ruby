@@ -6,7 +6,9 @@ module ShinyJsonLogic
       protected
 
       def run
-        rules.last.include? rules.first
+        needle = evaluate(rules.first)
+        haystack = evaluate(rules.last)
+        haystack.include?(needle)
       end
     end
   end

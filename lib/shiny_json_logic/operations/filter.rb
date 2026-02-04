@@ -4,6 +4,8 @@ require "shiny_json_logic/operations/iterable/base"
 module ShinyJsonLogic
   module Operations
     class Filter < Iterable::Base
+      raise_on_nil_filter!
+
       private
 
       def on_each(item)

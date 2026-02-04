@@ -6,7 +6,11 @@ module ShinyJsonLogic
       protected
 
       def run
-        rules.compact.first
+        rules.each do |rule|
+          result = evaluate(rule)
+          return result unless result.nil?
+        end
+        nil
       end
     end
   end

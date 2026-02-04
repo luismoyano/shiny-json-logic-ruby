@@ -6,8 +6,11 @@ module ShinyJsonLogic
       protected
 
       def run
-        first = normalize(rules[0])
-        rules.all? { |r| normalize(r) == first }
+        first = normalize(evaluate(rules[0]))
+        rules[1..].each do |rule|
+          return false unless normalize(evaluate(rule)) == first
+        end
+        true
       end
 
       private

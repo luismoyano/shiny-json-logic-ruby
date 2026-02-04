@@ -7,11 +7,13 @@ module ShinyJsonLogic
       protected
 
       def run
-        return rules[1] unless data.is_a?(Hash) && rules.is_a?(Array)
+        min_required = evaluate(rules[0])
+        keys = Array.wrap(evaluate(rules[1])).flatten
+        return keys unless data.is_a?(Hash) && rules.is_a?(Array)
 
-        present = rules[1] & data.keys
-        ctx = { "rules" => rules[1], "data" => data, "errors" => errors }
-        present.size >= rules[0] ? [] : Missing.new(ctx).call["result"]
+        present = keys & data.keys
+        ctx = { "rules" => keys, "data" => data, "errors" => errors }
+        present.size >= min_required ? [] : Missing.new(ctx).call["result"]
       end
     end
   end
