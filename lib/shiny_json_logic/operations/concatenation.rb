@@ -7,7 +7,7 @@ module ShinyJsonLogic
 
       def run
         result = []
-        rules.each do |rule|
+        Array.wrap_nil(rules).each do |rule|
           evaluated = evaluate(rule)
           Array.wrap_nil(evaluated).each { |v| result << v.to_s }
         end
