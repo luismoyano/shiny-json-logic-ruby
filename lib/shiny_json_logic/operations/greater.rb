@@ -1,7 +1,6 @@
 require "shiny_json_logic/operations/base"
 require "shiny_json_logic/numericals/with_error_handling"
 require "shiny_json_logic/numericals/numerify"
-require "shiny_json_logic/errors/base"
 
 module ShinyJsonLogic
   module Operations
@@ -52,18 +51,6 @@ module ShinyJsonLogic
         return 0.0 if value.nil?
         return value.to_f if value.is_a?(String) && numeric_string?(value)
         nil # String no numérica
-      end
-
-      def handle_invalid_args
-        error = ShinyJsonLogic::Errors::Base.new(type: "Invalid Arguments")
-        self.errors << error
-        error.id
-      end
-
-      def handle_nan
-        error = ShinyJsonLogic::Errors::Base.new(type: "NaN")
-        self.errors << error
-        error.id
       end
     end
   end

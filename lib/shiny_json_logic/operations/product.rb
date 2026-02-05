@@ -39,12 +39,6 @@ module ShinyJsonLogic
         end
       end
 
-      def handle_nan
-        error = Errors::Base.new(type: "NaN")
-        self.errors << error
-        error.id
-      end
-
       def numerify(value)
         val = super
         return 0 if val.nil?
