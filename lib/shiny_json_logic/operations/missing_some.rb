@@ -8,7 +8,7 @@ module ShinyJsonLogic
 
       def run
         min_required = evaluate(rules[0])
-        keys = Array.wrap(evaluate(rules[1])).flatten
+        keys = Array.wrap_nil(evaluate(rules[1]))
         return keys unless data.is_a?(Hash) && rules.is_a?(Array)
 
         present = keys & data.keys

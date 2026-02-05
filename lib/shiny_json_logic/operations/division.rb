@@ -13,21 +13,38 @@ module ShinyJsonLogic
       def run
         return handle_no_operators if rules.empty?
 
-        safe_arithmetic do
-          nums = numerified
-          return handle_nil_operands if nums.any?(&:nil?)
+        result = nil
+        count = 0
 
-          nums = [1, *nums] if nums.size < 2
-          nums.reduce(:/)
+        begin
+          each_operand do |num|
+            return handle_nan if num.nil?
+            count += 1
+            result = result.nil? ? num : result / num
+          end
+        rescue TypeError
+          return handle_invalid_operand
         end
+
+        return handle_no_operators if count == 0
+
+        final_result = count == 1 ? 1.0 / result : result
+
+        safe_arithmetic { final_result }
       end
 
       private
 
-      def handle_nil_operands
+      def each_operand
+        rules.each do |rule|
+          evaluated = evaluate(rule)
+          yield numerify(evaluated)
+        end
+      end
+
+      def handle_nan
         error = Errors::Base.new(type: "NaN")
         self.errors << error
-
         error.id
       end
     end

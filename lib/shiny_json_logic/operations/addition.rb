@@ -1,6 +1,6 @@
 require "shiny_json_logic/operations/base"
-require "shiny_json_logic/numericals/numerify"
 require "shiny_json_logic/numericals/with_error_handling"
+require "shiny_json_logic/numericals/numerify"
 
 module ShinyJsonLogic
   module Operations
@@ -11,20 +11,31 @@ module ShinyJsonLogic
       protected
 
       def run
-
         safe_arithmetic do
-          return 0 if numerified.empty?
+          result = 0.0
+          count = 0
 
-          numerified.reduce(:+)
+          each_operand do |num|
+            count += 1
+            result = result + num
+          end
+
+          result
         end
       end
 
       private
 
+      def each_operand
+        rules.each do |rule|
+          evaluated = evaluate(rule)
+          yield numerify(evaluated)
+        end
+      end
+
       def numerify(value)
         val = super
         return 0 if val.nil?
-
         val
       end
     end

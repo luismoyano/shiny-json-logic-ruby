@@ -14,8 +14,40 @@ module ShinyJsonLogic
         return 1 if rules.empty?
 
         safe_arithmetic do
-          numerified.map(&:to_f).reduce(:*)
+          result = nil
+          count = 0
+
+          each_operand do |num|
+            return handle_nan if num.nil?
+            count += 1
+            result = result.nil? ? num.to_f : result * num.to_f
+          end
+
+          return 1 if count == 0
+
+          result
         end
+      end
+
+      private
+
+      def each_operand
+        rules.each do |rule|
+          evaluated = evaluate(rule)
+          yield numerify(evaluated)
+        end
+      end
+
+      def handle_nan
+        error = Errors::Base.new(type: "NaN")
+        self.errors << error
+        error.id
+      end
+
+      def numerify(value)
+        val = super
+        return 0 if val.nil?
+        val
       end
     end
   end

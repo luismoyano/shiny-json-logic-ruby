@@ -10,7 +10,7 @@ module ShinyJsonLogic
 
         rules.each do |rule|
           segment = evaluate(rule)
-          Array.wrap(segment).flatten.each do |s|
+          Array.wrap_nil(segment).each do |s|
             return false unless current.key?(s)
             current = current[s]
           end

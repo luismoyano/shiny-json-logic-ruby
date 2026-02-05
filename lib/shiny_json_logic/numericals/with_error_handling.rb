@@ -3,9 +3,10 @@ module ShinyJsonLogic
     module WithErrorHandling
       def safe_arithmetic(&block)
         result = yield
-        result.tap do |res|
-          handle_invalid_operand if res.to_f.nan? || res == Float::INFINITY || res == -Float::INFINITY
+        if result.to_f.nan? || result == Float::INFINITY || result == -Float::INFINITY
+          return handle_invalid_operand
         end
+        result
       rescue TypeError
         handle_invalid_operand
       end

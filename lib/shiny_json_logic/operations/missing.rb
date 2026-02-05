@@ -10,7 +10,7 @@ module ShinyJsonLogic
         keys = []
         rules.each do |rule|
           evaluated = evaluate(rule)
-          keys.concat(Array.wrap(evaluated).flatten)
+          keys.concat(Array.wrap_nil(evaluated))
         end
         return keys unless data.is_a?(Hash) && rules.is_a?(Array)
 
