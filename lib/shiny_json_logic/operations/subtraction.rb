@@ -11,19 +11,36 @@ module ShinyJsonLogic
       protected
 
       def run
-        safe_arithmetic do
-          return numerified.first * -1 if rules.size == 1
+        return handle_no_operators if rules.empty?
 
-          numerified.reduce(:-)
+        safe_arithmetic do
+          result = nil
+          count = 0
+
+          each_operand do |num|
+            count += 1
+            result = result.nil? ? num : result - num
+          end
+
+          return handle_no_operators if count == 0
+          return result * -1 if count == 1
+
+          result
         end
       end
 
       private
 
+      def each_operand
+        rules.each do |rule|
+          evaluated = evaluate(rule)
+          yield numerify(evaluated)
+        end
+      end
+
       def numerify(value)
         val = super
         return 0 if val.nil?
-
         val
       end
     end

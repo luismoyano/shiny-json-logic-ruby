@@ -17,7 +17,7 @@ module ShinyJsonLogic
         return rule if rule.empty?
 
         operation, raw_args = rule.to_a.first
-        args = raw_args.is_a?(Array) ? raw_args : [raw_args]
+        args = Array.wrap_nil(raw_args)
         solve(operation, args, data)
       elsif rule.is_a?(Array)
         rule.map { |val| call(val, data) }

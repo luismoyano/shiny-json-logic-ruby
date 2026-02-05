@@ -9,7 +9,7 @@ module ShinyJsonLogic
         result = []
         rules.each do |rule|
           evaluated = evaluate(rule)
-          Array.wrap(evaluated).flatten.each { |v| result << v.to_s }
+          Array.wrap_nil(evaluated).each { |v| result << v.to_s }
         end
         result.join
       end

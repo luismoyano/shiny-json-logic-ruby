@@ -8,7 +8,7 @@ module ShinyJsonLogic
       def run
         result = nil
         rules.each do |rule|
-          Array.wrap(evaluate(rule)).flatten.each do |val|
+          Array.wrap_nil(evaluate(rule)).each do |val|
             result = val if result.nil? || val > result
           end
         end
