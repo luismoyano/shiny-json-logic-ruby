@@ -12,7 +12,7 @@ module ShinyJsonLogic
 
       def run
         operands = Array.wrap_nil(rules)
-        return handle_no_operators if operands.empty?
+        return handle_invalid_args if operands.empty?
 
         result = nil
         count = 0
@@ -24,10 +24,10 @@ module ShinyJsonLogic
             result = result.nil? ? num : result / num
           end
         rescue TypeError
-          return handle_invalid_operand
+          return handle_nan
         end
 
-        return handle_no_operators if count == 0
+        return handle_invalid_args if count == 0
 
         final_result = count == 1 ? 1.0 / result : result
 
@@ -41,12 +41,6 @@ module ShinyJsonLogic
           evaluated = evaluate(rule)
           yield numerify(evaluated)
         end
-      end
-
-      def handle_nan
-        error = Errors::Base.new(type: "NaN")
-        self.errors << error
-        error.id
       end
     end
   end
