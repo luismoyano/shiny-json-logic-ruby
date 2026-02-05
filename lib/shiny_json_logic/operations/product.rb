@@ -11,13 +11,14 @@ module ShinyJsonLogic
       protected
 
       def run
-        return 1 if rules.empty?
+        operands = Array.wrap_nil(rules)
+        return 1 if operands.empty?
 
         safe_arithmetic do
           result = nil
           count = 0
 
-          each_operand do |num|
+          each_operand(operands) do |num|
             return handle_nan if num.nil?
             count += 1
             result = result.nil? ? num.to_f : result * num.to_f
@@ -31,8 +32,8 @@ module ShinyJsonLogic
 
       private
 
-      def each_operand
-        rules.each do |rule|
+      def each_operand(operands)
+        operands.each do |rule|
           evaluated = evaluate(rule)
           yield numerify(evaluated)
         end
