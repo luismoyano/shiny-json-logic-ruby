@@ -7,8 +7,9 @@ module ShinyJsonLogic
       protected
 
       def run
-        key = evaluate(rules[0])
-        default = rules[1] ? evaluate(rules[1]) : nil
+        items = Array.wrap_nil(rules)
+        key = evaluate(items[0])
+        default = items[1] ? evaluate(items[1]) : nil
 
         return data if key.nil?
 

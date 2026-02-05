@@ -6,7 +6,7 @@ module ShinyJsonLogic
       protected
 
       def run
-        rules.map do |rule|
+        Array.wrap_nil(rules).map do |rule|
           Array.wrap_nil(evaluate(rule))
         end.reduce([], :+)
       end

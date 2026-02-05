@@ -27,7 +27,7 @@ module ShinyJsonLogic
       private
 
       def each_operand
-        rules.each do |rule|
+        Array.wrap_nil(rules).each do |rule|
           Array.wrap_nil(evaluate(rule)).each do |val|
             yield numerify(val)
           end
