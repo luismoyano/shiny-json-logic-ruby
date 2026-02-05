@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.7] -2026-02-05
+### Changed
+- Refactors internal architecture to always enable lazy loading
+- Improves compatibility of arithmetic operators
+- Improves compatibility of logical operators
+
 ## [0.2.6] - 2026-02-02
 ### Changed
 - Fixes bug with iterable when rules are empty
