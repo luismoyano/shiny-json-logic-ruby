@@ -7,6 +7,8 @@ module ShinyJsonLogic
         def initialize(context)
           super
 
+          return handle_nil unless rules.is_a?(Array)
+
           @filter = rules[1]
           return handle_nil if @filter.nil? && self.class.raise_on_nil_filter?
 
