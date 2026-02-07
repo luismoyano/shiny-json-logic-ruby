@@ -4,7 +4,7 @@ module ShinyJsonLogic
   module Operations
     class Throw < Base
       def run
-        raw_value = rules[0]
+        raw_value = rules.is_a?(Array) ? rules[0] : rules
 
         error_type =
           if operation?(raw_value)
