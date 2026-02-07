@@ -1,9 +1,12 @@
 require "shiny_json_logic/truthy"
 require "shiny_json_logic/operations/iterable/base"
+require "shiny_json_logic/numericals/with_error_handling"
 
 module ShinyJsonLogic
   module Operations
     class If < Iterable::Base
+      include Numericals::WithErrorHandling
+
       def initialize(context)
         @rules, @data, @errors = context.values_at("rules", "data", "errors")
       end
@@ -11,6 +14,8 @@ module ShinyJsonLogic
       protected
 
       def run
+        return handle_invalid_args unless rules.is_a?(Array)
+
         rules.each_slice(2) do |condition_rule, value_rule|
           condition_result = evaluate(condition_rule)
           return condition_result if error?(condition_result)

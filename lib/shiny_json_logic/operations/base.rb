@@ -6,7 +6,7 @@ module ShinyJsonLogic
       def initialize(context)
         @context = context
         @rules, @data, @errors = @context.values_at("rules", "data", "errors")
-        @rules = preprocess(@rules)
+        @rules = pre_process(@rules)
       end
 
       def call
@@ -26,7 +26,6 @@ module ShinyJsonLogic
         {"result" => result, "data" => self.data, "errors" => self.errors}
       end
 
-      # Evalúa un argumento raw usando el Engine
       def evaluate(rule)
         engine = Engine.new(rule, data)
         result = engine.call
@@ -36,10 +35,7 @@ module ShinyJsonLogic
 
       private
 
-      # Pre-procesa las rules:
-      # - Si es un hash con operador, lo evalúa inmediatamente
-      # - Si es array o valor unitario, lo deja como está
-      def preprocess(rules)
+      def pre_process(rules)
         if operation?(rules)
           evaluate(rules)
         else

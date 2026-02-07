@@ -7,7 +7,8 @@ module ShinyJsonLogic
       protected
 
       def run
-        !!Truthy.call(evaluate(rules.first))
+        value = Array.wrap_nil(rules).first
+        !!Truthy.call(evaluate(value))
       end
     end
   end
