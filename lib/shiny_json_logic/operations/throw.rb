@@ -17,7 +17,7 @@ module ShinyJsonLogic
         extracted_type = self.data["type"] if extracted_type.nil?
         self.data["type"] = extracted_type unless extracted_type.nil?
 
-        error = ShinyJsonLogic::Errors::Base.new(type: extracted_type)
+        error = Errors::Base.new(type: extracted_type)
 
         raise error
       end

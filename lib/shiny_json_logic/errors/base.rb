@@ -1,15 +1,11 @@
-require "securerandom"
-
 module ShinyJsonLogic
   module Errors
     class Base < StandardError
-      attr_reader :type, :id
-      attr_accessor :panic
+      attr_reader :type
 
       def initialize(type: nil)
         super(type)
         @type = type
-        @id = "shiny_error_#{SecureRandom.uuid}"
       end
 
       def payload

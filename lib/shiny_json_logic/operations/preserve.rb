@@ -11,8 +11,7 @@ module ShinyJsonLogic
       private
 
       def on_each(item)
-        engine = Engine.new(item, scope_stack)
-        [engine.call, engine]
+        Engine.new(item, scope_stack).call
       end
 
       def on_after(results)
@@ -26,7 +25,7 @@ module ShinyJsonLogic
         # Don't push to scope stack
       end
 
-      def on_after_each(_solved, _solver)
+      def on_after_each
         # Don't pop from scope stack
       end
     end

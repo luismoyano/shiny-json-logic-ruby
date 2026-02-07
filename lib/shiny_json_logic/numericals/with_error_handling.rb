@@ -1,4 +1,6 @@
 require "shiny_json_logic/errors/base"
+require "shiny_json_logic/errors/not_a_number"
+require "shiny_json_logic/errors/invalid_arguments"
 
 module ShinyJsonLogic
   module Numericals
@@ -14,18 +16,12 @@ module ShinyJsonLogic
       end
 
       def handle_nan
-        error = ShinyJsonLogic::Errors::Base.new(type: "NaN")
-        raise error
+        raise Errors::NotANumber
       end
 
       def handle_invalid_args
-        error = ShinyJsonLogic::Errors::Base.new(type: "Invalid Arguments")
-        raise error
+        raise Errors::InvalidArguments
       end
-
-      # Alias for backward compatibility
-      alias_method :handle_invalid_operand, :handle_nan
-      alias_method :handle_no_operators, :handle_invalid_args
     end
   end
 end

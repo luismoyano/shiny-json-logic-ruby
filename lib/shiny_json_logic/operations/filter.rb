@@ -10,8 +10,7 @@ module ShinyJsonLogic
       private
 
       def on_each(item)
-        engine = Engine.new(filter, scope_stack)
-        [Truthy.call(engine.call) ? item : nil, engine]
+        Truthy.call(Engine.new(filter, scope_stack).call) ? item : nil
       end
 
       def on_after(results)

@@ -30,9 +30,7 @@ module ShinyJsonLogic
       end
 
       def on_each(_item)
-        engine = Engine.new(filter, scope_stack)
-        self.accumulator = engine.call
-        [self.accumulator, engine]
+        self.accumulator = Engine.new(filter, scope_stack).call
       end
 
       def on_after(_results)
