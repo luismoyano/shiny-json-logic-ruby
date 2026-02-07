@@ -21,7 +21,7 @@ module ShinyJsonLogic
             scope_stack.push(last_error.payload)
           end
 
-          engine = Engine.new(item, scope_stack: scope_stack)
+          engine = Engine.new(item, scope_stack)
           result = engine.call
 
           # Pop error contexts if we pushed them

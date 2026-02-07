@@ -13,7 +13,7 @@ module ShinyJsonLogic
         return if errors.any?
 
         # Evaluate the initial accumulator value (third argument)
-        @accumulator = Engine.new(context.dig("rules", 2), scope_stack: scope_stack).call
+        @accumulator = Engine.new(context.dig("rules", 2), scope_stack).call
       end
 
       private
@@ -31,7 +31,7 @@ module ShinyJsonLogic
       end
 
       def on_each(_item)
-        engine = Engine.new(filter, scope_stack: scope_stack)
+        engine = Engine.new(filter, scope_stack)
         self.accumulator = engine.call
         [self.accumulator, engine]
       end

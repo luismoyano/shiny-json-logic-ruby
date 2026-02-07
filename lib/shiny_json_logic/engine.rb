@@ -1,19 +1,15 @@
 require "core_ext/array"
 require "core_ext/hash"
 require "shiny_json_logic/operator_solver"
-require "shiny_json_logic/scope_stack"
 
 module ShinyJsonLogic
   class Engine
     attr_reader :errors
 
-    # Initialize with either:
-    # - Engine.new(rule, data) - creates a new scope_stack with data as root
-    # - Engine.new(rule, scope_stack: existing_stack) - uses existing scope_stack
-    def initialize(rule, data = nil, scope_stack: nil)
+    def initialize(rule, scope_stack)
       @rule = rule
       @errors = []
-      @scope_stack = scope_stack || ScopeStack.new(data || {})
+      @scope_stack = scope_stack
     end
 
     def call(rule = self.rule)

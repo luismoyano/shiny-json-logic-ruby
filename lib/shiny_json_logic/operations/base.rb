@@ -33,7 +33,7 @@ module ShinyJsonLogic
       end
 
       def evaluate(rule)
-        engine = Engine.new(rule, scope_stack: scope_stack)
+        engine = Engine.new(rule, scope_stack)
         result = engine.call
         self.errors = [*errors, *engine.errors].uniq
         result

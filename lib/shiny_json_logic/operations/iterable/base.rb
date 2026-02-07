@@ -51,7 +51,7 @@ module ShinyJsonLogic
         private
 
         def on_each(_item)
-          engine = Engine.new(filter, scope_stack: scope_stack)
+          engine = Engine.new(filter, scope_stack)
           [engine.call, engine]
         end
 
