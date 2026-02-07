@@ -20,7 +20,7 @@ module ShinyJsonLogic
         error = ShinyJsonLogic::Errors::Base.new(type: extracted_type)
         errors.push error
 
-        error.id
+        raise error
       end
     end
   end
