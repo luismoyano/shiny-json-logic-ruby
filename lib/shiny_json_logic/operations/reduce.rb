@@ -9,20 +9,26 @@ module ShinyJsonLogic
 
       def initialize(context)
         super
-        @accumulator = Engine.new(context.dig("rules", 2), context["data"]).call # third argument
+        # Evaluate the initial accumulator value (third argument)
+        @accumulator = Engine.new(context.dig("rules", 2), scope_stack: scope_stack).call
       end
 
       private
 
       attr_accessor :accumulator
 
-      def on_before_each(_item)
-        super
-        data["accumulator"] = accumulator
+      def on_before_each(item, index = 0)
+        # For reduce, we need to create a special scope with current and accumulator
+        # Push iterator context
+        scope_stack.push({ "index" => index }, index: index)
+        
+        # Push item scope with current and accumulator
+        reduce_scope = { "current" => item, "accumulator" => accumulator }
+        scope_stack.push(reduce_scope, index: index)
       end
 
       def on_each(_item)
-        engine = Engine.new(filter, data)
+        engine = Engine.new(filter, scope_stack: scope_stack)
         self.accumulator = engine.call
         [self.accumulator, engine]
       end
@@ -31,10 +37,6 @@ module ShinyJsonLogic
         safe_arithmetic do
           self.accumulator
         end
-      end
-
-      def current_key
-        "current"
       end
     end
   end

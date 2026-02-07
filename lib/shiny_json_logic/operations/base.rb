@@ -5,7 +5,7 @@ module ShinyJsonLogic
     class Base
       def initialize(context)
         @context = context
-        @rules, @data, @errors = @context.values_at("rules", "data", "errors")
+        @rules, @errors, @scope_stack = @context.values_at("rules", "errors", "scope_stack")
         @rules = pre_process(@rules)
       end
 
@@ -15,19 +15,24 @@ module ShinyJsonLogic
 
       protected
 
-      attr_reader :context
-      attr_accessor :rules, :data, :errors
+      attr_reader :context, :scope_stack
+      attr_accessor :rules, :errors
+
+      # Access current data through scope_stack
+      def data
+        scope_stack.current
+      end
 
       def run
         raise NotImplementedError
       end
 
       def deliver(result = nil)
-        {"result" => result, "data" => self.data, "errors" => self.errors}
+        {"result" => result, "errors" => self.errors}
       end
 
       def evaluate(rule)
-        engine = Engine.new(rule, data)
+        engine = Engine.new(rule, scope_stack: scope_stack)
         result = engine.call
         self.errors = [*errors, *engine.errors].uniq
         result

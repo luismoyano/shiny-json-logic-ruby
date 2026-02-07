@@ -11,9 +11,8 @@ module ShinyJsonLogic
       private
 
       def on_each(item)
-        Engine.new(item, data).then do |engine|
-          [engine.call, engine]
-        end
+        engine = Engine.new(item, scope_stack: scope_stack)
+        [engine.call, engine]
       end
 
       def on_after(results)
@@ -22,7 +21,14 @@ module ShinyJsonLogic
         results
       end
 
-      def on_before_each(_item)
+      # Preserve doesn't create new scopes - it just evaluates expressions
+      def on_before_each(_item, _index = 0)
+        # Don't push to scope stack
+      end
+
+      def on_after_each(_solved, solver)
+        # Don't pop from scope stack
+        self.errors = [*self.errors, *solver.errors]
       end
     end
   end

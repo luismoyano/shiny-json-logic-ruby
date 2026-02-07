@@ -8,7 +8,8 @@ module ShinyJsonLogic
       include Numericals::WithErrorHandling
 
       def initialize(context)
-        @rules, @data, @errors = context.values_at("rules", "data", "errors")
+        @rules, @errors = context.values_at("rules", "errors")
+        @scope_stack = context["scope_stack"]
       end
 
       protected
@@ -34,7 +35,7 @@ module ShinyJsonLogic
       private
 
       def evaluate(rule)
-        engine = Engine.new(rule, data)
+        engine = Engine.new(rule, scope_stack: scope_stack)
         result = engine.call
         self.errors = [*errors, *engine.errors] if error?(result)
         result

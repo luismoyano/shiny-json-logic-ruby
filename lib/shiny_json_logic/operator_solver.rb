@@ -7,15 +7,11 @@ end
 module ShinyJsonLogic
   class OperatorSolver
     def operation?(value)
-      value.keys.any? { |key| solvers.key?(key) || collection_solvers.key?(key) }
+      value.keys.any? { |key| solvers.key?(key) }
     end
 
     def solvers
-      @@solvers = { **single_solvers, **collection_solvers }
-    end
-
-    def single_solvers
-      @@single_solvers ||= {
+      @@solvers ||= {
         "var" => Operations::Var,
         "missing" => Operations::Missing,
         "missing_some" => Operations::MissingSome,
@@ -47,11 +43,6 @@ module ShinyJsonLogic
         "exists" => Operations::Exists,
         "throw" => Operations::Throw,
         "try" => Operations::Try,
-      }
-    end
-
-    def collection_solvers
-      @@collection_solvers ||= {
         "if" => Operations::If,
         "?:" => Operations::If,
         "filter" => Operations::Filter,

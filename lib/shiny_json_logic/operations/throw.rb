@@ -22,14 +22,6 @@ module ShinyJsonLogic
 
         error.id
       end
-
-      private
-
-      def operation?(value)
-        return false unless value.is_a?(Hash)
-
-        OperatorSolver.new.operation?(value)
-      end
     end
   end
 end
