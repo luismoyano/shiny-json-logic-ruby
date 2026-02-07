@@ -5,6 +5,7 @@ module ShinyJsonLogic
   module Operations
     class Map < Iterable::Base
       raise_on_nil_filter!
+      raise_on_dynamic_args!
     end
   end
 end

@@ -6,10 +6,12 @@ module ShinyJsonLogic
   module Operations
     class And < Base
       include Numericals::WithErrorHandling
+      raise_on_dynamic_args!
 
       protected
 
       def run
+        return handle_invalid_args if dynamic_args?
         return handle_invalid_args unless rules.is_a?(Array)
         return false if rules.empty?
 

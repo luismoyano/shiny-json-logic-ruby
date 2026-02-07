@@ -6,6 +6,7 @@ module ShinyJsonLogic
       def initialize(context)
         @context = context
         @rules, @errors, @scope_stack = @context.values_at("rules", "errors", "scope_stack")
+        @dynamic_args = operation?(@rules)
         @rules = pre_process(@rules)
       end
 
@@ -36,6 +37,18 @@ module ShinyJsonLogic
         result = engine.call
         self.errors = [*errors, *engine.errors].uniq
         result
+      end
+
+      def dynamic_args?
+        @dynamic_args && self.class.raise_on_dynamic_args?
+      end
+
+      def self.raise_on_dynamic_args!
+        @raise_on_dynamic_args = true
+      end
+
+      def self.raise_on_dynamic_args?
+        @raise_on_dynamic_args
       end
 
       private
