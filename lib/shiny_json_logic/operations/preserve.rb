@@ -26,9 +26,8 @@ module ShinyJsonLogic
         # Don't push to scope stack
       end
 
-      def on_after_each(_solved, solver)
+      def on_after_each(_solved, _solver)
         # Don't pop from scope stack
-        self.errors = [*self.errors, *solver.errors]
       end
     end
   end

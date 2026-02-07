@@ -3,9 +3,7 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Concatenation < Base
-      protected
-
-      def run
+      def call
         result = []
         Array.wrap_nil(rules).each do |rule|
           evaluated = evaluate(rule)

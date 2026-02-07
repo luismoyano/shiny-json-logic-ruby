@@ -4,11 +4,8 @@ require "shiny_json_logic/operator_solver"
 
 module ShinyJsonLogic
   class Engine
-    attr_reader :errors
-
     def initialize(rule, scope_stack)
       @rule = rule
-      @errors = []
       @scope_stack = scope_stack
     end
 
@@ -30,18 +27,13 @@ module ShinyJsonLogic
     private
 
     attr_reader :rule, :scope_stack
-    attr_writer :errors
 
     def solve(operation, args)
       context = {
         "rules" => args,
-        "errors" => errors,
         "scope_stack" => scope_stack
       }
-      result, errors = operations.solvers.fetch(operation).new(context).call.values_at("result", "errors")
-      self.errors = [*self.errors, *errors].uniq
-
-      result
+      operations.solvers.fetch(operation).new(context).call
     end
 
     def operations

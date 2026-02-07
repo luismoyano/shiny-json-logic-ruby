@@ -10,7 +10,6 @@ module ShinyJsonLogic
 
       def initialize(context)
         super
-        return if errors.any?
 
         # Evaluate the initial accumulator value (third argument)
         @accumulator = Engine.new(context.dig("rules", 2), scope_stack).call

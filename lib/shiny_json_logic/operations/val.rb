@@ -3,9 +3,7 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Val < Base
-      protected
-
-      def run
+      def call
         raw_keys = Array.wrap_nil(rules)
         
         # {"val": []} or {"val": null} - return current scope

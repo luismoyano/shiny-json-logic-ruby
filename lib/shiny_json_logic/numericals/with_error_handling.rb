@@ -15,13 +15,11 @@ module ShinyJsonLogic
 
       def handle_nan
         error = ShinyJsonLogic::Errors::Base.new(type: "NaN")
-        self.errors << error
         raise error
       end
 
       def handle_invalid_args
         error = ShinyJsonLogic::Errors::Base.new(type: "Invalid Arguments")
-        self.errors << error
         raise error
       end
 

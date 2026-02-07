@@ -10,11 +10,7 @@ module ShinyJsonLogic
     
     scope_stack = ScopeStack.new(data || {})
     engine = Engine.new(rule, scope_stack)
-    engine.call.tap do |result|
-      raise engine.errors.shift if engine.errors.any?
-
-      result
-    end
+    engine.call
   end
 
   # Validates that all operations in the rule tree use known operators

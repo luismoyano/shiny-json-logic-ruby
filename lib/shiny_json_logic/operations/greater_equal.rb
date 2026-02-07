@@ -9,9 +9,7 @@ module ShinyJsonLogic
       include Numericals::Numerify
       raise_on_dynamic_args!
 
-      protected
-
-      def run
+      def call
         return handle_invalid_args if dynamic_args?
         operands = Array.wrap_nil(rules)
         return handle_invalid_args if operands.length < 2

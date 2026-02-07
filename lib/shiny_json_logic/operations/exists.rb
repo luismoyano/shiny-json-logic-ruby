@@ -3,9 +3,7 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Exists < Base
-      protected
-
-      def run
+      def call
         current = data
 
         Array.wrap_nil(rules).each do |rule|
