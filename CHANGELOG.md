@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.9] - 2026-02-08
+### Added
+- New specific error classes: `Errors::InvalidArguments`, `Errors::NotANumber`, `Errors::UnknownOperator`
+  - All inherit from `Errors::Base`, so existing `rescue Errors::Base` will continue to work
+### Changed
+- Refactors max/min operators to use shared MinMaxCollection module
+- Eliminates code duplication between max.rb and min.rb
+
 ## [0.2.8] - 2026-02-07
 ### Changed
 - Improves error handling in try/throw/reduce operators
