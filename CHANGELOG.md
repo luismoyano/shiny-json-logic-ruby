@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.2.7] -2026-02-05
+## [0.2.8] - 2026-02-07
+### Changed
+- Improves error handling in try/throw/reduce operators
+- Fixes error propagation in iterators (map/filter/all/some/none)
+- Compatibility improved from 98.3% to 99.7%
+
+## [0.2.7] - 2026-02-05
 ### Changed
 - Refactors internal architecture to always enable lazy loading
 - Improves compatibility of arithmetic operators
