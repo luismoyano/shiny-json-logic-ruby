@@ -25,14 +25,14 @@ module ShinyJsonLogic
           results = collection.each_with_index.each_with_object([]) do |(item, index), results|
             on_before_each(item, index)
             begin
-              solved, solver = on_each(item)
+              solved = on_each(item)
               results << solved
-              on_after_each(solved, solver)
+              on_after_each
             rescue => e
               # Clean up scopes before re-raising
               scope_stack.pop  # item scope
               scope_stack.pop  # iterator context scope
-              raise
+              raise e
             end
           end
 
@@ -44,8 +44,7 @@ module ShinyJsonLogic
         private
 
         def on_each(_item)
-          engine = Engine.new(filter, scope_stack)
-          [engine.call, engine]
+          Engine.new(filter, scope_stack).call
         end
 
         def on_before_each(item, index = 0)
@@ -57,7 +56,7 @@ module ShinyJsonLogic
           scope_stack.push(item, index: index)
         end
 
-        def on_after_each(_solved, _solver)
+        def on_after_each
           # Pop the item scope
           scope_stack.pop
           # Pop the iterator context scope
@@ -72,9 +71,7 @@ module ShinyJsonLogic
         end
 
         def handle_nil
-          error = Errors::Base.new(type: "Invalid Arguments")
-
-          raise error
+          raise Errors::InvalidArguments
         end
 
         def setup_collection(collection)

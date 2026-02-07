@@ -10,7 +10,7 @@ module ShinyJsonLogic
 
       def call
         operands = Array.wrap_nil(rules)
-        return handle_no_operators if operands.empty?
+        return handle_invalid_args if operands.empty?
 
         safe_arithmetic do
           result = nil
@@ -21,7 +21,7 @@ module ShinyJsonLogic
             result = result.nil? ? num : result - num
           end
 
-          return handle_no_operators if count == 0
+          return handle_invalid_args if count == 0
           return result * -1 if count == 1
 
           result
