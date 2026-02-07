@@ -8,11 +8,12 @@ module ShinyJsonLogic
       include Numericals::WithErrorHandling
       raise_on_dynamic_args!
 
-      def initialize(context)
+      def initialize(rules, scope_stack)
+        # Capture initial accumulator before super (which may pre-process rules)
+        initial_accumulator_rule = rules.is_a?(Array) ? rules[2] : nil
         super
-
         # Evaluate the initial accumulator value (third argument)
-        @accumulator = Engine.new(context.dig("rules", 2), scope_stack).call
+        @accumulator = Engine.new(initial_accumulator_rule, scope_stack).call
       end
 
       private

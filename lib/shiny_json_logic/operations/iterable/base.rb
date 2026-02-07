@@ -4,7 +4,7 @@ module ShinyJsonLogic
   module Operations
     module Iterable
       class Base < Operations::Base
-        def initialize(context)
+        def initialize(rules, scope_stack)
           super
 
           return handle_nil if dynamic_args?

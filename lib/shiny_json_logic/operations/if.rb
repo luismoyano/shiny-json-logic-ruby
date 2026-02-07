@@ -8,9 +8,9 @@ module ShinyJsonLogic
       include Numericals::WithErrorHandling
 
       # Skip pre_process - spec requires static array, dynamic args should error
-      def initialize(context)
-        @context = context
-        @rules, @scope_stack = context.values_at("rules", "scope_stack")
+      def initialize(rules, scope_stack)
+        @rules = rules
+        @scope_stack = scope_stack
       end
 
       def call

@@ -14,9 +14,9 @@ module ShinyJsonLogic
         return rule if rule.empty?
 
         operation, args = rule.to_a.first
-        return rule unless operations.solvers.key?(operation)
+        return rule unless operations.key?(operation)
 
-        solve(operation, args)
+        operations.fetch(operation).new(args, scope_stack).call
       elsif rule.is_a?(Array)
         rule.map { |val| call(val) }
       else
@@ -28,16 +28,8 @@ module ShinyJsonLogic
 
     attr_reader :rule, :scope_stack
 
-    def solve(operation, args)
-      context = {
-        "rules" => args,
-        "scope_stack" => scope_stack
-      }
-      operations.solvers.fetch(operation).new(context).call
-    end
-
     def operations
-      @operations ||= OperatorSolver.new
+      @operations ||= OperatorSolver.new.solvers
     end
   end
 end

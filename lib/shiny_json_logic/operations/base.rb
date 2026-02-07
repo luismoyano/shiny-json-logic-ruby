@@ -3,11 +3,10 @@ require "shiny_json_logic/truthy"
 module ShinyJsonLogic
   module Operations
     class Base
-      def initialize(context)
-        @context = context
-        @rules, @scope_stack = @context.values_at("rules", "scope_stack")
-        @dynamic_args = operation?(@rules)
-        @rules = pre_process(@rules)
+      def initialize(rules, scope_stack)
+        @scope_stack = scope_stack
+        @dynamic_args = operation?(rules)
+        @rules = pre_process(rules)
       end
 
       def call
@@ -16,7 +15,7 @@ module ShinyJsonLogic
 
       protected
 
-      attr_reader :context, :scope_stack
+      attr_reader :scope_stack
       attr_accessor :rules
 
       # Access current data through scope_stack
@@ -43,15 +42,14 @@ module ShinyJsonLogic
       private
 
       def pre_process(rules)
-        if operation?(rules)
-          evaluate(rules)
-        else
-          rules
-        end
+        return evaluate(rules) if operation?(rules)
+
+        rules
       end
 
       def operation?(value)
         return false unless value.is_a?(Hash) && !value.empty?
+
         OperatorSolver.new.operation?(value)
       end
     end
