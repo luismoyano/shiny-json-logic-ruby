@@ -34,7 +34,14 @@ module ShinyJsonLogic
             on_before_each(item, index)
             solved, solver = on_each(item)
             results << solved
-            break if solved.is_a?(String) && solved.match?(Try::SHINY_ERROR_PATTERN)
+            if solved.is_a?(String) && solved.match?(Try::SHINY_ERROR_PATTERN)
+              # Propagate errors before breaking
+              self.errors = [*self.errors, *solver.errors]
+              # Clean up scopes pushed by on_before_each
+              scope_stack.pop  # item scope
+              scope_stack.pop  # iterator context scope
+              break results
+            end
             on_after_each(solved, solver)
           end.then do |results|
             on_after(results)
@@ -69,6 +76,10 @@ module ShinyJsonLogic
         end
 
         def on_after(results)
+          # If last result is an error, return it (not the array)
+          if results.last.is_a?(String) && results.last.match?(Try::SHINY_ERROR_PATTERN)
+            return results.last
+          end
           results
         end
 
