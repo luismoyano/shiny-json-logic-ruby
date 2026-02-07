@@ -7,6 +7,7 @@ module ShinyJsonLogic
         def initialize(context)
           super
 
+          return handle_nil if dynamic_args?
           return handle_nil unless rules.is_a?(Array)
 
           @filter = rules[1]

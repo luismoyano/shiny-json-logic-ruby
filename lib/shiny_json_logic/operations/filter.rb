@@ -5,6 +5,7 @@ module ShinyJsonLogic
   module Operations
     class Filter < Iterable::Base
       raise_on_nil_filter!
+      raise_on_dynamic_args!
 
       private
 

@@ -4,6 +4,8 @@ require "shiny_json_logic/operations/iterable/base"
 module ShinyJsonLogic
   module Operations
     class Some < Iterable::Base
+      raise_on_dynamic_args!
+
       private
 
       def on_after(results)

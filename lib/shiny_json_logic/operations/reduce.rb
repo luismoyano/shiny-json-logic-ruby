@@ -6,6 +6,7 @@ module ShinyJsonLogic
   module Operations
     class Reduce < Iterable::Base
       include Numericals::WithErrorHandling
+      raise_on_dynamic_args!
 
       def initialize(context)
         super
