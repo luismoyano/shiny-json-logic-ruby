@@ -6,10 +6,11 @@ module ShinyJsonLogic
       protected
 
       def run
-        return nil if rules.nil? || (rules.is_a?(Array) && rules.empty?)
+        raw_keys = Array.wrap_nil(rules)
+        
+        return data if raw_keys.empty? || raw_keys == [nil]
 
-        items = Array.wrap_nil(rules)
-        keys = items.map { |rule| evaluate(rule) }
+        keys = raw_keys.map { |rule| evaluate(rule) }
         data.dig(*keys)
       end
     end
