@@ -8,9 +8,7 @@ module ShinyJsonLogic
       include Numericals::WithErrorHandling
       include Numericals::Numerify
 
-      protected
-
-      def run
+      def call
         operands = Array.wrap_nil(rules)
         return 1 if operands.empty?
 

@@ -4,9 +4,7 @@ require "shiny_json_logic/truthy"
 module ShinyJsonLogic
   module Operations
     class DoubleNot < Base
-      protected
-
-      def run
+      def call
         value = Array.wrap_nil(rules).first
         !!Truthy.call(evaluate(value))
       end

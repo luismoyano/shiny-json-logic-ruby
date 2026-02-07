@@ -3,7 +3,7 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Throw < Base
-      def run
+      def call
         raw_value = rules.is_a?(Array) ? rules[0] : rules
 
         error_type =
@@ -18,7 +18,6 @@ module ShinyJsonLogic
         self.data["type"] = extracted_type unless extracted_type.nil?
 
         error = ShinyJsonLogic::Errors::Base.new(type: extracted_type)
-        errors.push error
 
         raise error
       end

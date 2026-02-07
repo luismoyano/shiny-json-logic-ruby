@@ -4,9 +4,7 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Missing < Base
-      protected
-
-      def run
+      def call
         items = Array.wrap_nil(rules)
         keys = []
         items.each do |rule|

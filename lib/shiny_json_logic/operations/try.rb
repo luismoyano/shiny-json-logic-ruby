@@ -3,9 +3,7 @@ require "core_ext/array"
 module ShinyJsonLogic
   module Operations
     class Try < Base
-      protected
-
-      def run
+      def call
         items = Array.wrap_nil(rules)
         last_error = nil
 

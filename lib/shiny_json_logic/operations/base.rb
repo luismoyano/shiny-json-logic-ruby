@@ -5,38 +5,27 @@ module ShinyJsonLogic
     class Base
       def initialize(context)
         @context = context
-        @rules, @errors, @scope_stack = @context.values_at("rules", "errors", "scope_stack")
+        @rules, @scope_stack = @context.values_at("rules", "scope_stack")
         @dynamic_args = operation?(@rules)
         @rules = pre_process(@rules)
       end
 
       def call
-        deliver run
+        raise NotImplementedError
       end
 
       protected
 
       attr_reader :context, :scope_stack
-      attr_accessor :rules, :errors
+      attr_accessor :rules
 
       # Access current data through scope_stack
       def data
         scope_stack.current
       end
 
-      def run
-        raise NotImplementedError
-      end
-
-      def deliver(result = nil)
-        {"result" => result, "errors" => self.errors}
-      end
-
       def evaluate(rule)
-        engine = Engine.new(rule, scope_stack)
-        result = engine.call
-        self.errors = [*errors, *engine.errors].uniq
-        result
+        Engine.new(rule, scope_stack).call
       end
 
       def dynamic_args?

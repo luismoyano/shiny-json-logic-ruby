@@ -3,9 +3,7 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Max < Base
-      protected
-
-      def run
+      def call
         result = nil
         Array.wrap_nil(rules).each do |rule|
           Array.wrap_nil(evaluate(rule)).each do |val|

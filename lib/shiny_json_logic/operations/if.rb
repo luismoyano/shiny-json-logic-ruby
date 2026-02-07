@@ -10,12 +10,10 @@ module ShinyJsonLogic
       # Skip pre_process - spec requires static array, dynamic args should error
       def initialize(context)
         @context = context
-        @rules, @errors, @scope_stack = context.values_at("rules", "errors", "scope_stack")
+        @rules, @scope_stack = context.values_at("rules", "scope_stack")
       end
 
-      protected
-
-      def run
+      def call
         return handle_invalid_args unless rules.is_a?(Array)
 
         rules.each_slice(2) do |condition_rule, value_rule|
@@ -33,8 +31,7 @@ module ShinyJsonLogic
       private
 
       def evaluate(rule)
-        engine = Engine.new(rule, scope_stack)
-        engine.call
+        Engine.new(rule, scope_stack).call
       end
     end
   end

@@ -20,14 +20,6 @@ module ShinyJsonLogic
         end
 
         def call
-          return deliver if errors.any?
-
-          deliver run
-        end
-
-        protected
-
-        def run
           on_before
 
           results = collection.each_with_index.each_with_object([]) do |(item, index), results|
@@ -46,6 +38,8 @@ module ShinyJsonLogic
 
           on_after(results)
         end
+
+        protected
 
         private
 
@@ -79,7 +73,6 @@ module ShinyJsonLogic
 
         def handle_nil
           error = Errors::Base.new(type: "Invalid Arguments")
-          self.errors = [error]
 
           raise error
         end

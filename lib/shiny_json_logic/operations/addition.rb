@@ -8,9 +8,7 @@ module ShinyJsonLogic
       include Numericals::WithErrorHandling
       include Numericals::Numerify
 
-      protected
-
-      def run
+      def call
         safe_arithmetic do
           result = 0.0
           count = 0
