@@ -3,9 +3,12 @@ require "shiny_json_logic/truthy"
 module ShinyJsonLogic
   module Operations
     class Preserve < Iterable::Base
-      def initialize(context)
-        super
-        @collection = context["rules"] || []
+      def initialize(rules, scope_stack)
+        @collection = Array.wrap(rules) || []
+        # Skip Iterable::Base initialization, go directly to Operations::Base
+        # Preserve doesn't need the standard iterable setup (filter, collection from rules[0], etc.)
+        @rules = rules
+        @scope_stack = scope_stack
       end
 
       private
