@@ -11,7 +11,7 @@ module ShinyJsonLogic
         key = evaluate(items[0])
         default = items[1] ? evaluate(items[1]) : nil
 
-        return data if key.nil?
+        return data if key.nil? || key == ""
 
         data&.deep_fetch(*Array.wrap(key)) || default
       rescue
