@@ -12,7 +12,7 @@ module ShinyJsonLogic
         return keys unless data.is_a?(Hash) && rules.is_a?(Array)
 
         present = keys & data.keys
-        ctx = { "rules" => keys, "data" => data, "errors" => errors }
+        ctx = { "rules" => keys, "errors" => errors, "scope_stack" => scope_stack }
         present.size >= min_required ? [] : Missing.new(ctx).call["result"]
       end
     end

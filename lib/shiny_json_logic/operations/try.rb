@@ -9,14 +9,13 @@ module ShinyJsonLogic
 
       def run
         rules.map do |item|
-          Engine.new(item, data).call
+          Engine.new(item, scope_stack: scope_stack).call
         end.then do |results|
           return results.first unless results.count > 1
 
           results[0..-2].each do|res|
-            if res.is_a?(String) && res.match?(SHINY_ERROR_PATTERN) && errors.first.id == res
+            if res.is_a?(String) && res.match?(SHINY_ERROR_PATTERN) && errors.first&.id == res
               errors.shift
-              data.delete("type")
             end
           end
 

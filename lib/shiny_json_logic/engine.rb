@@ -1,25 +1,29 @@
 require "core_ext/array"
 require "core_ext/hash"
 require "shiny_json_logic/operator_solver"
+require "shiny_json_logic/scope_stack"
 
 module ShinyJsonLogic
   class Engine
     attr_reader :errors
 
-    def initialize(rule, data = {})
+    # Initialize with either:
+    # - Engine.new(rule, data) - creates a new scope_stack with data as root
+    # - Engine.new(rule, scope_stack: existing_stack) - uses existing scope_stack
+    def initialize(rule, data = nil, scope_stack: nil)
       @rule = rule
-      @data = data || {}
       @errors = []
+      @scope_stack = scope_stack || ScopeStack.new(data || {})
     end
 
-    def call(rule = self.rule, data = self.data)
+    def call(rule = self.rule)
       if rule.is_a?(Hash)
         return rule if rule.empty?
 
         operation, args = rule.to_a.first
-        solve(operation, args, data)
+        solve(operation, args)
       elsif rule.is_a?(Array)
-        rule.map { |val| call(val, data) }
+        rule.map { |val| call(val) }
       else
         rule
       end
@@ -27,15 +31,17 @@ module ShinyJsonLogic
 
     private
 
-    attr_reader :rule
-    attr_accessor :data
+    attr_reader :rule, :scope_stack
     attr_writer :errors
 
-    def solve(operation, args, initial_data)
-      context = {"rules" => args, "data" => initial_data, "errors" => errors}
-      result, data, errors = operations.solvers.fetch(operation).new(context).call.values_at("result", "data", "errors")
+    def solve(operation, args)
+      context = {
+        "rules" => args,
+        "errors" => errors,
+        "scope_stack" => scope_stack
+      }
+      result, errors = operations.solvers.fetch(operation).new(context).call.values_at("result", "errors")
       self.errors = [*self.errors, *errors].uniq
-      self.data.merge data if self.data.is_a?(Hash) && data.is_a?(Hash)
 
       result
     end

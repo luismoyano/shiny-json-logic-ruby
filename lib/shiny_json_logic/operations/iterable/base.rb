@@ -27,8 +27,8 @@ module ShinyJsonLogic
         def run
           on_before
 
-          collection.each_with_object([]) do |item, results|
-            on_before_each(item)
+          collection.each_with_index.each_with_object([]) do |(item, index), results|
+            on_before_each(item, index)
             solved, solver = on_each(item)
             results << solved
             break if solved.is_a?(String) && solved.match?(Try::SHINY_ERROR_PATTERN)
@@ -41,16 +41,24 @@ module ShinyJsonLogic
         private
 
         def on_each(_item)
-          engine = Engine.new(filter, data)
+          engine = Engine.new(filter, scope_stack: scope_stack)
           [engine.call, engine]
         end
 
-        def on_before_each(item)
-          data[current_key] = item
-          data.merge!(item) if item.is_a?(Hash)
+        def on_before_each(item, index = 0)
+          # Push the iterator context first (with index)
+          # This creates the intermediate level for [[1], "index"] access
+          scope_stack.push({ "index" => index }, index: index)
+          
+          # Then push the current item
+          scope_stack.push(item, index: index)
         end
 
         def on_after_each(_solved, solver)
+          # Pop the item scope
+          scope_stack.pop
+          # Pop the iterator context scope
+          scope_stack.pop
           self.errors = [*self.errors, *solver.errors]
         end
 
@@ -59,10 +67,6 @@ module ShinyJsonLogic
 
         def on_after(results)
           results
-        end
-
-        def current_key
-          ""
         end
 
         def handle_nil
