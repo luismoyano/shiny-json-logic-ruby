@@ -1,15 +1,16 @@
 require "shiny_json_logic/truthy"
-require "shiny_json_logic/operations/iterable/base"
+require "shiny_json_logic/operations/base"
 require "shiny_json_logic/numericals/with_error_handling"
 
 module ShinyJsonLogic
   module Operations
-    class If < Iterable::Base
+    class If < Base
       include Numericals::WithErrorHandling
 
+      # Skip pre_process - spec requires static array, dynamic args should error
       def initialize(context)
-        @rules, @errors = context.values_at("rules", "errors")
-        @scope_stack = context["scope_stack"]
+        @context = context
+        @rules, @errors, @scope_stack = context.values_at("rules", "errors", "scope_stack")
       end
 
       protected
