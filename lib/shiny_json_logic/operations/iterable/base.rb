@@ -30,22 +30,21 @@ module ShinyJsonLogic
         def run
           on_before
 
-          collection.each_with_index.each_with_object([]) do |(item, index), results|
+          results = collection.each_with_index.each_with_object([]) do |(item, index), results|
             on_before_each(item, index)
-            solved, solver = on_each(item)
-            results << solved
-            if solved.is_a?(String) && solved.match?(Try::SHINY_ERROR_PATTERN)
-              # Propagate errors before breaking
-              self.errors = [*self.errors, *solver.errors]
-              # Clean up scopes pushed by on_before_each
+            begin
+              solved, solver = on_each(item)
+              results << solved
+              on_after_each(solved, solver)
+            rescue => e
+              # Clean up scopes before re-raising
               scope_stack.pop  # item scope
               scope_stack.pop  # iterator context scope
-              break results
+              raise
             end
-            on_after_each(solved, solver)
-          end.then do |results|
-            on_after(results)
           end
+
+          on_after(results)
         end
 
         private
@@ -64,22 +63,17 @@ module ShinyJsonLogic
           scope_stack.push(item, index: index)
         end
 
-        def on_after_each(_solved, solver)
+        def on_after_each(_solved, _solver)
           # Pop the item scope
           scope_stack.pop
           # Pop the iterator context scope
           scope_stack.pop
-          self.errors = [*self.errors, *solver.errors]
         end
 
         def on_before
         end
 
         def on_after(results)
-          # If last result is an error, return it (not the array)
-          if results.last.is_a?(String) && results.last.match?(Try::SHINY_ERROR_PATTERN)
-            return results.last
-          end
           results
         end
 
@@ -87,7 +81,7 @@ module ShinyJsonLogic
           error = Errors::Base.new(type: "Invalid Arguments")
           self.errors = [error]
 
-          error.id
+          raise error
         end
 
         def setup_collection(collection)
