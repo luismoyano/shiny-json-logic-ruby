@@ -1,3 +1,5 @@
+require "shiny_json_logic/errors/base"
+
 module ShinyJsonLogic
   module Errors
     class UnknownOperator < Base
