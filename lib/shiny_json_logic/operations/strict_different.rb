@@ -9,16 +9,16 @@ module ShinyJsonLogic
 
       def call
         return handle_invalid_args if dynamic_args?
-        operands = Array.wrap_nil(rules)
+        operands = wrap_nil(rules)
         return handle_invalid_args if operands.length < 2
 
         prev = cast(evaluate(operands[0]))
         operands[1..].each do |rule|
           curr = cast(evaluate(rule))
-          return false if curr == prev  # Si son iguales, !== es false
+          return false if curr == prev
           prev = curr
         end
-        true  # Todos los pares consecutivos son diferentes
+        true
       end
 
       private

@@ -5,7 +5,7 @@ module ShinyJsonLogic
   module Operations
     class DoubleNot < Base
       def call
-        value = Array.wrap_nil(rules).first
+        value = wrap_nil(rules).first
         !!Truthy.call(evaluate(value))
       end
     end

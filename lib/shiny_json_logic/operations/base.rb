@@ -1,8 +1,11 @@
 require "shiny_json_logic/truthy"
+require "shiny_json_logic/utils/array"
 
 module ShinyJsonLogic
   module Operations
     class Base
+      include Utils::Array
+
       def initialize(rules, scope_stack)
         @scope_stack = scope_stack
         @dynamic_args = operation?(rules)

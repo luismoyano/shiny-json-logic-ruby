@@ -5,9 +5,9 @@ module ShinyJsonLogic
     class Concatenation < Base
       def call
         result = []
-        Array.wrap_nil(rules).each do |rule|
+        wrap_nil(rules).each do |rule|
           evaluated = evaluate(rule)
-          Array.wrap_nil(evaluated).each { |v| result << v.to_s }
+          wrap_nil(evaluated).each { |v| result << v.to_s }
         end
         result.join
       end

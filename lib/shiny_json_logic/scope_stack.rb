@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "core_ext/indifferent_hash"
+require "shiny_json_logic/utils/indifferent_hash"
 
 module ShinyJsonLogic
   # Manages a stack of scopes for nested data access in iterators.

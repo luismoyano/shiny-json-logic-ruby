@@ -4,7 +4,7 @@ module ShinyJsonLogic
   module Operations
     class Preserve < Iterable::Base
       def initialize(rules, scope_stack)
-        @collection = Array.wrap(rules) || []
+        @collection = wrap(rules) || []
         # Skip Iterable::Base initialization, go directly to Operations::Base
         # Preserve doesn't need the standard iterable setup (filter, collection from rules[0], etc.)
         @rules = rules

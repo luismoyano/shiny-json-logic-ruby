@@ -1,5 +1,3 @@
-require "core_ext/array"
-require "core_ext/hash"
 Dir[File.join(__dir__, "operations/**/*.rb")].each do |file|
   require file
 end

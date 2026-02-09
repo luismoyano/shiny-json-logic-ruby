@@ -4,8 +4,8 @@ module ShinyJsonLogic
   module Operations
     class Merge < Base
       def call
-        Array.wrap_nil(rules).map do |rule|
-          Array.wrap_nil(evaluate(rule))
+        wrap_nil(rules).map do |rule|
+          wrap_nil(evaluate(rule))
         end.reduce([], :+)
       end
     end
