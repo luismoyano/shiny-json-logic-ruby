@@ -6,7 +6,7 @@ module ShinyJsonLogic
       def call
         current = data
 
-        Array.wrap_nil(rules).each do |rule|
+        wrap_nil(rules).each do |rule|
           segment = evaluate(rule)
           return false unless current.key?(segment)
           current = current[segment]

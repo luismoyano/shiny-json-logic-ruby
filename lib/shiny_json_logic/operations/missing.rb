@@ -5,11 +5,11 @@ module ShinyJsonLogic
   module Operations
     class Missing < Base
       def call
-        items = Array.wrap_nil(rules)
+        items = wrap_nil(rules)
         keys = []
         items.each do |rule|
           evaluated = evaluate(rule)
-          keys.concat(Array.wrap_nil(evaluated).map(&:to_s))
+          keys.concat(wrap_nil(evaluated).map(&:to_s))
         end
         return keys unless data.is_a?(Hash)
 

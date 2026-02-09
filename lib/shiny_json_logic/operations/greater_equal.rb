@@ -11,7 +11,7 @@ module ShinyJsonLogic
 
       def call
         return handle_invalid_args if dynamic_args?
-        operands = Array.wrap_nil(rules)
+        operands = wrap_nil(rules)
         return handle_invalid_args if operands.length < 2
 
         prev = evaluate(operands[0])
@@ -28,15 +28,12 @@ module ShinyJsonLogic
       private
 
       def compare(a, b)
-        # Arrays u objetos → NaN
         return :nan if a.is_a?(Array) || a.is_a?(Hash) || b.is_a?(Array) || b.is_a?(Hash)
 
-        # Ambos strings → comparación lexicográfica
         if a.is_a?(String) && b.is_a?(String)
           return a <=> b
         end
 
-        # Convertir a números para comparar
         num_a = numerify_for_compare(a)
         num_b = numerify_for_compare(b)
         return :nan if num_a.nil? || num_b.nil?
@@ -50,7 +47,7 @@ module ShinyJsonLogic
         return 1.0 if value == true
         return 0.0 if value.nil?
         return value.to_f if value.is_a?(String) && numeric_string?(value)
-        nil # String no numérica
+        nil
       end
     end
   end

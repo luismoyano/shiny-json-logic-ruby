@@ -1,10 +1,8 @@
-require "core_ext/array"
-
 module ShinyJsonLogic
   module Operations
     class Try < Base
       def call
-        items = Array.wrap_nil(rules)
+        items = wrap_nil(rules)
         last_error = nil
 
         items.each do |item|

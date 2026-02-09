@@ -14,12 +14,12 @@ module ShinyJsonLogic
 
       def collect_values
         result = []
-        Array.wrap_nil(rules).each do |rule|
+        wrap_nil(rules).each do |rule|
           evaluated = evaluate(rule)
           # If rule was an operation (Hash), expand the result array
           # If rule was a literal array, it's invalid (will fail numeric check)
           if operation?(rule)
-            Array.wrap_nil(evaluated).each { |val| result << val }
+            wrap_nil(evaluated).each { |val| result << val }
           else
             result << evaluated
           end

@@ -9,7 +9,7 @@ module ShinyJsonLogic
       include Numericals::Numerify
 
       def call
-        operands = Array.wrap_nil(rules)
+        operands = wrap_nil(rules)
         return handle_invalid_args if operands.empty?
 
         safe_arithmetic do

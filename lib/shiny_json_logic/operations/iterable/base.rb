@@ -78,7 +78,7 @@ module ShinyJsonLogic
           if collection.nil?
             @collection = []
           else
-            @collection = Array.wrap(evaluate(collection))
+            @collection = wrap(evaluate(collection))
           end
         end
 

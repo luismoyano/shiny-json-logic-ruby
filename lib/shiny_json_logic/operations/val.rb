@@ -4,7 +4,7 @@ module ShinyJsonLogic
   module Operations
     class Val < Base
       def call
-        raw_keys = Array.wrap_nil(rules)
+        raw_keys = wrap_nil(rules)
         
         # {"val": []} or {"val": null} - return current scope
         if raw_keys.empty? || raw_keys == [nil]

@@ -11,7 +11,7 @@ module ShinyJsonLogic
 
       def call
         return handle_invalid_args if dynamic_args?
-        operands = Array.wrap_nil(rules)
+        operands = wrap_nil(rules)
         return handle_invalid_args if operands.length < 2
 
         first = evaluate(operands[0])
