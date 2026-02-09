@@ -1,12 +1,12 @@
 require "shiny_json_logic/operations/base"
 require "shiny_json_logic/numericals/with_error_handling"
-require "shiny_json_logic/numericals/numerify"
+require "shiny_json_logic/comparisons/comparable"
 
 module ShinyJsonLogic
   module Operations
     class SmallerEqual < Base
       include Numericals::WithErrorHandling
-      include Numericals::Numerify
+      include Comparisons::Comparable
       raise_on_dynamic_args!
 
       def call
@@ -23,31 +23,6 @@ module ShinyJsonLogic
           prev = curr
         end
         true
-      end
-
-      private
-
-      def compare(a, b)
-        return :nan if a.is_a?(Array) || a.is_a?(Hash) || b.is_a?(Array) || b.is_a?(Hash)
-
-        if a.is_a?(String) && b.is_a?(String)
-          return a <=> b
-        end
-
-        num_a = numerify_for_compare(a)
-        num_b = numerify_for_compare(b)
-        return :nan if num_a.nil? || num_b.nil?
-
-        num_a <=> num_b
-      end
-
-      def numerify_for_compare(value)
-        return value.to_f if value.is_a?(Numeric)
-        return 0.0 if value == false
-        return 1.0 if value == true
-        return 0.0 if value.nil?
-        return value.to_f if value.is_a?(String) && numeric_string?(value)
-        nil # String no numérica
       end
     end
   end
