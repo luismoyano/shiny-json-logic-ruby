@@ -1,12 +1,12 @@
 require "shiny_json_logic/operations/base"
 require "shiny_json_logic/numericals/with_error_handling"
-require "shiny_json_logic/numericals/numerify"
+require "shiny_json_logic/comparisons/comparable"
 
 module ShinyJsonLogic
   module Operations
     class Different < Base
       include Numericals::WithErrorHandling
-      include Numericals::Numerify
+      include Comparisons::Comparable
       raise_on_dynamic_args!
 
       def call
@@ -19,38 +19,10 @@ module ShinyJsonLogic
           curr = evaluate(rule)
           result = compare(prev, curr)
           return handle_nan if result == :nan
-          return false if result == 0  # Si son iguales, != es false
+          return false if result == 0
           prev = curr
         end
-        true  # Todos los pares consecutivos son diferentes
-      end
-
-      private
-
-      def compare(a, b)
-        # Arrays u objetos → NaN
-        return :nan if a.is_a?(Array) || a.is_a?(Hash) || b.is_a?(Array) || b.is_a?(Hash)
-
-        # Ambos strings → comparación directa
-        if a.is_a?(String) && b.is_a?(String)
-          return a <=> b
-        end
-
-        # Convertir a números para comparar
-        num_a = numerify_for_compare(a)
-        num_b = numerify_for_compare(b)
-        return :nan if num_a.nil? || num_b.nil?
-
-        num_a <=> num_b
-      end
-
-      def numerify_for_compare(value)
-        return value.to_f if value.is_a?(Numeric)
-        return 0.0 if value == false
-        return 1.0 if value == true
-        return 0.0 if value.nil?
-        return value.to_f if value.is_a?(String) && numeric_string?(value)
-        nil # String no numérica
+        true
       end
     end
   end
