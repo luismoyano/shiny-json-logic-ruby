@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "core_ext/indifferent_hash"
+
 module ShinyJsonLogic
   # Manages a stack of scopes for nested data access in iterators.
   #
@@ -17,14 +19,13 @@ module ShinyJsonLogic
     attr_reader :stack
 
     def initialize(root_data)
-      # Deep dup the root data to prevent mutations from affecting scope resolution
-      @root_snapshot = deep_dup(root_data)
-      @stack = [{ data: @root_snapshot, index: 0 }]
+      @root_data = wrap_indifferent(root_data)
+      @stack = [{ data: @root_data, index: 0 }]
     end
 
     # Push a new scope onto the stack (when entering an iteration)
     def push(data, index: 0)
-      stack.push({ data: data, index: index })
+      stack.push({ data: wrap_indifferent(data), index: index })
     end
 
     # Pop the top scope (when exiting an iteration)
@@ -66,25 +67,26 @@ module ShinyJsonLogic
       keys.reduce(data) do |obj, key|
         return nil if obj.nil?
         
-        case obj
-        when Hash
+        result = if obj.is_a?(Hash)
           obj[key]
-        when Array
+        elsif obj.is_a?(Array)
           # Convert string keys to integers for arrays
           index = key.is_a?(String) ? key.to_i : key
           obj[index]
         else
           nil
         end
+
+        # Wrap nested hashes for indifferent access
+        result.is_a?(Hash) && !result.is_a?(IndifferentHash) ? IndifferentHash.new(result) : result
       end
     end
 
-    def deep_dup(obj)
-      case obj
-      when Hash
-        obj.transform_values { |v| deep_dup(v) }
-      when Array
-        obj.map { |v| deep_dup(v) }
+    def wrap_indifferent(obj)
+      if obj.is_a?(IndifferentHash)
+        obj
+      elsif obj.is_a?(Hash)
+        IndifferentHash.new(obj)
       else
         obj
       end

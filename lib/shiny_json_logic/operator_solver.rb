@@ -7,7 +7,7 @@ end
 module ShinyJsonLogic
   class OperatorSolver
     def operation?(value)
-      value.keys.any? { |key| solvers.key?(key) }
+      value.keys.any? { |key| solvers.key?(key.to_s) }
     end
 
     def solvers

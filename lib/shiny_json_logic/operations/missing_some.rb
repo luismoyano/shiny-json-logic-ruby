@@ -6,10 +6,11 @@ module ShinyJsonLogic
     class MissingSome < Missing
       def call
         min_required = evaluate(rules[0])
-        keys = Array.wrap_nil(evaluate(rules[1]))
+        keys = Array.wrap_nil(evaluate(rules[1])).map(&:to_s)
         return keys unless data.is_a?(Hash) && rules.is_a?(Array)
 
-        present = keys & data.keys
+        data_keys = data.keys.map(&:to_s)
+        present = keys & data_keys
         present.size >= min_required ? [] : Missing.new(keys, scope_stack).call
       end
     end
