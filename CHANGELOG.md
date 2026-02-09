@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.13] - 2026-02-09
+### Changed
+- Empty objects `{}` are now falsy (previously truthy). This aligns with the official JSONLogic spec.
+- Official tests now pass 100% (601/601).
+
 ## [0.2.12] - 2026-02-09
 ### Changed
 - Fixes access error in var when value is false (previously returned nil due to bug).
