@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.10] - 2026-02-09
+### Changed
+- Moves utilities to `utils/` namespace, removes `core_ext/` directory
+- Moves `IndifferentHash` from `core_ext/` to `utils/`
+- Extracts comparison logic to `Comparisons::Comparable` module
+- Eliminates code duplication across 6 comparison operators (>, >=, <, <=, ==, !=)
+
 ## [0.2.9] - 2026-02-08
 ### Added
 - New specific error classes: `Errors::InvalidArguments`, `Errors::NotANumber`, `Errors::UnknownOperator`
