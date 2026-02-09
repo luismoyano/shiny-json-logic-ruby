@@ -23,30 +23,9 @@ RSpec.describe ShinyJsonLogic do
     end
   end
 
-  describe "indifferent access" do
-    describe "data with string keys" do
-      let(:data) { { "name" => "John", "age" => 30, "items" => [1, 2, 3] } }
-
-      it "accesses data with var operator" do
-        expect(described_class.apply({ "var" => "name" }, data)).to eq("John")
-      end
-
-      it "accesses data with val operator" do
-        expect(described_class.apply({ "val" => "age" }, data)).to eq(30)
-      end
-
-      it "works with missing operator" do
-        expect(described_class.apply({ "missing" => ["name", "address"] }, data)).to eq(["address"])
-      end
-
-      it "works with missing_some operator" do
-        expect(described_class.apply({ "missing_some" => [1, ["name", "address"]] }, data)).to eq([])
-      end
-
-      it "works with iterators" do
-        expect(described_class.apply({ "map" => [{ "var" => "items" }, { "*" => [{ "var" => "" }, 2] }] }, data)).to eq([2, 4, 6])
-      end
-    end
+  describe "indifferent access with symbol keys" do
+    # These tests use Ruby symbols which can't be represented in JSON
+    # so they remain as RSpec tests
 
     describe "data with symbol keys" do
       let(:data) { { name: "Jane", age: 25, items: [4, 5, 6] } }
@@ -176,6 +155,30 @@ RSpec.describe ShinyJsonLogic do
         original = data.dup
         described_class.apply({ "var" => "name" }, data)
         expect(data).to eq(original)
+      end
+    end
+  end
+
+  describe "shiny tests (from JSON)" do
+    json_path = File.join(__dir__, "fixtures", "shiny_tests.json")
+    testcases = JSON.parse(File.read(json_path))
+
+    testcases.each do |testcase|
+      next if testcase.is_a?(String) # Skip comment strings
+
+      description = testcase["description"]
+
+      it description do
+        if testcase.key?("error")
+          expect {
+            described_class.apply(testcase["rule"], testcase["data"])
+          }.to raise_error(ShinyJsonLogic::Errors::Base) do |error|
+            expect(error.type).to eq(testcase["error"]["type"])
+          end
+        else
+          result = described_class.apply(testcase["rule"], testcase["data"])
+          expect(result).to eq(testcase["result"])
+        end
       end
     end
   end

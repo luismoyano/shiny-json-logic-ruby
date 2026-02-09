@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.12] - 2026-02-09
+### Changed
+- Fixes access error in var when value is false (previously returned nil due to bug).
+
 ## [0.2.11] - 2026-02-09
 ### Changed
 - Removes monkey patches in favour of isolated modules.

@@ -11,7 +11,8 @@ module ShinyJsonLogic
 
         return data if key.nil? || key == ""
 
-        fetch_value(data, key) || default
+        result = fetch_value(data, key)
+        result.nil? ? default : result
       rescue
         default || data
       end
@@ -28,10 +29,14 @@ module ShinyJsonLogic
           return nil if current.nil?
           
           if current.is_a?(Hash)
-            # Try string key first, then symbol key for indifferent access
-            result = current[k]
-            result = current[k.to_sym] if result.nil? && !current.key?(k)
-            result
+            # Check if key exists (string or symbol) and return value
+            if current.key?(k)
+              current[k]
+            elsif current.key?(k.to_sym)
+              current[k.to_sym]
+            else
+              nil
+            end
           elsif current.is_a?(Array)
             current[k.to_i]
           else
