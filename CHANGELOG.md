@@ -4,10 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [0.2.10] - 2026-02-09
 ### Changed
-- Moves utilities to `utils/` namespace, removes `core_ext/` directory
-- Moves `IndifferentHash` from `core_ext/` to `utils/`
-- Extracts comparison logic to `Comparisons::Comparable` module
-- Eliminates code duplication across 6 comparison operators (>, >=, <, <=, ==, !=)
+- Removes monkey patches in favour of isolated modules.
+
+### Added
+- Supports hashes with string or symbol access indifferently (e.g. `{"a" => 1}` can be accessed with `:a` or `"a"`).
 
 ## [0.2.9] - 2026-02-08
 ### Added
