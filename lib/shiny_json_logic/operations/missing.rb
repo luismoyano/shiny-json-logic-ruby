@@ -9,7 +9,7 @@ module ShinyJsonLogic
         keys = []
         items.each do |rule|
           evaluated = evaluate(rule)
-          keys.concat(Array.wrap_nil(evaluated))
+          keys.concat(Array.wrap_nil(evaluated).map(&:to_s))
         end
         return keys unless data.is_a?(Hash)
 
@@ -21,7 +21,7 @@ module ShinyJsonLogic
       def deep_keys(hash)
         return unless hash.is_a?(Hash)
 
-        hash.keys.map{|key| ([key] << deep_keys(hash[key])).compact.join(".") }
+        hash.keys.map{|key| ([key.to_s] << deep_keys(hash[key])).compact.join(".") }
       end
     end
   end

@@ -30,7 +30,7 @@ module ShinyJsonLogic
       operation, args = rule.first
       
       # Check if operation is known
-      unless OperatorSolver.new.solvers.key?(operation)
+      unless OperatorSolver.new.solvers.key?(operation.to_s)
         raise Errors::UnknownOperator
       end
       
