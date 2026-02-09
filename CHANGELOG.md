@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.2.10] - 2026-02-09
+## [0.2.11] - 2026-02-09
 ### Changed
 - Removes monkey patches in favour of isolated modules.
 
