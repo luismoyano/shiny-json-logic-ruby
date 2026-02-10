@@ -161,13 +161,50 @@ Currently implemented operators include:
 📌 **Note:**  
 `val`, `exists`, `??`, `try`, `throw` and `preserve` are **only supported by ShinyJsonLogic** among Ruby implementations.
 
-(See `lib/shiny_json_logic/operations` for the authoritative list.)
+See the [spec](https://jsonlogicruby.com/docs) for the full list of operators and their behavior.
+
+---
+
+## Error Handling
+
+ShinyJsonLogic uses native Ruby exceptions for error handling:
+
+```ruby
+# Unknown operators raise an error
+ShinyJsonLogic.apply({ "unknown_op" => [1, 2] }, {})
+# => raises ShinyJsonLogic::Errors::UnknownOperator
+
+# Invalid arguments raise an error
+ShinyJsonLogic.apply({ "+" => ["not", "numbers"] }, {})
+# => raises ShinyJsonLogic::Errors::InvalidArguments
+
+# You can use try/throw for controlled error handling within rules
+rule = {
+  "try" => [
+    { "throw" => "Something went wrong" },
+    { "cat" => ["Error: ", { "var" => "type" }] }
+  ]
+}
+ShinyJsonLogic.apply(rule, {})
+# => "Error: Something went wrong"
+```
+
+Error classes:
+- `ShinyJsonLogic::Errors::UnknownOperator` - Unknown operator in rule
+- `ShinyJsonLogic::Errors::InvalidArguments` - Invalid arguments to operator
+- `ShinyJsonLogic::Errors::NotANumber` - NaN result in numeric operation
 
 ---
 
 ## Compatibility
 
-Compatibility is measured automatically against the official JSONLogic test suites from `json-logic/compat-tables`.
+Compatibility is measured against two external test suites:
+
+| Test Suite | Status | Description |
+|------------|--------|-------------|
+| **compat-tables** (`json-logic/compat-tables`) | 99.6% (1121/1126) | Main compatibility suite |
+| **official tests** (`json-logic/.github/tests`) | 100% (601/601) | Official spec tests |
+
 See `badges/compat.json` for the exact numbers behind the badge.
 
 ---
