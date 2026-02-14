@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.14] - 2026-02-14
+### Fixed
+- `max`/`min` operators no longer incorrectly expand arrays from operations inside array wrapper.
+
 ## [0.2.13] - 2026-02-09
 ### Changed
 - Empty objects `{}` are now falsy (previously truthy). This aligns with the official JSONLogic spec.
