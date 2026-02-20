@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.2.15] - 2026-02-15
+### Changed
+- Refactors operation solvers to improve performance.
+- Includes frozen string literals to optimize string handling.
+- Stops relying in compat tables as a measure of validity.
 
 ## [0.2.14] - 2026-02-14
 ### Fixed

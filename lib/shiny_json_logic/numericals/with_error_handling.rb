@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "shiny_json_logic/errors/base"
 require "shiny_json_logic/errors/not_a_number"
 require "shiny_json_logic/errors/invalid_arguments"

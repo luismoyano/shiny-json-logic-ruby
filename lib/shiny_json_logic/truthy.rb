@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # https://jsonlogic.com/truthy.html
 
 module ShinyJsonLogic
