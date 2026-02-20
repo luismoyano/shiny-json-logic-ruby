@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "shiny_json_logic/version"
 require "shiny_json_logic/engine"
 require "shiny_json_logic/errors/base"
@@ -30,7 +32,7 @@ module ShinyJsonLogic
       operation, args = rule.first
       
       # Check if operation is known
-      unless OperatorSolver.new.solvers.key?(operation.to_s)
+      unless OperatorSolver::SOLVERS.key?(operation.to_s)
         raise Errors::UnknownOperator
       end
       

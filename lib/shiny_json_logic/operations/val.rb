@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "shiny_json_logic/operations/base"
 
 module ShinyJsonLogic

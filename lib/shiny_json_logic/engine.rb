@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "shiny_json_logic/operator_solver"
 
 module ShinyJsonLogic
@@ -13,6 +15,7 @@ module ShinyJsonLogic
 
         operation, args = rule.to_a.first
         operation_key = operation.to_s
+        
         return rule unless operations.key?(operation_key)
 
         operations.fetch(operation_key).new(args, scope_stack).call
@@ -28,7 +31,7 @@ module ShinyJsonLogic
     attr_reader :rule, :scope_stack
 
     def operations
-      @operations ||= OperatorSolver.new.solvers
+      OperatorSolver::SOLVERS
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShinyJsonLogic
   module Operations
     class Try < Base

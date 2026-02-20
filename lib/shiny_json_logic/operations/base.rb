@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "shiny_json_logic/truthy"
 require "shiny_json_logic/utils/array"
 
@@ -53,7 +55,7 @@ module ShinyJsonLogic
       def operation?(value)
         return false unless value.is_a?(Hash) && !value.empty?
 
-        OperatorSolver.new.operation?(value)
+        OperatorSolver.operation?(value)
       end
     end
   end

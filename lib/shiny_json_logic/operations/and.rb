@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "shiny_json_logic/operations/base"
 require "shiny_json_logic/truthy"
 require "shiny_json_logic/numericals/with_error_handling"
