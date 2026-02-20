@@ -198,12 +198,11 @@ Error classes:
 
 ## Compatibility
 
-Compatibility is measured against two external test suites:
+Compatibility is measured against the official JSONLogic test suite (`json-logic/.github/tests`):
 
-| Test Suite | Status | Description |
-|------------|--------|-------------|
-| **compat-tables** (`json-logic/compat-tables`) | 99.6% (1121/1126) | Main compatibility suite |
-| **official tests** (`json-logic/.github/tests`) | 100% (601/601) | Official spec tests |
+| Test Suite | Status |
+|------------|--------|
+| **Official tests** | 100% (601/601) |
 
 See `badges/compat.json` for the exact numbers behind the badge.
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "compat",
-  "message": "99.2% (1129/1138)",
+  "label": "official tests",
+  "message": "100% (601/601)",
   "color": "green"
 }
