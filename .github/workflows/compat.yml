@@ -45,14 +45,14 @@ jobs:
           cat > badges/compat.json <<EOF
           {
             "schemaVersion": 1,
-            "label": "compat",
+            "label": "official tests",
             "message": "${PCT}% (${PASSED}/${TOTAL})",
             "color": "${COLOR}"
           }
           EOF
 
           {
-            echo "## JSONLogic compatibility"
+            echo "## JSONLogic compatibility (official tests)"
             echo ""
             echo "- **${PCT}%** (${PASSED}/${TOTAL})"
             echo "- exit code (ignored): ${exit_code:-0}"
