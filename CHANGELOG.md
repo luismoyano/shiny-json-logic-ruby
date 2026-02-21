@@ -1,7 +1,12 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-## [0.2.15] - 2026-02-15
+## [0.2.16] - 2026-02-21
+### Changed
+- Removed simple delegator to check indifferent access in favour of key transformation . This improves performance and reduces memory usage.
+- Removes instantiation of engine in favor of static evaluation to improve performance & memory usage.
+
+## [0.2.15] - 2026-02-20
 ### Changed
 - Refactors operation solvers to improve performance.
 - Includes frozen string literals to optimize string handling.
