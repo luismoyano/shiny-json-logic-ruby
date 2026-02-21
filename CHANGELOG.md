@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.3.0] - 2026-02-21
+### Changed
+- Refactors internal architecture to improve performance by removing instantiation of operations.
+
 ## [0.2.16] - 2026-02-21
 ### Changed
 - Removed simple delegator to check indifferent access in favour of key transformation . This improves performance and reduces memory usage.
