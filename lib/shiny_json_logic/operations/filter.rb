@@ -9,13 +9,11 @@ module ShinyJsonLogic
       raise_on_nil_filter!
       raise_on_dynamic_args!
 
-      private
-
-      def on_each(item)
+      def self.on_each(item, filter, scope_stack)
         Truthy.call(Engine.call(filter, scope_stack)) ? item : nil
       end
 
-      def on_after(results)
+      def self.on_after(results, _scope_stack)
         results.compact
       end
     end

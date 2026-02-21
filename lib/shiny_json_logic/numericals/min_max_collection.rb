@@ -5,29 +5,24 @@ require "shiny_json_logic/errors/invalid_arguments"
 module ShinyJsonLogic
   module Numericals
     module MinMaxCollection
-      private
+      module_function
 
-      def collect_numeric_values
-        values = collect_values
+      def collect_numeric_values(rules, scope_stack)
+        values = collect_values(rules, scope_stack)
         raise Errors::InvalidArguments if values.empty?
         raise Errors::InvalidArguments unless values.all? { |v| v.is_a?(Numeric) }
         values
       end
 
-      def collect_values
-        # Logic chaining: if rules is a single operation, expand the result
-        # e.g., {"max": {"val": "data"}} where data is [1,2,3] -> max of 1,2,3
-        if operation?(rules)
-          evaluated = evaluate(rules)
-          return wrap_nil(evaluated)
+      def collect_values(rules, scope_stack)
+        if Operations::Base.op?(rules)
+          evaluated = Engine.call(rules, scope_stack)
+          return Utils::Array.wrap_nil(evaluated)
         end
 
-        # Otherwise, rules is an array of arguments - evaluate each without expanding
-        # e.g., {"max": [1, 2, 3]} or {"max": [1, {"val": "x"}]}
-        # Note: {"max": [{"val": "data"}]} where data is [1,2,3] -> invalid (array is one element)
         result = []
-        wrap_nil(rules).each do |rule|
-          result << evaluate(rule)
+        Utils::Array.wrap_nil(rules).each do |rule|
+          result << Engine.call(rule, scope_stack)
         end
         result
       end

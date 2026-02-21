@@ -3,8 +3,8 @@
 module ShinyJsonLogic
   module Operations
     class Try < Base
-      def call
-        items = wrap_nil(rules)
+      def self.call(rules, scope_stack)
+        items = Utils::Array.wrap_nil(rules)
         last_error = nil
 
         items.each do |item|
@@ -33,7 +33,6 @@ module ShinyJsonLogic
             end
 
             last_error = e
-            # Don't add to errors array - we're handling it
           end
         end
 

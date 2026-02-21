@@ -18,13 +18,12 @@ This gem focuses on predictable behavior, strict spec alignment, high compatibil
 - 🕰️ **Ruby 2.7+ compatible**, one of the lowest minimum versions supported in the Ruby ecosystem.
 - 🔧 **Actively maintained** and continuously improved.
 - 📊 **Highest JSONLogic compatibility in the Ruby ecosystem**, as measured against the official test suites.
-- ⭐ **Only Ruby implementation supporting the latest standard operators** (`val`, `exists`, `??`, `try`, `throw`)
 
 If you want JSON Logic to *just work* in Ruby, this is the safe default.
 
 ---
 # Test it for yourself!
-Try it out in the sandbox at [jsonlogicruby.com](https://jsonlogicruby.com)
+Try it out in the sandbox at [jsonlogicruby.com](https://jsonlogicruby.com/playground) or run the official test suite with `bin/test.sh` to see the compatibility for yourself.
 
 ---
 
@@ -157,9 +156,6 @@ Currently implemented operators include:
 
 ### Evaluation
 `preserve`✨
-
-📌 **Note:**  
-`val`, `exists`, `??`, `try`, `throw` and `preserve` are **only supported by ShinyJsonLogic** among Ruby implementations.
 
 See the [spec](https://jsonlogicruby.com/docs) for the full list of operators and their behavior.
 

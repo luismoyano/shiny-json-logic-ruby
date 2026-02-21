@@ -6,32 +6,29 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Var < Base
-      def call
-        items = wrap_nil(rules)
-        key = evaluate(items[0])
-        default = items[1] ? evaluate(items[1]) : nil
+      def self.execute(rules, scope_stack)
+        items = Utils::Array.wrap_nil(rules)
+        key = evaluate(items[0], scope_stack)
+        default = items[1] ? evaluate(items[1], scope_stack) : nil
+        current_data = scope_stack.current
 
-        return data if key.nil? || key == ""
+        return current_data if key.nil? || key == ""
 
-        result = fetch_value(data, key)
+        result = fetch_value(current_data, key)
         result.nil? ? default : result
       rescue
-        default || data
+        default || scope_stack.current
       end
 
-      private
-
-      def fetch_value(obj, key)
+      def self.fetch_value(obj, key)
         return nil if obj.nil?
-        
-        # Split dot-separated keys
+
         keys = key.to_s.split('.')
-        
+
         keys.reduce(obj) do |current, k|
           return nil if current.nil?
-          
+
           if current.is_a?(Hash)
-            # Data is already normalized to string keys
             current[k]
           elsif current.is_a?(Array)
             current[k.to_i]
@@ -40,6 +37,7 @@ module ShinyJsonLogic
           end
         end
       end
+      private_class_method :fetch_value
     end
   end
 end

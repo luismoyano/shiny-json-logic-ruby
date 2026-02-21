@@ -8,9 +8,7 @@ module ShinyJsonLogic
     class Some < Iterable::Base
       raise_on_dynamic_args!
 
-      private
-
-      def on_after(results)
+      def self.on_after(results, _scope_stack)
         results.any? { |res| res == true }
       end
     end

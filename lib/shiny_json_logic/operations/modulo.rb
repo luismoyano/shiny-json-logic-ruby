@@ -7,18 +7,19 @@ require "shiny_json_logic/numericals/numerify"
 module ShinyJsonLogic
   module Operations
     class Modulo < Base
-      include Numericals::WithErrorHandling
-      include Numericals::Numerify
+      extend Numericals::WithErrorHandling
 
-      def call
-        operands = wrap_nil(rules)
+      def self.execute(rules, scope_stack)
+        operands = Utils::Array.wrap_nil(rules)
         return handle_invalid_args if operands.empty?
 
         safe_arithmetic do
           result = nil
           count = 0
 
-          each_operand(operands) do |num|
+          operands.each do |rule|
+            evaluated = evaluate(rule, scope_stack)
+            num = Numericals::Numerify.numerify(evaluated)
             count += 1
             result = result.nil? ? num : result.remainder(num)
           end
@@ -26,15 +27,6 @@ module ShinyJsonLogic
           return handle_invalid_args if count < 2
 
           result
-        end
-      end
-
-      private
-
-      def each_operand(operands)
-        operands.each do |rule|
-          evaluated = evaluate(rule)
-          yield numerify(evaluated)
         end
       end
     end

@@ -7,35 +7,17 @@ require "shiny_json_logic/numericals/numerify"
 module ShinyJsonLogic
   module Operations
     class Addition < Base
-      include Numericals::WithErrorHandling
-      include Numericals::Numerify
+      extend Numericals::WithErrorHandling
 
-      def call
+      def self.execute(rules, scope_stack)
         safe_arithmetic do
           result = 0.0
-          count = 0
-
-          each_operand do |num|
-            count += 1
-            result = result + num
+          Utils::Array.wrap_nil(rules).each do |rule|
+            val = Numericals::Numerify.numerify(evaluate(rule, scope_stack))
+            result += val.nil? ? 0 : val
           end
-
           result
         end
-      end
-
-      private
-
-      def each_operand
-        wrap_nil(rules).each do |rule|
-          yield numerify(evaluate(rule))
-        end
-      end
-
-      def numerify(value)
-        val = super
-        return 0 if val.nil?
-        val
       end
     end
   end
