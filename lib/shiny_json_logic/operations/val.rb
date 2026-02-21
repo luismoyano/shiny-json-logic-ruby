@@ -46,8 +46,9 @@ module ShinyJsonLogic
         keys.reduce(data) do |obj, key|
           return nil if obj.nil?
           
-          result = if obj.is_a?(Hash)
-            obj[key]
+          if obj.is_a?(Hash)
+            # Normalize key to string for lookup (data is already string-keyed)
+            obj[key.to_s]
           elsif obj.is_a?(Array)
             # Convert string keys to integers for arrays
             index = key.is_a?(String) ? key.to_i : key
@@ -55,9 +56,6 @@ module ShinyJsonLogic
           else
             nil
           end
-
-          # Wrap nested hashes for indifferent access
-          result.is_a?(Hash) && !result.is_a?(IndifferentHash) ? IndifferentHash.new(result) : result
         end
       end
     end

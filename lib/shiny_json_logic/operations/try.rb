@@ -15,8 +15,7 @@ module ShinyJsonLogic
           end
 
           begin
-            engine = Engine.new(item, scope_stack)
-            result = engine.call
+            result = Engine.call(item, scope_stack)
 
             # Pop error contexts if we pushed them
             if last_error

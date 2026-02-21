@@ -29,7 +29,7 @@ module ShinyJsonLogic
       end
 
       def evaluate(rule)
-        Engine.new(rule, scope_stack).call
+        Engine.call(rule, scope_stack)
       end
 
       def dynamic_args?
