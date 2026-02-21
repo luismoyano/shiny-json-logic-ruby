@@ -7,39 +7,33 @@ require "shiny_json_logic/numericals/with_error_handling"
 module ShinyJsonLogic
   module Operations
     class Reduce < Iterable::Base
-      include Numericals::WithErrorHandling
+      extend Numericals::WithErrorHandling
       raise_on_dynamic_args!
 
-      def initialize(rules, scope_stack)
-        # Capture initial accumulator before super (which may pre-process rules)
-        initial_accumulator_rule = rules.is_a?(Array) ? rules[2] : nil
-        super
-        # Evaluate the initial accumulator value (third argument)
-        @accumulator = Engine.call(initial_accumulator_rule, scope_stack)
-      end
+      def self.call(rules, scope_stack)
+        rules = resolve_rules(rules, scope_stack)
 
-      private
+        collection, filter = setup_collection(rules, scope_stack)
 
-      attr_accessor :accumulator
+        # Evaluate initial accumulator (third argument)
+        accumulator = Engine.call(rules[2], scope_stack)
 
-      def on_before_each(item, index = 0)
-        # For reduce, we need to create a special scope with current and accumulator
-        # Push iterator context
-        scope_stack.push({ "index" => index }, index: index)
-        
-        # Push item scope with current and accumulator
-        reduce_scope = { "current" => item, "accumulator" => accumulator }
-        scope_stack.push(reduce_scope, index: index)
-      end
-
-      def on_each(_item)
-        self.accumulator = Engine.call(filter, scope_stack)
-      end
-
-      def on_after(_results)
-        safe_arithmetic do
-          self.accumulator
+        collection.each_with_index do |item, index|
+          scope_stack.push({ "index" => index }, index: index)
+          reduce_scope = { "current" => item, "accumulator" => accumulator }
+          scope_stack.push(reduce_scope, index: index)
+          begin
+            accumulator = Engine.call(filter, scope_stack)
+            scope_stack.pop
+            scope_stack.pop
+          rescue => e
+            scope_stack.pop
+            scope_stack.pop
+            raise e
+          end
         end
+
+        safe_arithmetic { accumulator }
       end
     end
   end

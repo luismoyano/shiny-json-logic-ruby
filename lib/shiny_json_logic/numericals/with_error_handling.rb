@@ -7,6 +7,8 @@ require "shiny_json_logic/errors/invalid_arguments"
 module ShinyJsonLogic
   module Numericals
     module WithErrorHandling
+      module_function
+
       def safe_arithmetic(&block)
         result = yield
         if result.to_f.nan? || result == Float::INFINITY || result == -Float::INFINITY

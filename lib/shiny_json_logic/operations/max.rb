@@ -6,10 +6,8 @@ require "shiny_json_logic/numericals/min_max_collection"
 module ShinyJsonLogic
   module Operations
     class Max < Base
-      include Numericals::MinMaxCollection
-
-      def call
-        collect_numeric_values.max
+      def self.execute(rules, scope_stack)
+        Numericals::MinMaxCollection.collect_numeric_values(rules, scope_stack).max
       end
     end
   end

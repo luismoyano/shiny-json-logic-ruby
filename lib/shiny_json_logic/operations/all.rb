@@ -8,9 +8,7 @@ module ShinyJsonLogic
     class All < Iterable::Base
       raise_on_dynamic_args!
 
-      private
-
-      def on_after(results)
+      def self.on_after(results, _scope_stack)
         return false if results.empty?
 
         results.all? { |res| Truthy.call(res) }

@@ -15,7 +15,7 @@ module ShinyJsonLogic
         
         return rule unless OPERATIONS.key?(operation_key)
 
-        OPERATIONS.fetch(operation_key).new(args, scope_stack).call
+        OPERATIONS.fetch(operation_key).call(args, scope_stack)
       elsif rule.is_a?(Array)
         rule.map { |val| call(val, scope_stack) }
       else

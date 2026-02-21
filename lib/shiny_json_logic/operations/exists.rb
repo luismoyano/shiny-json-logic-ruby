@@ -5,11 +5,11 @@ require "shiny_json_logic/operations/base"
 module ShinyJsonLogic
   module Operations
     class Exists < Base
-      def call
-        current = data
+      def self.execute(rules, scope_stack)
+        current = scope_stack.current
 
-        wrap_nil(rules).each do |rule|
-          segment = evaluate(rule)
+        Utils::Array.wrap_nil(rules).each do |rule|
+          segment = evaluate(rule, scope_stack)
           return false unless current.key?(segment)
           current = current[segment]
         end

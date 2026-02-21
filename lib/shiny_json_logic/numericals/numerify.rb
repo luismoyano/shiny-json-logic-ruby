@@ -3,7 +3,11 @@
 module ShinyJsonLogic
   module Numericals
     module Numerify
-      private
+      # Regex to match valid numeric strings (integers, floats, scientific notation)
+      # Examples: "123", "-45.67", "+3.14", "1e10", "2.5E-3", ".5", "-.5"
+      NUMERIC_REGEX = /\A[+-]?(?:\d+\.?\d*|\d*\.?\d+)(?:[eE][+-]?\d+)?\z/
+
+      module_function
 
       def numerify(value)
         return value.to_f if value.is_a?(Numeric)
@@ -15,10 +19,6 @@ module ShinyJsonLogic
 
         raise TypeError, "Cannot convert #{value.inspect} to a number"
       end
-
-      # Regex to match valid numeric strings (integers, floats, scientific notation)
-      # Examples: "123", "-45.67", "+3.14", "1e10", "2.5E-3", ".5", "-.5"
-      NUMERIC_REGEX = /\A[+-]?(?:\d+\.?\d*|\d*\.?\d+)(?:[eE][+-]?\d+)?\z/
 
       def numeric_string?(value)
         NUMERIC_REGEX.match?(value)

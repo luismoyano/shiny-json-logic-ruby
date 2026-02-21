@@ -6,34 +6,21 @@ require "shiny_json_logic/utils/array"
 module ShinyJsonLogic
   module Operations
     class Base
-      include Utils::Array
+      extend Utils::Array
 
-      def initialize(rules, scope_stack)
-        @scope_stack = scope_stack
-        @dynamic_args = operation?(rules)
-        @rules = pre_process(rules)
+      def self.call(rules, scope_stack)
+        execute(resolve_rules(rules, scope_stack), scope_stack)
       end
 
-      def call
+      def self.resolve_rules(rules, scope_stack)
+        dynamic = op?(rules)
+        rules = Engine.call(rules, scope_stack) if dynamic
+        raise Errors::InvalidArguments if dynamic && raise_on_dynamic_args?
+        rules
+      end
+
+      def self.execute(_rules, _scope_stack)
         raise NotImplementedError
-      end
-
-      protected
-
-      attr_reader :scope_stack
-      attr_accessor :rules
-
-      # Access current data through scope_stack
-      def data
-        scope_stack.current
-      end
-
-      def evaluate(rule)
-        Engine.call(rule, scope_stack)
-      end
-
-      def dynamic_args?
-        @dynamic_args && self.class.raise_on_dynamic_args?
       end
 
       def self.raise_on_dynamic_args!
@@ -44,17 +31,12 @@ module ShinyJsonLogic
         @raise_on_dynamic_args
       end
 
-      private
-
-      def pre_process(rules)
-        return evaluate(rules) if operation?(rules)
-
-        rules
+      def self.evaluate(rule, scope_stack)
+        Engine.call(rule, scope_stack)
       end
 
-      def operation?(value)
+      def self.op?(value)
         return false unless value.is_a?(Hash) && !value.empty?
-
         OperatorSolver.operation?(value)
       end
     end

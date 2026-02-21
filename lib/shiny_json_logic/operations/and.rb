@@ -7,17 +7,16 @@ require "shiny_json_logic/numericals/with_error_handling"
 module ShinyJsonLogic
   module Operations
     class And < Base
-      include Numericals::WithErrorHandling
+      extend Numericals::WithErrorHandling
       raise_on_dynamic_args!
 
-      def call
-        return handle_invalid_args if dynamic_args?
+      def self.execute(rules, scope_stack)
         return handle_invalid_args unless rules.is_a?(Array)
         return false if rules.empty?
 
         result = nil
         rules.each do |rule|
-          result = evaluate(rule)
+          result = evaluate(rule, scope_stack)
           return result unless Truthy.call(result)
         end
         result

@@ -7,33 +7,22 @@ require "shiny_json_logic/numericals/with_error_handling"
 module ShinyJsonLogic
   module Operations
     class If < Base
-      include Numericals::WithErrorHandling
+      extend Numericals::WithErrorHandling
 
-      # Skip pre_process - spec requires static array, dynamic args should error
-      def initialize(rules, scope_stack)
-        @rules = rules
-        @scope_stack = scope_stack
-      end
-
-      def call
+      def self.call(rules, scope_stack)
+        # Skip pre_process - spec requires static array, dynamic args should error
         return handle_invalid_args unless rules.is_a?(Array)
 
         rules.each_slice(2) do |condition_rule, value_rule|
-          condition_result = evaluate(condition_rule)
+          condition_result = Engine.call(condition_rule, scope_stack)
           return condition_result if value_rule.nil?
 
           next unless Truthy.call(condition_result)
 
-          return evaluate(value_rule)
+          return Engine.call(value_rule, scope_stack)
         end
 
         nil
-      end
-
-      private
-
-      def evaluate(rule)
-        Engine.call(rule, scope_stack)
       end
     end
   end

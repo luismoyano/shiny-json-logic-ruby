@@ -6,14 +6,15 @@ require "shiny_json_logic/operations/missing"
 module ShinyJsonLogic
   module Operations
     class MissingSome < Missing
-      def call
-        min_required = evaluate(rules[0])
-        keys = wrap_nil(evaluate(rules[1])).map(&:to_s)
-        return keys unless data.is_a?(Hash) && rules.is_a?(Array)
+      def self.execute(rules, scope_stack)
+        min_required = evaluate(rules[0], scope_stack)
+        keys = Utils::Array.wrap_nil(evaluate(rules[1], scope_stack)).map(&:to_s)
+        current_data = scope_stack.current
+        return keys unless current_data.is_a?(Hash) && rules.is_a?(Array)
 
-        data_keys = data.keys.map(&:to_s)
+        data_keys = current_data.keys.map(&:to_s)
         present = keys & data_keys
-        present.size >= min_required ? [] : Missing.new(keys, scope_stack).call
+        present.size >= min_required ? [] : Missing.execute(keys, scope_stack)
       end
     end
   end
