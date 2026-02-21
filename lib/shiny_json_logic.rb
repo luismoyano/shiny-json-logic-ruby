@@ -13,9 +13,23 @@ module ShinyJsonLogic
   def self.apply(rule, data = {})
     validate_operators!(rule)
     
-    scope_stack = ScopeStack.new(data || {})
-    engine = Engine.new(rule, scope_stack)
-    engine.call
+    normalized_data = deep_stringify_keys(data || {})
+    scope_stack = ScopeStack.new(normalized_data)
+    Engine.call(rule, scope_stack)
+  end
+
+  # Recursively converts all hash keys to strings
+  def self.deep_stringify_keys(obj)
+    case obj
+    when Hash
+      obj.each_with_object({}) do |(key, value), result|
+        result[key.to_s] = deep_stringify_keys(value)
+      end
+    when Array
+      obj.map { |item| deep_stringify_keys(item) }
+    else
+      obj
+    end
   end
 
   # Validates that all operations in the rule tree use known operators

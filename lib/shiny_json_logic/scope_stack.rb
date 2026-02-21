@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "shiny_json_logic/utils/indifferent_hash"
-
 module ShinyJsonLogic
   # Manages a stack of scopes for nested data access in iterators.
   #
@@ -15,17 +13,20 @@ module ShinyJsonLogic
   #   {"val": [[1], "key"]} -> go up 1 level, access "key"
   #   {"val": [[2], "key"]} -> go up 2 levels, access "key"
   #
+  # Note: Data is normalized to string keys upfront in ShinyJsonLogic.apply,
+  # so no indifferent access is needed here.
+  #
   class ScopeStack
     attr_reader :stack
 
     def initialize(root_data)
-      @root_data = wrap_indifferent(root_data)
+      @root_data = root_data
       @stack = [{ data: @root_data, index: 0 }]
     end
 
     # Push a new scope onto the stack (when entering an iteration)
     def push(data, index: 0)
-      stack.push({ data: wrap_indifferent(data), index: index })
+      stack.push({ data: data, index: index })
     end
 
     # Pop the top scope (when exiting an iteration)
@@ -67,8 +68,9 @@ module ShinyJsonLogic
       keys.reduce(data) do |obj, key|
         return nil if obj.nil?
         
-        result = if obj.is_a?(Hash)
-          obj[key]
+        if obj.is_a?(Hash)
+          # Normalize key to string for lookup
+          obj[key.to_s]
         elsif obj.is_a?(Array)
           # Convert string keys to integers for arrays
           index = key.is_a?(String) ? key.to_i : key
@@ -76,19 +78,6 @@ module ShinyJsonLogic
         else
           nil
         end
-
-        # Wrap nested hashes for indifferent access
-        result.is_a?(Hash) && !result.is_a?(IndifferentHash) ? IndifferentHash.new(result) : result
-      end
-    end
-
-    def wrap_indifferent(obj)
-      if obj.is_a?(IndifferentHash)
-        obj
-      elsif obj.is_a?(Hash)
-        IndifferentHash.new(obj)
-      else
-        obj
       end
     end
   end

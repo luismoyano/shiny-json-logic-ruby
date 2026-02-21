@@ -46,7 +46,7 @@ module ShinyJsonLogic
         private
 
         def on_each(_item)
-          Engine.new(filter, scope_stack).call
+          Engine.call(filter, scope_stack)
         end
 
         def on_before_each(item, index = 0)

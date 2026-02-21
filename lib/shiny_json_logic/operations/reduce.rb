@@ -15,7 +15,7 @@ module ShinyJsonLogic
         initial_accumulator_rule = rules.is_a?(Array) ? rules[2] : nil
         super
         # Evaluate the initial accumulator value (third argument)
-        @accumulator = Engine.new(initial_accumulator_rule, scope_stack).call
+        @accumulator = Engine.call(initial_accumulator_rule, scope_stack)
       end
 
       private
@@ -33,7 +33,7 @@ module ShinyJsonLogic
       end
 
       def on_each(_item)
-        self.accumulator = Engine.new(filter, scope_stack).call
+        self.accumulator = Engine.call(filter, scope_stack)
       end
 
       def on_after(_results)

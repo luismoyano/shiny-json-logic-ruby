@@ -31,14 +31,8 @@ module ShinyJsonLogic
           return nil if current.nil?
           
           if current.is_a?(Hash)
-            # Check if key exists (string or symbol) and return value
-            if current.key?(k)
-              current[k]
-            elsif current.key?(k.to_sym)
-              current[k.to_sym]
-            else
-              nil
-            end
+            # Data is already normalized to string keys
+            current[k]
           elsif current.is_a?(Array)
             current[k.to_i]
           else
