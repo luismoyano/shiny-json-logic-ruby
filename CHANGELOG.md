@@ -1,6 +1,14 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.3.1] - 2026-02-23
+### Changed
+- Removes operations validation pass for optimization purposes.
+- Refactors Truthiness module for case/when in order to improve performance.
+
+### Added
+- Adds `Utils::DataHash` to differentiate context objects from rule objects allowing operation validity on the fly.
+
 ## [0.3.0] - 2026-02-21
 ### Changed
 - Refactors internal architecture to improve performance by removing instantiation of operations.
