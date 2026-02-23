@@ -5,13 +5,15 @@
 module ShinyJsonLogic
   module Truthy
     def self.call(subject)
-      return subject if [true, false].include? subject
-      return !subject.zero?	if subject.is_a? Numeric
-      return subject.any? if subject.is_a? Array
-      return !subject.empty? if subject.is_a? String
-      return subject.keys.any? if subject.is_a? Hash
-
-      !subject.nil?
+      case subject
+      when true, false then subject
+      when Numeric     then !subject.zero?
+      when String      then !subject.empty?
+      when Array       then subject.any?
+      when Hash        then !subject.empty?
+      when NilClass    then false
+      else                  true
+      end
     end
   end
 end

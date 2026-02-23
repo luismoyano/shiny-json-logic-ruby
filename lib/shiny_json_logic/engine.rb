@@ -1,21 +1,26 @@
 # frozen_string_literal: true
 
 require "shiny_json_logic/operator_solver"
+require "shiny_json_logic/utils/data_hash"
 
 module ShinyJsonLogic
   module Engine
     OPERATIONS = OperatorSolver::SOLVERS
 
     def self.call(rule, scope_stack)
-      if rule.is_a?(Hash)
+      if rule.is_a?(Utils::DataHash)
+        rule
+      elsif rule.is_a?(Hash)
         return rule if rule.empty?
 
-        operation, args = rule.to_a.first
-        operation_key = operation.to_s
-        
-        return rule unless OPERATIONS.key?(operation_key)
+        raise Errors::UnknownOperator if rule.size > 1
 
-        OPERATIONS.fetch(operation_key).call(args, scope_stack)
+        operation, args = rule.first
+        operation_key = operation.to_s
+
+        raise Errors::UnknownOperator unless OPERATIONS.key?(operation_key)
+
+        OPERATIONS[operation_key].call(args, scope_stack)
       elsif rule.is_a?(Array)
         rule.map { |val| call(val, scope_stack) }
       else
@@ -24,3 +29,4 @@ module ShinyJsonLogic
     end
   end
 end
+

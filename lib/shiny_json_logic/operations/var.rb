@@ -2,6 +2,7 @@
 
 require "shiny_json_logic/truthy"
 require "shiny_json_logic/operations/base"
+require "shiny_json_logic/utils/data_hash"
 
 module ShinyJsonLogic
   module Operations
@@ -12,10 +13,13 @@ module ShinyJsonLogic
         default = items[1] ? evaluate(items[1], scope_stack) : nil
         current_data = scope_stack.current
 
-        return current_data if key.nil? || key == ""
+        if key.nil? || key == ""
+          return Utils::DataHash.wrap(current_data)
+        end
 
         result = fetch_value(current_data, key)
-        result.nil? ? default : result
+        result = result.nil? ? default : result
+        Utils::DataHash.wrap(result)
       rescue
         default || scope_stack.current
       end

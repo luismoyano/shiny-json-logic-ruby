@@ -11,8 +11,6 @@ require "shiny_json_logic/scope_stack"
 
 module ShinyJsonLogic
   def self.apply(rule, data = {})
-    validate_operators!(rule)
-    
     normalized_data = deep_stringify_keys(data || {})
     scope_stack = ScopeStack.new(normalized_data)
     Engine.call(rule, scope_stack)

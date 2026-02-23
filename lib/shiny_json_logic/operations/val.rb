@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "shiny_json_logic/operations/base"
+require "shiny_json_logic/utils/data_hash"
 
 module ShinyJsonLogic
   module Operations
@@ -10,7 +11,7 @@ module ShinyJsonLogic
 
         # {"val": []} or {"val": null} - return current scope
         if raw_keys.empty? || raw_keys == [nil]
-          return scope_stack.current
+          return Utils::DataHash.wrap(scope_stack.current)
         end
 
         # Check if first element is an array (scope navigation syntax)
@@ -23,13 +24,13 @@ module ShinyJsonLogic
           evaluated_keys = remaining_keys.map { |rule| evaluate(rule, scope_stack) }
 
           levels = level_indicator.abs
-          return scope_stack.resolve(levels, *evaluated_keys)
+          return Utils::DataHash.wrap(scope_stack.resolve(levels, *evaluated_keys))
         end
 
         # Normal case: {"val": "key"} or {"val": ["key1", "key2"]}
         keys = raw_keys.map { |rule| evaluate(rule, scope_stack) }
         current_data = scope_stack.current
-        dig_value(current_data, keys)
+        Utils::DataHash.wrap(dig_value(current_data, keys))
       end
 
       def self.dig_value(data, keys)
