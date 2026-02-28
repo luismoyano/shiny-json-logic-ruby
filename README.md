@@ -2,7 +2,7 @@
 
 ![Compatibility](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/luismoyano/shiny-json-logic-ruby/master/badges/compat.json)
 [![Gem Version](https://badge.fury.io/rb/shiny_json_logic.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/shiny_json_logic)
-![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.7-brightgreen)
+![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.6-brightgreen)
 
 > **A boring, correct and production-ready JSONLogic implementation for Ruby. ✨** 
 
@@ -15,7 +15,7 @@ This gem focuses on predictable behavior, strict spec alignment, high compatibil
 ## Why ShinyJsonLogic?
 
 - 🧩 **Zero runtime dependencies** (stdlib-only). Just plug & play!
-- 🕰️ **Ruby 2.7+ compatible**, one of the lowest minimum versions supported in the Ruby ecosystem.
+- 🕰️ **Ruby 2.6+ compatible**, one of the lowest minimum versions supported in the Ruby ecosystem.
 - 🔧 **Actively maintained** and continuously improved.
 - 📊 **Highest JSONLogic compatibility in the Ruby ecosystem**, as measured against the official test suites.
 
