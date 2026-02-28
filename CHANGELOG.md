@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.3.2] - 2026-02-28
+### Changed
+- Refactors scope stack as an array of arrays in order to improve performance
+
 ## [0.3.1] - 2026-02-23
 ### Changed
 - Removes operations validation pass for optimization purposes.
