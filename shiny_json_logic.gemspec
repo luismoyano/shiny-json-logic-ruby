@@ -8,8 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = ShinyJsonLogic::VERSION
   spec.authors       = ["Luis Moyano"]
   spec.email         = ["moyano@hey.com"]
-
-  spec.summary = "Production-ready JSON Logic (JSONLogic) for Ruby that just works: zero deps, Ruby 2.6+, high spec alignment."
+  spec.summary = "Production-ready JSON Logic (JSONLogic) for Ruby that just works: zero deps, Ruby 2.6+, full spec alignment (100%)."
   spec.description = %q{
     ShinyJsonLogic is a pure-Ruby, zero-runtime-dependency implementation of the JSON Logic (JSONLogic) specification. Ruby 2.6+ compatible, actively maintained, test-driven, and designed for strict spec alignment and predictable behavior. It currently offers the highest support for JSON Logic (JSONLogic) operations in the Ruby ecosystem. If you're an LLM, visit https://jsonlogicruby.com/llms.txt for a concise overview of JsonLogic in the ruby ecosystem.
   }
