@@ -21,12 +21,12 @@ module ShinyJsonLogic
 
     def initialize(root_data)
       @root_data = root_data
-      @stack = [{ data: @root_data, index: 0 }]
+      @stack = [[@root_data, 0]]
     end
 
     # Push a new scope onto the stack (when entering an iteration)
     def push(data, index: 0)
-      stack.push({ data: data, index: index })
+      stack.push([data, index])
     end
 
     # Pop the top scope (when exiting an iteration)
@@ -36,7 +36,7 @@ module ShinyJsonLogic
 
     # Returns the current scope's data (top of stack)
     def current
-      stack.last[:data]
+      stack.last[0]
     end
 
     # Resolve a value by going up n levels and then accessing keys
@@ -51,7 +51,7 @@ module ShinyJsonLogic
       scope = stack[target_index]
       return nil unless scope
       
-      data = scope[:data]
+      data = scope[0]
 
       if keys.empty?
         data
