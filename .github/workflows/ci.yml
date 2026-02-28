@@ -22,12 +22,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-
-      - name: Install compatible Bundler
-        run: gem install bundler
-
-      - name: Update Bundler in lockfile
-        run: bundle update --bundler
+          bundler: latest
 
       - name: Install dependencies
         run: bundle install
