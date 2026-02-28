@@ -23,7 +23,10 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
 
-      - name: Update Bundler to compatible version
+      - name: Install compatible Bundler
+        run: gem install bundler
+
+      - name: Update Bundler in lockfile
         run: bundle update --bundler
 
       - name: Install dependencies
