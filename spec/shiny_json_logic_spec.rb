@@ -157,6 +157,164 @@ RSpec.describe ShinyJsonLogic do
         expect(data).to eq(original)
       end
     end
+
+    describe "var with dot notation on symbol keys" do
+      it "accesses nested sym key via dot notation" do
+        data = { user: { name: "Alice" } }
+        expect(described_class.apply({ "var" => "user.name" }, data)).to eq("Alice")
+      end
+
+      it "accesses 3-level deep sym keys via dot notation" do
+        data = { a: { b: { c: 42 } } }
+        expect(described_class.apply({ "var" => "a.b.c" }, data)).to eq(42)
+      end
+
+      it "accesses mixed sym/str keys at different levels via dot notation" do
+        data = { "user" => { name: "Bob", address: { "city" => "Madrid" } } }
+        expect(described_class.apply({ "var" => "user.name" }, data)).to eq("Bob")
+        expect(described_class.apply({ "var" => "user.address.city" }, data)).to eq("Madrid")
+      end
+
+      it "returns nil for missing key at end of dot path with sym parent" do
+        data = { user: { name: "Alice" } }
+        expect(described_class.apply({ "var" => "user.missing" }, data)).to be_nil
+      end
+
+      it "returns default when dot path misses on sym data" do
+        data = { user: { name: "Alice" } }
+        expect(described_class.apply({ "var" => ["user.missing", "fallback"] }, data)).to eq("fallback")
+      end
+
+      it "accesses sym key that is a root-level with sym dot-path-like name" do
+        # sym key :name accessed as string "name" — no dots, just sym root key
+        data = { name: "Jane" }
+        expect(described_class.apply({ "var" => "name" }, data)).to eq("Jane")
+      end
+    end
+
+    describe "val with mixed sym/str keys" do
+      it "accesses sym key with val" do
+        data = { score: 99 }
+        expect(described_class.apply({ "val" => "score" }, data)).to eq(99)
+      end
+
+      it "accesses str key with val" do
+        data = { "score" => 99 }
+        expect(described_class.apply({ "val" => "score" }, data)).to eq(99)
+      end
+
+      it "accesses nested sym keys with val array path" do
+        data = { user: { name: "Alice" } }
+        expect(described_class.apply({ "val" => ["user", "name"] }, data)).to eq("Alice")
+      end
+
+      it "accesses mixed sym/str nested keys with val array path" do
+        data = { "user" => { name: "Alice", "age" => 30 } }
+        expect(described_class.apply({ "val" => ["user", "name"] }, data)).to eq("Alice")
+        expect(described_class.apply({ "val" => ["user", "age"] }, data)).to eq(30)
+      end
+
+      it "accesses 3-level deep mixed keys with val" do
+        data = { a: { "b" => { c: 7 } } }
+        expect(described_class.apply({ "val" => ["a", "b", "c"] }, data)).to eq(7)
+      end
+
+      it "returns nil for missing key on sym data with val" do
+        data = { user: { name: "Alice" } }
+        expect(described_class.apply({ "val" => ["user", "missing"] }, data)).to be_nil
+      end
+    end
+
+    describe "iterators over arrays of hashes with symbol keys" do
+      it "map over array of sym-key hashes" do
+        data = { users: [{ name: "Alice" }, { name: "Bob" }] }
+        rule = { "map" => [{ "var" => "users" }, { "var" => "name" }] }
+        expect(described_class.apply(rule, data)).to eq(["Alice", "Bob"])
+      end
+
+      it "map over array of mixed-key hashes" do
+        data = { users: [{ name: "Alice", "age" => 30 }, { "name" => "Bob", age: 25 }] }
+        rule = { "map" => [{ "var" => "users" }, { "var" => "name" }] }
+        expect(described_class.apply(rule, data)).to eq(["Alice", "Bob"])
+      end
+
+      it "filter over array of sym-key hashes" do
+        data = { users: [{ name: "Alice", age: 30 }, { name: "Bob", age: 17 }] }
+        rule = { "filter" => [{ "var" => "users" }, { ">=" => [{ "var" => "age" }, 18] }] }
+        expect(described_class.apply(rule, data)).to eq([{ name: "Alice", age: 30 }])
+      end
+
+      it "reduce over array of sym-key hashes" do
+        data = { items: [{ value: 10 }, { value: 20 }, { value: 5 }] }
+        rule = { "reduce" => [
+          { "var" => "items" },
+          { "+" => [{ "var" => "accumulator" }, { "var" => "current.value" }] },
+          0
+        ] }
+        expect(described_class.apply(rule, data)).to eq(35)
+      end
+
+      it "all with sym-key hashes" do
+        data = { scores: [{ value: 10 }, { value: 20 }] }
+        rule = { "all" => [{ "var" => "scores" }, { ">" => [{ "var" => "value" }, 0] }] }
+        expect(described_class.apply(rule, data)).to eq(true)
+      end
+
+      it "some with sym-key hashes" do
+        data = { scores: [{ value: -1 }, { value: 5 }] }
+        rule = { "some" => [{ "var" => "scores" }, { ">" => [{ "var" => "value" }, 0] }] }
+        expect(described_class.apply(rule, data)).to eq(true)
+      end
+
+      it "none with sym-key hashes" do
+        data = { scores: [{ value: -1 }, { value: -5 }] }
+        rule = { "none" => [{ "var" => "scores" }, { ">" => [{ "var" => "value" }, 0] }] }
+        expect(described_class.apply(rule, data)).to eq(true)
+      end
+
+      it "map with sym array key and nested sym hash accessing multiple fields" do
+        data = { products: [{ name: "Widget", price: 9 }, { name: "Gadget", price: 99 }] }
+        rule = { "map" => [
+          { "var" => "products" },
+          { "cat" => [{ "var" => "name" }, ": $", { "var" => "price" }] }
+        ] }
+        expect(described_class.apply(rule, data)).to eq(["Widget: $9", "Gadget: $99"])
+      end
+    end
+
+    describe "deeply mixed sym/str data in complex rules" do
+      it "if rule reading sym key" do
+        data = { age: 20 }
+        rule = { "if" => [{ ">=" => [{ "var" => "age" }, 18] }, "adult", "minor"] }
+        expect(described_class.apply(rule, data)).to eq("adult")
+      end
+
+      it "missing with sym-key data reports missing keys" do
+        data = { name: "Alice" }
+        expect(described_class.apply({ "missing" => ["name", "email"] }, data)).to eq(["email"])
+      end
+
+      it "missing_some with sym-key data" do
+        data = { name: "Alice" }
+        expect(described_class.apply({ "missing_some" => [1, ["name", "email"]] }, data)).to eq([])
+      end
+
+      it "nested rule with all mixed: sym data, str rule keys, dot notation" do
+        data = { "user" => { role: "admin", profile: { active: true } } }
+        rule = { "and" => [
+          { "==" => [{ "var" => "user.role" }, "admin"] },
+          { "==" => [{ "var" => "user.profile.active" }, true] }
+        ] }
+        expect(described_class.apply(rule, data)).to eq(true)
+      end
+
+      it "does not mutate original data with sym keys after iteration" do
+        data = { items: [{ value: 1 }, { value: 2 }] }
+        original_keys = data[:items].first.keys
+        described_class.apply({ "map" => [{ "var" => "items" }, { "var" => "value" }] }, data)
+        expect(data[:items].first.keys).to eq(original_keys)
+      end
+    end
   end
 
   describe "shiny tests (from JSON)" do

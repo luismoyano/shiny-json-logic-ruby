@@ -9,9 +9,7 @@ module ShinyJsonLogic
         return obj unless obj.is_a?(Hash)
         return obj if obj.is_a?(DataHash)
 
-        result = new
-        obj.each { |k, v| result[k] = v }
-        result
+        new.replace(obj)
       end
     end
   end

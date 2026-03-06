@@ -1,6 +1,14 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.3.3] - 2026-03-06
+### Changed
+- Refactors internal architecture to lookup operations with a helper instead of running a normalization pass before calculations, thus improving performance a lot.
+- Removes double op lookup on engine.rb
+
+### Added
+- Includes `Utils::HashFetch` to allow fetching with any key type
+
 ## [0.3.2] - 2026-02-28
 ### Changed
 - Refactors scope stack as an array of arrays in order to improve performance

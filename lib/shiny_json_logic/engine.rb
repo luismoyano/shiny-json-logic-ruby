@@ -18,9 +18,10 @@ module ShinyJsonLogic
         operation, args = rule.first
         operation_key = operation.to_s
 
-        raise Errors::UnknownOperator unless OPERATIONS.key?(operation_key)
+        op = OPERATIONS[operation_key]
+        raise Errors::UnknownOperator unless op
 
-        OPERATIONS[operation_key].call(args, scope_stack)
+        op.call(args, scope_stack)
       elsif rule.is_a?(Array)
         rule.map { |val| call(val, scope_stack) }
       else

@@ -3,6 +3,7 @@
 require "shiny_json_logic/truthy"
 require "shiny_json_logic/operations/base"
 require "shiny_json_logic/utils/data_hash"
+require "shiny_json_logic/utils/hash_fetch"
 
 module ShinyJsonLogic
   module Operations
@@ -27,18 +28,15 @@ module ShinyJsonLogic
       def self.fetch_value(obj, key)
         return nil if obj.nil?
 
-        keys = key.to_s.split('.')
+        key_s = key.to_s
+        # Fast path: no dot notation, single key lookup
+        unless key_s.include?(".")
+          return Utils::HashFetch.fetch(obj, key_s)
+        end
 
-        keys.reduce(obj) do |current, k|
+        key_s.split(".").reduce(obj) do |current, k|
           return nil if current.nil?
-
-          if current.is_a?(Hash)
-            current[k]
-          elsif current.is_a?(Array)
-            current[k.to_i]
-          else
-            nil
-          end
+          Utils::HashFetch.fetch(current, k)
         end
       end
       private_class_method :fetch_value

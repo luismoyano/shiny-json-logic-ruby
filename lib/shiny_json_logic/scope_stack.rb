@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "shiny_json_logic/utils/hash_fetch"
+
 module ShinyJsonLogic
   # Manages a stack of scopes for nested data access in iterators.
   #
@@ -64,20 +66,10 @@ module ShinyJsonLogic
 
     def dig_value(data, keys)
       return nil if data.nil?
-      
+
       keys.reduce(data) do |obj, key|
         return nil if obj.nil?
-        
-        if obj.is_a?(Hash)
-          # Normalize key to string for lookup
-          obj[key.to_s]
-        elsif obj.is_a?(Array)
-          # Convert string keys to integers for arrays
-          index = key.is_a?(String) ? key.to_i : key
-          obj[index]
-        else
-          nil
-        end
+        Utils::HashFetch.fetch(obj, key.to_s)
       end
     end
   end

@@ -2,6 +2,7 @@
 
 require "shiny_json_logic/operations/base"
 require "shiny_json_logic/utils/data_hash"
+require "shiny_json_logic/utils/hash_fetch"
 
 module ShinyJsonLogic
   module Operations
@@ -39,15 +40,7 @@ module ShinyJsonLogic
 
         keys.reduce(data) do |obj, key|
           return nil if obj.nil?
-
-          if obj.is_a?(Hash)
-            obj[key.to_s]
-          elsif obj.is_a?(Array)
-            index = key.is_a?(String) ? key.to_i : key
-            obj[index]
-          else
-            nil
-          end
+          Utils::HashFetch.fetch(obj, key.to_s)
         end
       end
       private_class_method :dig_value
