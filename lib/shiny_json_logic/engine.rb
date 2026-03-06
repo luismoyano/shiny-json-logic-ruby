@@ -19,8 +19,6 @@ module ShinyJsonLogic
         args = nil
         rule.each { |k, v| operation_key = k.to_s; args = v }
 
-        
-
         op = OPERATIONS[operation_key]
         raise Errors::UnknownOperator unless op
 
