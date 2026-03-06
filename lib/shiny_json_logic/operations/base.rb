@@ -13,11 +13,9 @@ module ShinyJsonLogic
       end
 
       def self.resolve_rules(rules, scope_stack)
-        dynamic = op?(rules)
-        raise Errors::InvalidArguments if dynamic && raise_on_dynamic_args?
-
-        return Engine.call(rules, scope_stack) if dynamic
-        rules
+        return rules unless op?(rules)
+        raise Errors::InvalidArguments if raise_on_dynamic_args?
+        Engine.call(rules, scope_stack)
       end
 
       def self.execute(_rules, _scope_stack)

@@ -15,7 +15,7 @@ module ShinyJsonLogic
       end
 
       def collect_values(rules, scope_stack)
-        if Operations::Base.op?(rules)
+        if rules.is_a?(Hash) && !rules.empty? && OperatorSolver.operation?(rules)
           evaluated = Engine.call(rules, scope_stack)
           return Utils::Array.wrap_nil(evaluated)
         end

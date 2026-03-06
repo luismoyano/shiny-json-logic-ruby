@@ -8,10 +8,9 @@ module ShinyJsonLogic
     OPERATIONS = OperatorSolver::SOLVERS
 
     def self.call(rule, scope_stack)
-      if rule.is_a?(Utils::DataHash)
-        rule
-      elsif rule.is_a?(Hash)
-        return rule if rule.empty?
+      if rule.is_a?(Hash)
+        # DataHash marks already-resolved user data — return as-is without dispatch
+        return rule if rule.is_a?(Utils::DataHash) || rule.empty?
 
         raise Errors::UnknownOperator if rule.size > 1
 

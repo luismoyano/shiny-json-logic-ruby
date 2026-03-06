@@ -8,9 +8,19 @@ module ShinyJsonLogic
   module Operations
     class Val < Base
       def self.execute(rules, scope_stack)
+        # Fast path: null or empty → return current scope
+        if rules.nil?
+          return Utils::DataHash.wrap(scope_stack.current)
+        end
+
+        # Fast path: single string key (most common case)
+        if rules.is_a?(String)
+          return Utils::DataHash.wrap(Utils::HashFetch.fetch(scope_stack.current, rules))
+        end
+
         raw_keys = Utils::Array.wrap_nil(rules)
 
-        # {"val": []} or {"val": null} - return current scope
+        # {"val": []} - return current scope
         if raw_keys.empty? || raw_keys == [nil]
           return Utils::DataHash.wrap(scope_stack.current)
         end
@@ -32,7 +42,7 @@ module ShinyJsonLogic
           return Utils::DataHash.wrap(scope_stack.resolve(levels, *evaluated_keys))
         end
 
-        # Normal case: {"val": "key"} or {"val": ["key1", "key2"]}
+        # Normal case: {"val": ["key1", "key2"]}
         keys = raw_keys.map { |rule| evaluate(rule, scope_stack) }
         current_data = scope_stack.current
         Utils::DataHash.wrap(dig_value(current_data, keys))

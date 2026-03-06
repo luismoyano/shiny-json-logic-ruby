@@ -10,13 +10,11 @@ module ShinyJsonLogic
 
         Utils::Array.wrap_nil(rules).each do |rule|
           segment = evaluate(rule, scope_stack)
-          return false unless current.key?(segment)
+          return false unless current.is_a?(Hash) && current.key?(segment)
           current = current[segment]
         end
 
         true
-      rescue StandardError
-        false
       end
     end
   end

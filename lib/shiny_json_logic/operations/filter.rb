@@ -11,8 +11,8 @@ module ShinyJsonLogic
 
       def self.call(rules, scope_stack)
         rules = resolve_rules(rules, scope_stack)
-
-        collection, filter = setup_collection(rules, scope_stack)
+        filter = setup_filter(rules)
+        collection = setup_collection(rules, scope_stack)
 
         collection.each_with_object([]) do |item, acc|
           scope_stack.push(item)
