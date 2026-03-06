@@ -20,11 +20,8 @@ module ShinyJsonLogic
           return Utils::Array.wrap_nil(evaluated)
         end
 
-        result = []
-        Utils::Array.wrap_nil(rules).each do |rule|
-          result << Engine.call(rule, scope_stack)
-        end
-        result
+        wrapped = Utils::Array.wrap_nil(rules)
+        wrapped.map { |rule| Engine.call(rule, scope_stack) }
       end
     end
   end

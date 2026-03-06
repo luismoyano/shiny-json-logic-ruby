@@ -12,13 +12,16 @@ module ShinyJsonLogic
 
       def self.execute(rules, scope_stack)
         operands = Utils::Array.wrap_nil(rules)
-        return handle_invalid_args if operands.length < 2
+        n = operands.length
+        return handle_invalid_args if n < 2
 
         prev = Comparisons::Comparable.cast(evaluate(operands[0], scope_stack))
-        operands[1..].each do |rule|
-          curr = Comparisons::Comparable.cast(evaluate(rule, scope_stack))
+        i = 1
+        while i < n
+          curr = Comparisons::Comparable.cast(evaluate(operands[i], scope_stack))
           return false if curr == prev
           prev = curr
+          i += 1
         end
         true
       end

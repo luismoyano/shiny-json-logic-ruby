@@ -19,10 +19,21 @@ module ShinyJsonLogic
         keys - deep_keys(current_data)
       end
 
-      def self.deep_keys(hash)
+      def self.deep_keys(hash, prefix = nil)
         return unless hash.is_a?(Hash)
 
-        hash.keys.map { |key| ([key.to_s] << deep_keys(hash[key])).compact.join(".") }
+        result = []
+        hash.each do |key, val|
+          key_s = key.to_s
+          full_key = prefix ? "#{prefix}.#{key_s}" : key_s
+          nested = deep_keys(val, full_key)
+          if nested
+            result.concat(nested)
+          else
+            result << full_key
+          end
+        end
+        result
       end
       private_class_method :deep_keys
     end

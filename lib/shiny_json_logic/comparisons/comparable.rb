@@ -42,15 +42,18 @@ module ShinyJsonLogic
       # Returns true if all pairs pass, false otherwise. Raises on :nan or invalid args.
       def compare_chain(rules, scope_stack)
         operands = Utils::Array.wrap_nil(rules)
-        raise Errors::InvalidArguments if operands.length < 2
+        n = operands.length
+        raise Errors::InvalidArguments if n < 2
 
         prev = Engine.call(operands[0], scope_stack)
-        operands[1..].each do |rule|
-          curr = Engine.call(rule, scope_stack)
+        i = 1
+        while i < n
+          curr = Engine.call(operands[i], scope_stack)
           result = compare(prev, curr)
           raise Errors::NotANumber if result == :nan
           return false unless yield(result)
           prev = curr
+          i += 1
         end
         true
       end

@@ -13,13 +13,17 @@ module ShinyJsonLogic
         # Skip pre_process - spec requires static array, dynamic args should error
         return handle_invalid_args unless rules.is_a?(Array)
 
-        rules.each_slice(2) do |condition_rule, value_rule|
+        n = rules.length
+        i = 0
+        while i < n
+          condition_rule = rules[i]
+          value_rule     = rules[i + 1]
           condition_result = Engine.call(condition_rule, scope_stack)
           return condition_result if value_rule.nil?
 
-          next unless Truthy.call(condition_result)
+          return Engine.call(value_rule, scope_stack) if Truthy.call(condition_result)
 
-          return Engine.call(value_rule, scope_stack)
+          i += 2
         end
 
         nil

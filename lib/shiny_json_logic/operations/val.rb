@@ -20,9 +20,13 @@ module ShinyJsonLogic
 
         if first_key.is_a?(Array) && scope_stack
           level_indicator = first_key.first.to_i
-          remaining_keys = raw_keys[1..]
-
-          evaluated_keys = remaining_keys.map { |rule| evaluate(rule, scope_stack) }
+          evaluated_keys = []
+          i = 1
+          n = raw_keys.length
+          while i < n
+            evaluated_keys << evaluate(raw_keys[i], scope_stack)
+            i += 1
+          end
 
           levels = level_indicator.abs
           return Utils::DataHash.wrap(scope_stack.resolve(levels, *evaluated_keys))
