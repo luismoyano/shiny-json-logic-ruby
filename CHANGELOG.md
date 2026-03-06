@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.3.4] - 2026-03-06
+### Changed
+- Reduces object allocations in hot paths for improved performance.
+
 ## [0.3.3] - 2026-03-06
 ### Changed
 - Refactors internal architecture to lookup operations with a helper instead of running a normalization pass before calculations, thus improving performance a lot.
