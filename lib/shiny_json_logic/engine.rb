@@ -15,8 +15,11 @@ module ShinyJsonLogic
 
         raise Errors::UnknownOperator if rule.size > 1
 
-        operation, args = rule.first
-        operation_key = operation.to_s
+        operation_key = nil
+        args = nil
+        rule.each { |k, v| operation_key = k.to_s; args = v }
+
+        
 
         op = OPERATIONS[operation_key]
         raise Errors::UnknownOperator unless op

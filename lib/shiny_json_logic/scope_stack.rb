@@ -19,41 +19,40 @@ module ShinyJsonLogic
   # so no indifferent access is needed here.
   #
   class ScopeStack
-    attr_reader :stack
-
     def initialize(root_data)
-      @root_data = root_data
-      @stack = [[@root_data, 0]]
+      @data_stack  = [root_data]
+      @index_stack = [0]
     end
 
     # Push a new scope onto the stack (when entering an iteration)
     def push(data, index: 0)
-      stack.push([data, index])
+      @data_stack  << data
+      @index_stack << index
     end
 
     # Pop the top scope (when exiting an iteration)
     def pop
-      stack.pop if stack.size > 1
+      if @data_stack.size > 1
+        @data_stack.pop
+        @index_stack.pop
+      end
     end
 
     # Returns the current scope's data (top of stack)
     def current
-      stack.last[0]
+      @data_stack.last
     end
 
     # Resolve a value by going up n levels and then accessing keys
-    # 
+    #
     # @param levels [Integer] number of levels to go up (0 = current, 1 = parent, etc.)
     # @param keys [Array] keys to dig into after reaching the target scope
     # @return [Object] the resolved value
     def resolve(levels, *keys)
-      target_index = stack.size - 1 - levels
+      target_index = @data_stack.size - 1 - levels
       return nil if target_index < 0
 
-      scope = stack[target_index]
-      return nil unless scope
-      
-      data = scope[0]
+      data = @data_stack[target_index]
 
       if keys.empty?
         data

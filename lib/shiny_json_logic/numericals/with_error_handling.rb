@@ -9,7 +9,7 @@ module ShinyJsonLogic
     module WithErrorHandling
       module_function
 
-      def safe_arithmetic(&block)
+      def safe_arithmetic
         result = yield
         if result.to_f.nan? || result == Float::INFINITY || result == -Float::INFINITY
           return handle_nan

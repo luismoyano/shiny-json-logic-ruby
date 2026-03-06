@@ -53,10 +53,6 @@ module ShinyJsonLogic
 
     SOLVER_KEYS = Set.new(SOLVERS.keys).freeze
 
-    def self.solvers
-      SOLVERS
-    end
-
     def self.operation?(value)
       value.keys.any? { |key| SOLVER_KEYS.include?(key.is_a?(String) ? key : key.to_s) }
     end
