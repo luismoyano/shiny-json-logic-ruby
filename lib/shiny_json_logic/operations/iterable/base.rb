@@ -19,9 +19,11 @@ module ShinyJsonLogic
 
           collection, filter = setup_collection(rules, scope_stack)
 
+          index_scope = { "index" => 0 }
           on_before(scope_stack)
           results = collection.each_with_index.each_with_object([]) do |(item, index), acc|
-            scope_stack.push({ "index" => index }, index: index)
+            index_scope["index"] = index
+            scope_stack.push(index_scope, index: index)
             scope_stack.push(item, index: index)
             begin
               solved = on_each(item, filter, scope_stack)
