@@ -56,7 +56,7 @@ module ShinyJsonLogic
     def self.operation?(value)
       # Rules always have exactly 1 key — use each_key with early return
       # instead of keys.any? which allocates an Array of keys first
-      value.each_key { |key| return SOLVER_KEYS.include?(key.is_a?(String) ? key : key.to_s) }
+      value.each_key { |key| return SOLVER_KEYS.include?(key.to_s) }
       false
     end
   end

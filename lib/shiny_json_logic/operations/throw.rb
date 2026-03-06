@@ -16,7 +16,7 @@ module ShinyJsonLogic
           end
 
         extracted_type = error_type.is_a?(Hash) && error_type.key?("type") ? error_type["type"] : error_type
-        extracted_type = scope_stack.current["type"] if extracted_type.nil?
+        extracted_type = scope_stack.last["type"] if extracted_type.nil?
 
         raise Errors::Base.new(type: extracted_type)
       end

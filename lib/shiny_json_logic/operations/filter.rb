@@ -19,7 +19,7 @@ module ShinyJsonLogic
         n = collection.size
         while i < n
           item = collection[i]
-          scope_stack.push(item)
+          scope_stack << item
           begin
             result << item if Truthy.call(Engine.call(filter, scope_stack))
           ensure

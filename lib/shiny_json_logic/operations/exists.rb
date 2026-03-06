@@ -6,7 +6,7 @@ module ShinyJsonLogic
   module Operations
     class Exists < Base
       def self.execute(rules, scope_stack)
-        current = scope_stack.current
+        current = scope_stack.last
         operands = Utils::Array.wrap_nil(rules)
         i = 0
         n = operands.size

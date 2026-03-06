@@ -13,8 +13,8 @@ module ShinyJsonLogic
           item = items[i]
           # If previous item was an error, switch context to error payload
           if last_error
-            scope_stack.push({})  # intermediate level for [[1]] access
-            scope_stack.push(last_error.payload)
+            scope_stack << {}  # intermediate level for [[1]] access
+            scope_stack << last_error.payload
           end
 
           begin

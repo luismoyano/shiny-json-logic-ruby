@@ -10,19 +10,19 @@ module ShinyJsonLogic
       def self.execute(rules, scope_stack)
         # Fast path: null or empty → return current scope
         if rules.nil?
-          return Utils::DataHash.wrap(scope_stack.current)
+          return Utils::DataHash.wrap(scope_stack.last)
         end
 
         # Fast path: single string key (most common case)
         if rules.is_a?(String)
-          return Utils::DataHash.wrap(Utils::HashFetch.fetch(scope_stack.current, rules))
+          return Utils::DataHash.wrap(Utils::HashFetch.fetch(scope_stack.last, rules))
         end
 
         raw_keys = Utils::Array.wrap_nil(rules)
 
         # {"val": []} - return current scope
         if raw_keys.empty? || raw_keys == [nil]
-          return Utils::DataHash.wrap(scope_stack.current)
+          return Utils::DataHash.wrap(scope_stack.last)
         end
 
         # Check if first element is an array (scope navigation syntax)
@@ -39,7 +39,7 @@ module ShinyJsonLogic
           end
 
           levels = level_indicator.abs
-          return Utils::DataHash.wrap(scope_stack.resolve(levels, *evaluated_keys))
+          return Utils::DataHash.wrap(ScopeStack.resolve(scope_stack, levels, evaluated_keys))
         end
 
         # Normal case: {"val": ["key1", "key2"]}
@@ -50,7 +50,7 @@ module ShinyJsonLogic
           keys[ki] = evaluate(raw_keys[ki], scope_stack)
           ki += 1
         end
-        current_data = scope_stack.current
+        current_data = scope_stack.last
         Utils::DataHash.wrap(dig_value(current_data, keys))
       end
 

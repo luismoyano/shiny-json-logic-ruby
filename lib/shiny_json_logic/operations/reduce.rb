@@ -18,7 +18,7 @@ module ShinyJsonLogic
           accumulator = Engine.call(rules[2], scope_stack)
 
           reduce_scope = { "current" => nil, "accumulator" => nil }
-          scope_stack.push(reduce_scope)
+          scope_stack << reduce_scope
 
           begin
             i = 0

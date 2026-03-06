@@ -11,7 +11,7 @@ require "shiny_json_logic/scope_stack"
 
 module ShinyJsonLogic
   def self.apply(rule, data = {})
-    scope_stack = ScopeStack.new(data || {})
+    scope_stack = [data || {}]
     Engine.call(rule, scope_stack)
   end
 end

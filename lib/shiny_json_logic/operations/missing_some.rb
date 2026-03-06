@@ -18,7 +18,7 @@ module ShinyJsonLogic
           i += 1
         end
 
-        current_data = scope_stack.current
+        current_data = scope_stack.last
         return keys unless current_data.is_a?(Hash) && rules.is_a?(Array)
 
         data_keys = current_data.keys

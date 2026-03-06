@@ -7,8 +7,7 @@ module ShinyJsonLogic
   module Operations
     class Min < Base
       def self.execute(rules, scope_stack)
-        Numericals::MinMaxCollection.scan(rules, scope_stack, :min) ||
-          Numericals::MinMaxCollection.collect_numeric_values(rules, scope_stack).min
+        Numericals::MinMaxCollection.resolve(rules, scope_stack, :min)
       end
     end
   end

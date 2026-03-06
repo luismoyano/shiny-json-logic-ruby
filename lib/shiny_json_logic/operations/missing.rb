@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "set"
 require "shiny_json_logic/truthy"
 require "shiny_json_logic/operations/base"
 
@@ -27,17 +26,17 @@ module ShinyJsonLogic
           i += 1
         end
 
-        current_data = scope_stack.current
+        current_data = scope_stack.last
         return keys unless current_data.is_a?(Hash)
 
-        existing = Set.new
+        existing = {}
         deep_keys(current_data, nil, existing)
 
         result = []
         i = 0
         n = keys.size
         while i < n
-          result << keys[i] unless existing.include?(keys[i])
+          result << keys[i] unless existing.key?(keys[i])
           i += 1
         end
         result
@@ -52,7 +51,7 @@ module ShinyJsonLogic
           if val.is_a?(Hash)
             deep_keys(val, full_key, acc)
           else
-            acc << full_key
+            acc[full_key] = true
           end
         end
       end

@@ -11,7 +11,7 @@ module ShinyJsonLogic
       def self.execute(rules, scope_stack)
         # Fast path: simple string key, no default
         if rules.is_a?(String)
-          current_data = scope_stack.current
+          current_data = scope_stack.last
           if rules.empty?
             return wrap(current_data)
           end
@@ -21,7 +21,7 @@ module ShinyJsonLogic
         items = Utils::Array.wrap_nil(rules)
         key = evaluate(items[0], scope_stack)
         default = items.length > 1 ? evaluate(items[1], scope_stack) : nil
-        current_data = scope_stack.current
+        current_data = scope_stack.last
 
         if key.nil? || key == ""
           return wrap(current_data)
@@ -30,8 +30,8 @@ module ShinyJsonLogic
         result = fetch_value(current_data, key)
         result = result.nil? ? default : result
         wrap(result)
-      rescue
-        default || scope_stack.current
+        rescue
+        default || scope_stack.last
       end
 
       # Only wrap Hash values — non-Hash values can't be confused with operators.

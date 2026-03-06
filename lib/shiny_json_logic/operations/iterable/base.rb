@@ -38,7 +38,7 @@ module ShinyJsonLogic
             n = collection.size
             while i < n
               item = collection[i]
-              scope_stack.push(item)
+              scope_stack << item
               begin
                 results << on_each(item, filter, scope_stack)
               ensure
