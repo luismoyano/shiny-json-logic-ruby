@@ -43,7 +43,13 @@ module ShinyJsonLogic
         end
 
         # Normal case: {"val": ["key1", "key2"]}
-        keys = raw_keys.map { |rule| evaluate(rule, scope_stack) }
+        keys_n = raw_keys.size
+        keys = Array.new(keys_n)
+        ki = 0
+        while ki < keys_n
+          keys[ki] = evaluate(raw_keys[ki], scope_stack)
+          ki += 1
+        end
         current_data = scope_stack.current
         Utils::DataHash.wrap(dig_value(current_data, keys))
       end
@@ -52,10 +58,15 @@ module ShinyJsonLogic
         return nil if data.nil?
         return data if keys.empty?
 
-        keys.reduce(data) do |obj, key|
+        obj = data
+        i = 0
+        n = keys.size
+        while i < n
           return nil if obj.nil?
-          Utils::HashFetch.fetch(obj, key.to_s)
+          obj = Utils::HashFetch.fetch(obj, keys[i].to_s)
+          i += 1
         end
+        obj
       end
       private_class_method :dig_value
     end

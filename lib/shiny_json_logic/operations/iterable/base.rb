@@ -22,7 +22,7 @@ module ShinyJsonLogic
         end
 
         def self.setup_collection(rules, scope_stack)
-          collection_rule = rules.any? ? rules[0] : rules
+          collection_rule = rules.size > 0 ? rules[0] : rules
           raise Errors::InvalidArguments if collection_rule.nil?
           Utils::Array.wrap(Engine.call(collection_rule, scope_stack))
         end
@@ -33,13 +33,18 @@ module ShinyJsonLogic
           collection = setup_collection(rules, scope_stack)
 
           early = catch(:early_return) do
-            results = collection.each_with_object([]) do |item, acc|
+            results = []
+            i = 0
+            n = collection.size
+            while i < n
+              item = collection[i]
               scope_stack.push(item)
               begin
-                acc << on_each(item, filter, scope_stack)
+                results << on_each(item, filter, scope_stack)
               ensure
                 scope_stack.pop
               end
+              i += 1
             end
             on_after(results, scope_stack)
           end

@@ -9,11 +9,13 @@ module ShinyJsonLogic
       def self.call(rules, scope_stack)
         # Preserve doesn't create new scopes - evaluates each item directly
         collection = Utils::Array.wrap(rules)
-
-        results = collection.each_with_object([]) do |item, acc|
-          acc << Engine.call(item, scope_stack)
+        n = collection.size
+        results = Array.new(n)
+        i = 0
+        while i < n
+          results[i] = Engine.call(collection[i], scope_stack)
+          i += 1
         end
-
         results.size == 1 ? results.first : results
       end
     end

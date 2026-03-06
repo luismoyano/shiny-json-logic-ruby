@@ -13,7 +13,14 @@ module ShinyJsonLogic
         needle = needle.to_s if needle.is_a?(Symbol)
 
         if haystack.is_a?(Array)
-          haystack.any? { |el| (el.is_a?(Symbol) ? el.to_s : el) == needle }
+          i = 0
+          n = haystack.size
+          while i < n
+            el = haystack[i]
+            return true if (el.is_a?(Symbol) ? el.to_s : el) == needle
+            i += 1
+          end
+          false
         else
           haystack.include?(needle)
         end

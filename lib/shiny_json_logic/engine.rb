@@ -23,7 +23,15 @@ module ShinyJsonLogic
 
         op.call(args, scope_stack)
       elsif rule.is_a?(Array)
-        rule.map { |val| call(val, scope_stack) }
+        # Use while loop instead of map — avoids Enumerator overhead on Ruby 3.4 no-YJIT
+        n = rule.size
+        result = Array.new(n)
+        i = 0
+        while i < n
+          result[i] = call(rule[i], scope_stack)
+          i += 1
+        end
+        result
       else
         rule
       end

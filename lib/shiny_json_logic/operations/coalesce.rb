@@ -6,9 +6,12 @@ module ShinyJsonLogic
   module Operations
     class Coalesce < Base
       def self.execute(rules, scope_stack)
-        rules.each do |rule|
-          result = evaluate(rule, scope_stack)
+        i = 0
+        n = rules.size
+        while i < n
+          result = evaluate(rules[i], scope_stack)
           return result unless result.nil?
+          i += 1
         end
         nil
       end

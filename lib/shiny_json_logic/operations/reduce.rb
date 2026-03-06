@@ -13,22 +13,25 @@ module ShinyJsonLogic
       def self.call(rules, scope_stack)
         rules = resolve_rules(rules, scope_stack)
         filter = setup_filter(rules)
-        collection = setup_collection(rules, scope_stack)
+          collection = setup_collection(rules, scope_stack)
 
-        accumulator = Engine.call(rules[2], scope_stack)
+          accumulator = Engine.call(rules[2], scope_stack)
 
-        reduce_scope = { "current" => nil, "accumulator" => nil }
-        scope_stack.push(reduce_scope)
+          reduce_scope = { "current" => nil, "accumulator" => nil }
+          scope_stack.push(reduce_scope)
 
-        begin
-          collection.each do |item|
-            reduce_scope["current"] = item
-            reduce_scope["accumulator"] = accumulator
-            accumulator = Engine.call(filter, scope_stack)
+          begin
+            i = 0
+            n = collection.size
+            while i < n
+              reduce_scope["current"] = collection[i]
+              reduce_scope["accumulator"] = accumulator
+              accumulator = Engine.call(filter, scope_stack)
+              i += 1
+            end
+          ensure
+            scope_stack.pop
           end
-        ensure
-          scope_stack.pop
-        end
 
         safe_arithmetic { accumulator }
       end

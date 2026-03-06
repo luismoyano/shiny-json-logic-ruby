@@ -9,9 +9,17 @@ module ShinyJsonLogic
       when true, false  then subject
       when Numeric      then !subject.zero?
       when String, Hash then !subject.empty?
-      when Array        then subject.any?
       when NilClass     then false
-      else                   true
+      when Array
+        i = 0
+        n = subject.size
+        while i < n
+          return true if subject[i]
+          i += 1
+        end
+        false
+      else
+        true
       end
     end
   end

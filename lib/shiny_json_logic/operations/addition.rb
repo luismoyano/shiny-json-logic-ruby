@@ -11,10 +11,14 @@ module ShinyJsonLogic
 
       def self.execute(rules, scope_stack)
         safe_arithmetic do
+          operands = Utils::Array.wrap_nil(rules)
           result = 0.0
-          Utils::Array.wrap_nil(rules).each do |rule|
-            val = Numericals::Numerify.numerify(evaluate(rule, scope_stack))
+          i = 0
+          n = operands.size
+          while i < n
+            val = Numericals::Numerify.numerify(evaluate(operands[i], scope_stack))
             result += val.nil? ? 0 : val
+            i += 1
           end
           result
         end

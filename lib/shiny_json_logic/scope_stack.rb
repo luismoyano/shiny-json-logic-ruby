@@ -20,22 +20,29 @@ module ShinyJsonLogic
   #
   class ScopeStack
     def initialize(root_data)
-      @data_stack = [root_data]
+      @root  = root_data
+      @extra = nil  # nil => stack has exactly 1 element (common case, no allocation)
     end
 
     # Push a new scope onto the stack (when entering an iteration)
     def push(data)
-      @data_stack << data
+      if @extra
+        @extra << data
+      else
+        @extra = [@root, data]
+      end
     end
 
     # Pop the top scope (when exiting an iteration)
     def pop
-      @data_stack.pop if @data_stack.size > 1
+      return unless @extra
+      @extra.pop
+      @extra = nil if @extra.size == 1
     end
 
     # Returns the current scope's data (top of stack)
     def current
-      @data_stack.last
+      @extra ? @extra.last : @root
     end
 
     # Resolve a value by going up n levels and then accessing keys
@@ -44,16 +51,16 @@ module ShinyJsonLogic
     # @param keys [Array] keys to dig into after reaching the target scope
     # @return [Object] the resolved value
     def resolve(levels, *keys)
-      target_index = @data_stack.size - 1 - levels
-      return nil if target_index < 0
-
-      data = @data_stack[target_index]
-
-      if keys.empty?
-        data
+      if @extra
+        target_index = @extra.size - 1 - levels
+        return nil if target_index < 0
+        data = @extra[target_index]
       else
-        dig_value(data, keys)
+        return nil if levels > 0
+        data = @root
       end
+
+      keys.empty? ? data : dig_value(data, keys)
     end
 
     private
@@ -61,10 +68,15 @@ module ShinyJsonLogic
     def dig_value(data, keys)
       return nil if data.nil?
 
-      keys.reduce(data) do |obj, key|
+      obj = data
+      i = 0
+      n = keys.size
+      while i < n
         return nil if obj.nil?
-        Utils::HashFetch.fetch(obj, key.to_s)
+        obj = Utils::HashFetch.fetch(obj, keys[i].to_s)
+        i += 1
       end
+      obj
     end
   end
 end

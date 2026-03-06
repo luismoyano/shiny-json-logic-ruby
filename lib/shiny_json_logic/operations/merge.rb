@@ -6,12 +6,20 @@ module ShinyJsonLogic
   module Operations
     class Merge < Base
       def self.execute(rules, scope_stack)
-        Utils::Array.wrap_nil(rules).each_with_object([]) do |rule, result|
-          evaluated = evaluate(rule, scope_stack)
-          next result.concat(evaluated) if evaluated.is_a?(Array)
-
-          result << evaluated
+        result = []
+        operands = Utils::Array.wrap_nil(rules)
+        i = 0
+        n = operands.size
+        while i < n
+          evaluated = evaluate(operands[i], scope_stack)
+          if evaluated.is_a?(Array)
+            result.concat(evaluated)
+          else
+            result << evaluated
+          end
+          i += 1
         end
+        result
       end
     end
   end

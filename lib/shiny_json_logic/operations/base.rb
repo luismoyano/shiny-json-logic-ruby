@@ -13,9 +13,16 @@ module ShinyJsonLogic
       end
 
       def self.resolve_rules(rules, scope_stack)
-        return rules unless op?(rules)
-        raise Errors::InvalidArguments if raise_on_dynamic_args?
-        Engine.call(rules, scope_stack)
+        # Inline op? check to avoid extra method-call overhead on the hot path.
+        # Most rule args are primitives/arrays — the is_a?(Hash) guard is cheap.
+        if rules.is_a?(Hash) && !rules.empty? && !rules.is_a?(Utils::DataHash)
+          key = nil
+          rules.each_key { |k| key = k; break }
+          return rules unless Engine::OPERATIONS.key?(key.is_a?(::String) ? key : key.to_s)
+          raise Errors::InvalidArguments if raise_on_dynamic_args?
+          return Engine.call(rules, scope_stack)
+        end
+        rules
       end
 
       def self.execute(_rules, _scope_stack)

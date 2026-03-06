@@ -8,13 +8,23 @@ module ShinyJsonLogic
   module Operations
     class Missing < Base
       def self.execute(rules, scope_stack)
-        keys = Utils::Array.wrap_nil(rules).each_with_object([]) do |rule, keys|
-          evaluated = evaluate(rule, scope_stack)
+        wrapped = Utils::Array.wrap_nil(rules)
+        keys = []
+        i = 0
+        n = wrapped.size
+        while i < n
+          evaluated = evaluate(wrapped[i], scope_stack)
           if evaluated.is_a?(Array)
-            evaluated.each { |v| keys << v.to_s }
+            j = 0
+            m = evaluated.size
+            while j < m
+              keys << evaluated[j].to_s
+              j += 1
+            end
           else
             keys << evaluated.to_s
           end
+          i += 1
         end
 
         current_data = scope_stack.current
@@ -22,7 +32,15 @@ module ShinyJsonLogic
 
         existing = Set.new
         deep_keys(current_data, nil, existing)
-        keys.reject { |k| existing.include?(k) }
+
+        result = []
+        i = 0
+        n = keys.size
+        while i < n
+          result << keys[i] unless existing.include?(keys[i])
+          i += 1
+        end
+        result
       end
 
       def self.deep_keys(hash, prefix, acc)

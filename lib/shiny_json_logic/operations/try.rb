@@ -6,8 +6,11 @@ module ShinyJsonLogic
       def self.call(rules, scope_stack)
         items = Utils::Array.wrap_nil(rules)
         last_error = nil
+        i = 0
+        n = items.size
 
-        items.each do |item|
+        while i < n
+          item = items[i]
           # If previous item was an error, switch context to error payload
           if last_error
             scope_stack.push({})  # intermediate level for [[1]] access
@@ -34,6 +37,7 @@ module ShinyJsonLogic
 
             last_error = e
           end
+          i += 1
         end
 
         # All items were errors, re-raise the last one

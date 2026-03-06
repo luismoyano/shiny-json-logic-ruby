@@ -7,13 +7,22 @@ module ShinyJsonLogic
     class Concatenation < Base
       def self.execute(rules, scope_stack)
         result = +""
-        Utils::Array.wrap_nil(rules).each do |rule|
-          evaluated = evaluate(rule, scope_stack)
+        operands = Utils::Array.wrap_nil(rules)
+        i = 0
+        n = operands.size
+        while i < n
+          evaluated = evaluate(operands[i], scope_stack)
           if evaluated.is_a?(Array)
-            evaluated.each { |v| result << v.to_s }
+            j = 0
+            m = evaluated.size
+            while j < m
+              result << evaluated[j].to_s
+              j += 1
+            end
           else
             result << evaluated.to_s
           end
+          i += 1
         end
         result
       end

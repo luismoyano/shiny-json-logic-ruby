@@ -13,9 +13,9 @@ module ShinyJsonLogic
         if rules.is_a?(String)
           current_data = scope_stack.current
           if rules.empty?
-            return Utils::DataHash.wrap(current_data)
+            return wrap(current_data)
           end
-          return Utils::DataHash.wrap(fetch_value(current_data, rules))
+          return wrap(fetch_value(current_data, rules))
         end
 
         items = Utils::Array.wrap_nil(rules)
@@ -24,15 +24,21 @@ module ShinyJsonLogic
         current_data = scope_stack.current
 
         if key.nil? || key == ""
-          return Utils::DataHash.wrap(current_data)
+          return wrap(current_data)
         end
 
         result = fetch_value(current_data, key)
         result = result.nil? ? default : result
-        Utils::DataHash.wrap(result)
+        wrap(result)
       rescue
         default || scope_stack.current
       end
+
+      # Only wrap Hash values — non-Hash values can't be confused with operators.
+      def self.wrap(value)
+        value.is_a?(::Hash) ? Utils::DataHash.wrap(value) : value
+      end
+      private_class_method :wrap
 
       def self.fetch_value(obj, key)
         return nil if obj.nil?

@@ -15,9 +15,12 @@ module ShinyJsonLogic
         return false if rules.empty?
 
         result = nil
-        rules.each do |rule|
-          result = evaluate(rule, scope_stack)
+        i = 0
+        n = rules.size
+        while i < n
+          result = evaluate(rules[i], scope_stack)
           return result if Truthy.call(result)
+          i += 1
         end
         result
       end

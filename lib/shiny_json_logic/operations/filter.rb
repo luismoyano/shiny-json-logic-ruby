@@ -14,14 +14,20 @@ module ShinyJsonLogic
         filter = setup_filter(rules)
         collection = setup_collection(rules, scope_stack)
 
-        collection.each_with_object([]) do |item, acc|
+        result = []
+        i = 0
+        n = collection.size
+        while i < n
+          item = collection[i]
           scope_stack.push(item)
           begin
-            acc << item if Truthy.call(Engine.call(filter, scope_stack))
+            result << item if Truthy.call(Engine.call(filter, scope_stack))
           ensure
             scope_stack.pop
           end
+          i += 1
         end
+        result
       end
     end
   end
