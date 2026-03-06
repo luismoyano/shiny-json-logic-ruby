@@ -9,12 +9,19 @@ module ShinyJsonLogic
       raise_on_nil_filter!
       raise_on_dynamic_args!
 
-      def self.on_each(item, filter, scope_stack)
-        Truthy.call(Engine.call(filter, scope_stack)) ? item : nil
-      end
+      def self.call(rules, scope_stack)
+        rules = resolve_rules(rules, scope_stack)
 
-      def self.on_after(results, _scope_stack)
-        results.compact
+        collection, filter = setup_collection(rules, scope_stack)
+
+        collection.each_with_object([]) do |item, acc|
+          scope_stack.push(item)
+          begin
+            acc << item if Truthy.call(Engine.call(filter, scope_stack))
+          ensure
+            scope_stack.pop
+          end
+        end
       end
     end
   end

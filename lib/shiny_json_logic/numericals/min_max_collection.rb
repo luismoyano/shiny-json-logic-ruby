@@ -10,7 +10,7 @@ module ShinyJsonLogic
       def collect_numeric_values(rules, scope_stack)
         values = collect_values(rules, scope_stack)
         raise Errors::InvalidArguments if values.empty?
-        raise Errors::InvalidArguments unless values.all? { |v| v.is_a?(Numeric) }
+        values.each { |v| raise Errors::InvalidArguments unless v.is_a?(Numeric) }
         values
       end
 

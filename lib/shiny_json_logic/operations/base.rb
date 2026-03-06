@@ -14,8 +14,9 @@ module ShinyJsonLogic
 
       def self.resolve_rules(rules, scope_stack)
         dynamic = op?(rules)
-        rules = Engine.call(rules, scope_stack) if dynamic
         raise Errors::InvalidArguments if dynamic && raise_on_dynamic_args?
+
+        return Engine.call(rules, scope_stack) if dynamic
         rules
       end
 
@@ -36,7 +37,9 @@ module ShinyJsonLogic
       end
 
       def self.op?(value)
-        return false unless value.is_a?(Hash) && !value.empty?
+        return false unless value.is_a?(Hash)
+        return false if value.empty?
+
         OperatorSolver.operation?(value)
       end
     end

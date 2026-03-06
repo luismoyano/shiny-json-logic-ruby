@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.3.5] - 2026-03-06
+### Changed
+- Reduces object allocations further in hot paths (iterator index tracking, early-exit via throw/catch, inline nil-wrapping, scope push simplification) for an additional ~12–18% throughput improvement over 0.3.4.
+- Symbol values are now coerced to String before comparisons (`==`, `===`, `!=`, `!==`, `<`, `>`, `<=`, `>=`, `in`), so Ruby Symbol data round-trips cleanly through JSONLogic rules.
+
 ## [0.3.4] - 2026-03-06
 ### Changed
 - Reduces object allocations in hot paths for improved performance.

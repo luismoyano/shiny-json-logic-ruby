@@ -19,24 +19,18 @@ module ShinyJsonLogic
 
           collection, filter = setup_collection(rules, scope_stack)
 
-          index_scope = { "index" => 0 }
-          on_before(scope_stack)
-          results = collection.each_with_index.each_with_object([]) do |(item, index), acc|
-            index_scope["index"] = index
-            scope_stack.push(index_scope, index: index)
-            scope_stack.push(item, index: index)
-            begin
-              solved = on_each(item, filter, scope_stack)
-              acc << solved
-              scope_stack.pop
-              scope_stack.pop
-            rescue => e
-              scope_stack.pop  # item scope
-              scope_stack.pop  # iterator context scope
-              raise e
+          early = catch(:early_return) do
+            results = collection.each_with_object([]) do |item, acc|
+              scope_stack.push(item)
+              begin
+                acc << on_each(item, filter, scope_stack)
+              ensure
+                scope_stack.pop
+              end
             end
+            on_after(results, scope_stack)
           end
-          on_after(results, scope_stack)
+          early
         end
 
         def self.setup_collection(rules, scope_stack)
@@ -51,8 +45,6 @@ module ShinyJsonLogic
           collection = Utils::Array.wrap(Engine.call(collection_rule, scope_stack))
           [collection, filter]
         end
-
-        def self.on_before(_scope_stack); end
 
         def self.on_each(_item, filter, scope_stack)
           Engine.call(filter, scope_stack)

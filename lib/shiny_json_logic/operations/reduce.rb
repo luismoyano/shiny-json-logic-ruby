@@ -18,23 +18,16 @@ module ShinyJsonLogic
         # Evaluate initial accumulator (third argument)
         accumulator = Engine.call(rules[2], scope_stack)
 
-        index_scope = { "index" => 0 }
         reduce_scope = { "current" => nil, "accumulator" => nil }
 
-        collection.each_with_index do |item, index|
-          index_scope["index"] = index
+        collection.each do |item|
           reduce_scope["current"] = item
           reduce_scope["accumulator"] = accumulator
-          scope_stack.push(index_scope, index: index)
-          scope_stack.push(reduce_scope, index: index)
+          scope_stack.push(reduce_scope)
           begin
             accumulator = Engine.call(filter, scope_stack)
+          ensure
             scope_stack.pop
-            scope_stack.pop
-          rescue => e
-            scope_stack.pop
-            scope_stack.pop
-            raise e
           end
         end
 

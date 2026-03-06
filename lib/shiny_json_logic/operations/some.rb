@@ -8,8 +8,12 @@ module ShinyJsonLogic
     class Some < Iterable::Base
       raise_on_dynamic_args!
 
+      def self.on_each(_item, filter, scope_stack)
+        throw(:early_return, true) if Truthy.call(Engine.call(filter, scope_stack))
+      end
+
       def self.on_after(results, _scope_stack)
-        results.any? { |res| res == true }
+        false
       end
     end
   end

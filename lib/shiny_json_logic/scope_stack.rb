@@ -20,22 +20,17 @@ module ShinyJsonLogic
   #
   class ScopeStack
     def initialize(root_data)
-      @data_stack  = [root_data]
-      @index_stack = [0]
+      @data_stack = [root_data]
     end
 
     # Push a new scope onto the stack (when entering an iteration)
-    def push(data, index: 0)
-      @data_stack  << data
-      @index_stack << index
+    def push(data)
+      @data_stack << data
     end
 
     # Pop the top scope (when exiting an iteration)
     def pop
-      if @data_stack.size > 1
-        @data_stack.pop
-        @index_stack.pop
-      end
+      @data_stack.pop if @data_stack.size > 1
     end
 
     # Returns the current scope's data (top of stack)

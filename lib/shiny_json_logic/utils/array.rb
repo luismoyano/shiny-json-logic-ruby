@@ -16,8 +16,9 @@ module ShinyJsonLogic
       def wrap_nil(object)
         return [nil] if object.nil?
         return object if object.is_a?(::Array)
+        return object.to_ary || [object] if object.respond_to?(:to_ary)
 
-        wrap(object)
+        [object]
       end
     end
   end

@@ -8,7 +8,15 @@ module ShinyJsonLogic
       def self.execute(rules, scope_stack)
         needle = evaluate(rules.first, scope_stack)
         haystack = evaluate(rules.last, scope_stack)
-        haystack.include?(needle)
+
+        # Normalize Symbols to String so :foo matches "foo" and vice-versa
+        needle = needle.to_s if needle.is_a?(Symbol)
+
+        if haystack.is_a?(Array)
+          haystack.any? { |el| (el.is_a?(Symbol) ? el.to_s : el) == needle }
+        else
+          haystack.include?(needle)
+        end
       end
     end
   end

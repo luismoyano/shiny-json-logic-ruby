@@ -317,6 +317,81 @@ RSpec.describe ShinyJsonLogic do
     end
   end
 
+  describe "Symbol values in comparisons (Ruby-specific, not in JSON fixtures)" do
+    # Symbols are converted to String via to_s before comparison.
+    # JSON has no Symbol type, so these tests live here.
+
+    describe "== (soft equals)" do
+      it "Symbol equals matching String" do
+        expect(described_class.apply({ "==" => [{ "var" => "s" }, "admin"] }, { s: :admin })).to eq(true)
+      end
+
+      it "Symbol does not equal non-matching String" do
+        expect(described_class.apply({ "==" => [{ "var" => "s" }, "user"] }, { s: :admin })).to eq(false)
+      end
+
+      it "two identical Symbols are equal" do
+        expect(described_class.apply({ "==" => [{ "var" => "a" }, { "var" => "b" }] }, { a: :foo, b: :foo })).to eq(true)
+      end
+
+      it "two different Symbols are not equal" do
+        expect(described_class.apply({ "==" => [{ "var" => "a" }, { "var" => "b" }] }, { a: :foo, b: :bar })).to eq(false)
+      end
+    end
+
+    describe "=== (strict equals)" do
+      it "Symbol strict-equals matching String" do
+        expect(described_class.apply({ "===" => [{ "var" => "s" }, "admin"] }, { s: :admin })).to eq(true)
+      end
+
+      it "Symbol does not strict-equal non-matching String" do
+        expect(described_class.apply({ "===" => [{ "var" => "s" }, "user"] }, { s: :admin })).to eq(false)
+      end
+    end
+
+    describe "!= and !==" do
+      it "Symbol != different String" do
+        expect(described_class.apply({ "!=" => [{ "var" => "s" }, "user"] }, { s: :admin })).to eq(true)
+      end
+
+      it "Symbol !=" + " same String is false" do
+        expect(described_class.apply({ "!=" => [{ "var" => "s" }, "admin"] }, { s: :admin })).to eq(false)
+      end
+
+      it "Symbol !== different String" do
+        expect(described_class.apply({ "!==" => [{ "var" => "s" }, "user"] }, { s: :admin })).to eq(true)
+      end
+    end
+
+    describe "< > <= >= (ordering)" do
+      it "Symbol compared with < to String" do
+        expect(described_class.apply({ "<" => [{ "var" => "s" }, "b"] }, { s: :a })).to eq(true)
+      end
+
+      it "Symbol compared with > to String" do
+        expect(described_class.apply({ ">" => [{ "var" => "s" }, "a"] }, { s: :b })).to eq(true)
+      end
+
+      it "Symbol compared with <= to same String" do
+        expect(described_class.apply({ "<=" => [{ "var" => "s" }, "a"] }, { s: :a })).to eq(true)
+      end
+
+      it "Symbol compared with >= to same String" do
+        expect(described_class.apply({ ">=" => [{ "var" => "s" }, "z"] }, { s: :z })).to eq(true)
+      end
+    end
+
+    describe "in (includes)" do
+      it "String in array containing a matching Symbol" do
+        expect(described_class.apply({ "in" => ["admin", { "var" => "roles" }] }, { roles: [:admin, :user] })).to eq(true)
+      end
+
+      it "String not in array with no matching Symbol" do
+        expect(described_class.apply({ "in" => ["guest", { "var" => "roles" }] }, { roles: [:admin, :user] })).to eq(false)
+      end
+    end
+  end
+
   describe "shiny tests (from JSON)" do
     json_path = File.join(__dir__, "fixtures", "shiny_tests.json")
     testcases = JSON.parse(File.read(json_path))
