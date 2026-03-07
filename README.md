@@ -4,26 +4,25 @@
 [![Gem Version](https://badge.fury.io/rb/shiny_json_logic.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/shiny_json_logic)
 ![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.4-brightgreen)
 
-> **A boring, correct and production-ready JSONLogic implementation for Ruby. ✨** 
+> **The fastest AND most compliant JSONLogic implementation for Ruby. ✨** 
 
-**ShinyJsonLogic** is a **pure Ruby**, **zero-dependency** JSON Logic implementation, designed to offer a reliable and well-tested engine for Ruby applications.
-
-This gem focuses on predictable behavior, strict spec alignment, high compatibility and long-term maintainability.
+**ShinyJsonLogic** is a **pure Ruby**, **zero-dependency** JSON Logic implementation — the only Ruby gem that passes 100% of the official JSON Logic tests, and faster than all competitors on every Ruby version tested.
 
 ---
 
 ## Why ShinyJsonLogic?
 
-- 🧩 **Zero runtime dependencies** (stdlib-only). Just plug & play!
-- 🕰️ **Ruby 2.4+ compatible**, one of the lowest minimum versions supported in the Ruby ecosystem.
+If you've used JSON Logic in Ruby before, you've probably found that other gems don't behave like their JS or Python counterparts: It's either wrong outputs on edge cases, missing operators or subtle bugs... And you end up patching, spawning a JS process or writing the interpreter yourself. Been there.
+
+ShinyJsonLogic fixes that:
+
+- 🚀 **Fastest Ruby JSON Logic gem** — wins across all Ruby versions tested, up to +117% faster than competitors.
+- ✅ **100% spec-compliant** — the only Ruby gem that passes all official JSON Logic tests.
+- 🧩 **Zero runtime dependencies** (stdlib-only). Just plug & play.
+- 🕰️ **Ruby 2.4+ compatible** — one of the lowest minimum versions in the Ruby ecosystem.
 - 🔧 **Actively maintained** and continuously improved.
-- 📊 **Highest JSONLogic compatibility in the Ruby ecosystem**, as measured against the official test suites.
 
-If you want JSON Logic to *just work* in Ruby, this is the safe default.
-
----
-# Test it for yourself!
-Try it out in the sandbox at [jsonlogicruby.com](https://jsonlogicruby.com/playground) or run the official test suite with `bin/test.sh` to see the compatibility for yourself.
+Try it in the sandbox at [jsonlogicruby.com/playground](https://jsonlogicruby.com/playground), or see the full benchmark results at [jsonlogicruby.com/benchmarks](https://jsonlogicruby.com/benchmarks).
 
 ---
 
@@ -55,6 +54,14 @@ require "shiny_json_logic"
 
 ---
 
+## Performance
+
+Benchmarked via [jsonlogic_benchmarks](https://github.com/luismoyano/jsonlogic_benchmarks) — automated CI on Linux across all Ruby versions (2.7 through 4.0, with and without YJIT). shiny_json_logic wins across the board, up to **+117% faster** than the next best gem.
+
+See [jsonlogicruby.com/benchmarks](https://jsonlogicruby.com/benchmarks) for the full interactive results.
+
+---
+
 ## Migrating from json-logic-ruby
 
 If you're currently using [json-logic-ruby](https://github.com/bhgames/json-logic-ruby), migration is seamless.
@@ -78,12 +85,6 @@ JSONLogic.apply(rule, data)
 # Or use the new module name:
 ShinyJsonLogic.apply(rule, data)
 ```
-
-**Why should you give us a chance?**
-- 🐛 Better spec compliance and fewer edge-case bugs
-- ✨ Support for new operators (`val`, `exists`, `??`, `try`, `throw`, `preserve`)
-- 🔧 Actively maintained
-- 🧪 Higher test coverage against official JSONLogic test suites
 
 ---
 
@@ -190,17 +191,7 @@ Error classes:
 - `ShinyJsonLogic::Errors::InvalidArguments` - Invalid arguments to operator
 - `ShinyJsonLogic::Errors::NotANumber` - NaN result in numeric operation
 
----
-
-## Compatibility
-
-Compatibility is measured against the official JSONLogic test suite (`json-logic/.github/tests`):
-
-| Test Suite | Status |
-|------------|--------|
-| **Official tests** | 100% (601/601) |
-
-See `badges/compat.json` for the exact numbers behind the badge.
+or rescue the `ShinyJsonLogic::Errors::Base` error class in a single sweep.
 
 ---
 
