@@ -29,34 +29,41 @@ module ShinyJsonLogic
         current_data = scope_stack.last
         return keys unless current_data.is_a?(Hash)
 
-        existing = {}
-        deep_keys(current_data, nil, existing)
-
         result = []
         i = 0
         n = keys.size
         while i < n
-          result << keys[i] unless existing.key?(keys[i])
+          result << keys[i] unless present?(current_data, keys[i])
           i += 1
         end
         result
       end
 
-      def self.deep_keys(hash, prefix, acc)
-        return unless hash.is_a?(Hash)
+      # Walks a dotted path ("user.address.city", "items.0") through hashes
+      # and arrays. A key counts as present when it exists, whatever its value.
+      def self.present?(data, key)
+        current = data
+        key.split(".", -1).each do |segment|
+          if current.is_a?(::Hash)
+            if current.key?(segment)
+              current = current[segment]
+            elsif current.key?(segment.to_sym)
+              current = current[segment.to_sym]
+            else
+              return false
+            end
+          elsif current.is_a?(::Array)
+            return false unless segment.match?(/\A\d+\z/) && segment.to_i < current.size
 
-        hash.each do |key, val|
-          key_s = key.to_s
-          full_key = prefix ? "#{prefix}.#{key_s}" : key_s
-          if val.is_a?(Hash)
-            deep_keys(val, full_key, acc)
+            current = current[segment.to_i]
           else
-            acc[full_key] = true
+            return false
           end
         end
+        true
       end
 
-      private_class_method :deep_keys
+      private_class_method :present?
     end
   end
 end

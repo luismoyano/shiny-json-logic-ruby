@@ -21,15 +21,7 @@ module ShinyJsonLogic
         current_data = scope_stack.last
         return keys unless current_data.is_a?(Hash) && rules.is_a?(Array)
 
-        data_keys = current_data.keys
-        data_keys_s = Array.new(data_keys.size)
-        j = 0
-        m = data_keys.size
-        while j < m
-          data_keys_s[j] = data_keys[j].to_s
-          j += 1
-        end
-        present = keys & data_keys_s
+        present = keys.select { |key| present?(current_data, key) }
         present.size >= min_required ? [] : keys - present
       end
     end

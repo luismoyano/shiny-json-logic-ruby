@@ -13,6 +13,7 @@ module ShinyJsonLogic
         start = 0 if start < 0  # clamp negative start to 0
         return "" if start >= str.length
         finish = length < 0 ? str.length + length : start + length
+        return "" if finish <= start
 
         str[start...finish] || ""
       end

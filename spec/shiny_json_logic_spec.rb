@@ -392,6 +392,60 @@ RSpec.describe ShinyJsonLogic do
     end
   end
 
+  describe "missing with paths" do
+    let(:data) { { "user" => { "name" => "Ann", "address" => { "city" => "Rome" } }, "tags" => ["a", "b"], "nothing" => nil } }
+
+    it "finds dotted keys and array indexes" do
+      rule = { "missing" => ["user.name", "user.address.city", "tags.1", "tags.2", "user.email"] }
+      expect(described_class.apply(rule, data)).to eq(["tags.2", "user.email"])
+    end
+
+    it "does not report a key whose value is an object or an array" do
+      expect(described_class.apply({ "missing" => ["user", "user.address", "tags"] }, data)).to eq([])
+    end
+
+    it "keeps keys with a null value present" do
+      expect(described_class.apply({ "missing" => ["nothing"] }, data)).to eq([])
+    end
+
+    it "missing_some counts dotted keys" do
+      rule = { "missing_some" => [2, ["user.name", "user.address.city", "user.email"]] }
+      expect(described_class.apply(rule, data)).to eq([])
+    end
+
+    it "missing_some returns the missing dotted keys when not enough are present" do
+      rule = { "missing_some" => [2, ["user.name", "user.email", "user.phone"]] }
+      expect(described_class.apply(rule, data)).to eq(["user.email", "user.phone"])
+    end
+
+    it "missing_some works with dotted keys on symbol-key data" do
+      rule = { "missing_some" => [1, ["user.name"]] }
+      expect(described_class.apply(rule, { user: { name: "Ann" } })).to eq([])
+    end
+  end
+
+  describe "substr with a negative length" do
+    it "returns an empty string when the length removes everything" do
+      expect(described_class.apply({ "substr" => ["jsonlogic", 0, -10] })).to eq("")
+      expect(described_class.apply({ "substr" => ["jsonlogic", 4, -6] })).to eq("")
+    end
+
+    it "still drops characters from the end" do
+      expect(described_class.apply({ "substr" => ["jsonlogic", 4, -2] })).to eq("log")
+    end
+  end
+
+  describe "cat with numbers" do
+    it "prints whole numbers from arithmetic without .0" do
+      rule = { "cat" => ["Total: ", { "+" => [1, 2] }, ", avg ", { "/" => [5, 2] }, ", max ", { "max" => [1, 2] }] }
+      expect(described_class.apply(rule)).to eq("Total: 3, avg 2.5, max 2")
+    end
+
+    it "prints whole numbers inside arrays without .0" do
+      expect(described_class.apply({ "cat" => [{ "map" => [[1, 2], { "*" => [{ "var" => "" }, 2] }] }] })).to eq("24")
+    end
+  end
+
   describe "shiny tests (from JSON)" do
     json_path = File.join(__dir__, "fixtures", "shiny_tests.json")
     testcases = JSON.parse(File.read(json_path))

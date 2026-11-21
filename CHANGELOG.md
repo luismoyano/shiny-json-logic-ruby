@@ -1,6 +1,12 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [Unreleased]
+### Fixed
+- `missing` and `missing_some` now resolve dotted keys and array indexes (`"user.name"`, `"tags.1"`) like `var`. `missing_some` only checked top-level keys, and `missing` reported keys holding an object or array as missing.
+- `substr` returns `""` when a negative length removes the whole rest of the string, instead of wrapping around (`["jsonlogic", 0, -10]` gave `"jsonlogi"`).
+- `cat` prints whole numbers from arithmetic without `.0` (`"Total: 3"`, not `"Total: 3.0"`).
+
 ## [0.3.6] - 2026-03-06
 ### Changed
 - Optimizes instantiation of scope stack for improved performance.
